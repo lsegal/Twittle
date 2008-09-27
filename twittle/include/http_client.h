@@ -13,6 +13,6 @@ public:
 	HttpClient();
 	unsigned long GetContentLength();
 	wxString Get(const wxURL& url);
-	void* GetRaw(const wxURL& url);
+	unsigned long GetToFile(const wxURL& url, const wxString& filename);
 	wxXmlDocument GetXml(const wxURL& url);
 };

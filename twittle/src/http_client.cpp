@@ -1,11 +1,12 @@
+#include <fstream>
 #include "http_client.h"
 #include <wx/app.h>
+#include <wx/filesys.h>
 
 HttpClient::HttpClient()
 {
 	SetTimeout(10); // 10 seconds of timeout instead of 10 minutes
 	SetHeader(_T("User-Agent"), _T("Tweet!"));
-	SetHeader(_T("Accept"), _T("*/*"));
 }
 
 unsigned long HttpClient::GetContentLength()
@@ -51,23 +52,6 @@ wxString HttpClient::Get(const wxURL& url)
 	return data;
 }
 
-void *HttpClient::GetRaw(const wxURL& url)
-{
-	wxInputStream *httpStream = GetResourceStream(url);
-
-	unsigned long length = GetContentLength();
-	char *data = new char[length];
-	if (httpStream) {
-		httpStream->Read(data, length);
-	}
-
-	// Close the stream
-	delete httpStream;
-	Close();
-
-	return data;
-}
-
 wxXmlDocument HttpClient::GetXml(const wxURL& url)
 {
 	wxXmlDocument doc;
@@ -81,4 +65,28 @@ wxXmlDocument HttpClient::GetXml(const wxURL& url)
 	Close();
 
 	return doc;
+}
+
+unsigned long HttpClient::GetToFile(const wxURL& url, const wxString& filename)
+{
+	wxInputStream *httpStream = GetResourceStream(url);
+
+	if (httpStream) {
+		unsigned int length = GetContentLength();
+		char *data = new char[length];
+
+		httpStream->Read(data, length);
+
+		std::ofstream file(filename.c_str(), std::ios_base::binary);
+		file.write(data, length+1);
+		file.close();
+
+		delete data;
+	}
+
+	// Close the stream
+	delete httpStream;
+	Close();
+
+	return GetContentLength();
 }

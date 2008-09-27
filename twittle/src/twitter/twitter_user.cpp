@@ -1,5 +1,3 @@
-#include <string>
-#include <fstream>
 #include "twitter/twitter_user.h"
 #include "http_client.h"
 
@@ -61,14 +59,7 @@ const wxString TwitterUser::GetProfileImageFilename() const
 
 void TwitterUser::GetProfileImage()
 {
-	HttpClient http;
-	void *data = http.GetRaw(wxURL(GetProfileImageUrl()));
-	int len = http.GetContentLength();
-
-	mkdir("imgs");
-	std::ofstream file(GetProfileImageFilename().c_str());
-	file.write(static_cast<const char *>(data), len);
-	file.close();
-
-	delete data;
+	HttpClient().GetToFile(
+		wxURL(GetProfileImageUrl()), 
+		GetProfileImageFilename());
 }
