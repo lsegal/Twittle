@@ -5,6 +5,7 @@
 
 TwitterUser::TwitterUser(const wxXmlNode& node)
 {
+	TwitterUser();
 	ParseXmlNode(node);
 }
 
@@ -46,14 +47,28 @@ void TwitterUser::ParseXmlNode(const wxXmlNode& node)
 	}
 }
 
-void TwitterUser::GetProfileImage() const
+const wxString TwitterUser::GetProfileImageFilename() const
 {
-	wxString data = HttpClient().Get(wxURL(GetProfileImageUrl()));
+	if (GetProfileImageUrl() == _T("")) {
+		return _T("imgs/spacer.png");
+	}
 
-	wxString filename; 
+	wxString filename;
+	filename << _T("imgs/") << GetId();
+	filename << _T(".") << GetProfileImageUrl().AfterLast('.');
+	return filename;
+}
+
+void TwitterUser::GetProfileImage()
+{
+	HttpClient http;
+	void *data = http.GetRaw(wxURL(GetProfileImageUrl()));
+	int len = http.GetContentLength();
+
 	mkdir("imgs");
-	filename << _T("imgs/") << GetId() << _T(".") << GetProfileImageUrl().AfterLast('.');
-	std::ofstream file(filename.c_str());
-	file << data;
+	std::ofstream file(GetProfileImageFilename().c_str());
+	file.write(static_cast<const char *>(data), len);
 	file.close();
+
+	delete data;
 }

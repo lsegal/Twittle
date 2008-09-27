@@ -17,12 +17,13 @@ class TwitterUser
 	unsigned long followers_count;
 
 public:
-	TwitterUser() { }
+	TwitterUser() { } //: profile_image_filename(_T("imgs/spacer.png")) { }
 	TwitterUser(const wxXmlNode& node);
 
 	void ParseXmlNode(const wxXmlNode& node);
 
-	void GetProfileImage() const;
+	void GetProfileImage();
+	const wxString GetProfileImageFilename() const;
 
 	inline const wxString& GetId() const { return id; }
 	inline const wxString& GetName() const { return name; }

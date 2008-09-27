@@ -14,14 +14,15 @@ void* FeedPanelUpdater::Entry()
 	evt.SetClientData(static_cast<void*>(&items));
 	wxPostEvent(&panel, evt);
 
-	for (int i = items.size() - 1; i >= 0; i--) {
-		items.at(i).GetUser().GetProfileImage();
+	std::vector<TwitterStatus>::iterator item;
+	for (item = items.begin(); item != items.end(); item++) {
+		// Cast to non-const TwitterUser because GetProfileImage modified
+		// TwitterUser object. We generally don't want modifications, but
+		// in this case we explicitly allow it.
+		static_cast<TwitterUser>((*item).GetUser()).GetProfileImage();
 	}
 	evt.SetClientData(NULL);
 	wxPostEvent(&panel, evt);
-
-	wxSleep(10);
-	FeedPanelUpdater::Update(url, panel);
 
 	return 0;
 }
@@ -31,6 +32,12 @@ void FeedPanelUpdater::Update(const wxString& url, FeedPanel& panel)
 	FeedPanelUpdater *updater = new FeedPanelUpdater(url, panel);
 	updater->Create();
 	updater->Run();
+}
+
+void FeedPanelUpdater::OnExit()
+{
+	wxSleep(10);
+	FeedPanelUpdater::Update(url, panel);
 }
 
 FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id, 
@@ -78,13 +85,15 @@ wxString FeedPanel::OnGetItem(size_t n) const
 
 	wxString list;
 	list << _T("<table cellpadding='5'><tr><td valign='top'>");
-	list << _T("<img width=48 height=48 src='imgs/") + user.GetId() + _T(".png' align='left'>");
+	list << _T("<img width=48 height=48 src='");
+	list << user.GetProfileImageFilename();
+	list << _T("' align='left'>");
 	list << _T("</td><td valign='top'>");
 	list << _T("<b>") + user.GetScreenName() + _T("</b>: ");
 	list << status.GetText();
 
 	if (status.GetCreatedAt().IsValid()) {
-		list << _T("<p>");
+		list << _T("<br>");
 		list << status.GetCreatedAt().FormatISODate() << _T(" ");
 		list << status.GetCreatedAt().FormatISOTime();
 	}

@@ -11,6 +11,8 @@ class HttpClient : public wxHTTP
 
 public:
 	HttpClient();
+	unsigned long GetContentLength();
 	wxString Get(const wxURL& url);
+	void* GetRaw(const wxURL& url);
 	wxXmlDocument GetXml(const wxURL& url);
 };

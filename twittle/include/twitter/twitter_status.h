@@ -25,4 +25,3 @@ public:
 	inline const bool isTruncated() const { return truncated; }
 };
 
-typedef std::vector<TwitterStatus> TwitterStatuses;

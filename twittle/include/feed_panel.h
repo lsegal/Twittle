@@ -23,7 +23,8 @@ public:
 
 	static void FeedPanelUpdater::Update(const wxString& url, FeedPanel& panel);
 
-	void* Entry(); // implemented from wxThread
+	void* Entry();  // @override wxThread
+	void  OnExit(); // @override wxThread
 };
 
 class FeedPanel : public wxHtmlListBox
