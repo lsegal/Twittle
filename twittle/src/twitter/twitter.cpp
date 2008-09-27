@@ -5,6 +5,7 @@
  */
 
 #include "twitter/twitter.h"
+#include "http_client.h"
 #include <stdexcept>
 
 wxString Twitter::StatusesBaseUrl = _T("http://twitter.com/statuses/");
@@ -19,7 +20,7 @@ std::vector<TwitterStatus> Twitter::GetStatuses(const wxString& resource, const 
 {
 	std::vector<TwitterStatus> statuses;
 
-	wxXmlDocument doc = http.GetXml(wxURL(StatusesBaseUrl + resource + _T(".") + format));
+	wxXmlDocument doc = HttpClient().GetXml(wxURL(StatusesBaseUrl + resource + _T(".") + format));
 	wxXmlNode *root = doc.GetRoot();
 
 	if (root == NULL) {

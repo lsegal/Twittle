@@ -1,8 +1,6 @@
-#ifndef TWEETAPP_H
-#define TWEETAPP_H 1
+#pragma once
 
 #include <wx/wx.h>
-#include <wx/image.h>
 #include "main_window.h"
 
 class Application : public wxApp
@@ -14,5 +12,3 @@ public:
 };
 
 DECLARE_APP(Application)
-
-#endif /* TWEETAPP_H */

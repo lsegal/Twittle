@@ -1,16 +1,13 @@
-#ifndef TWITTER_H
-#define TWITTER_H 1
+#pragma once
 
 #include <wx/wx.h>
 #include <wx/xml/xml.h>
-#include "http_client.h"
 #include "twitter_status.h"
 
 class Twitter
 {
 	wxString username;
 	wxString password;
-	HttpClient http;
 
 public:
 	Twitter() : username(_T("")), password(_T("")) { }
@@ -22,6 +19,9 @@ public:
 
 	static wxString Twitter::StatusesBaseUrl;
 	static wxString Twitter::PublicTimelineUrl;
-};
 
-#endif /* TWITTER_H */
+	inline const wxString& GetUserName() const { return username; }
+	inline const wxString& GetPassword() const { return password; }
+	inline void SetPassword(const wxString& password_) { password = password_; }
+	inline void SetUserName(const wxString& username_) { username = username_; }
+};

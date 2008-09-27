@@ -1,5 +1,4 @@
-#ifndef TWITTERUSER_H
-#define TWITTERUSER_H 1
+#pragma once
 
 #include <wx/wx.h>
 #include <wx/xml/xml.h>
@@ -7,7 +6,6 @@
 
 class TwitterUser
 {
-public:
 	wxString id;
 	wxString name;
 	wxString screen_name;
@@ -18,10 +16,21 @@ public:
 	bool protected_;
 	unsigned long followers_count;
 
+public:
 	TwitterUser() { }
 	TwitterUser(const wxXmlNode& node);
 
 	void ParseXmlNode(const wxXmlNode& node);
-};
 
-#endif /* TWITTERUSER_H */
+	void GetProfileImage() const;
+
+	inline const wxString& GetId() const { return id; }
+	inline const wxString& GetName() const { return name; }
+	inline const wxString& GetScreenName() const { return screen_name; }
+	inline const wxString& GetDescription() const { return description; }
+	inline const wxString& GetLocation() const { return location; }
+	inline const wxString& GetProfileImageUrl() const { return profile_image_url; }
+	inline const wxString& GetUrl() const { return url; }
+	inline const bool IsProtected() const { return protected_; }
+	inline unsigned long GetFollowersCount() const { return followers_count; }
+};

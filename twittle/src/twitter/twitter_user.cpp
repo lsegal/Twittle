@@ -1,4 +1,7 @@
+#include <string>
+#include <fstream>
 #include "twitter/twitter_user.h"
+#include "http_client.h"
 
 TwitterUser::TwitterUser(const wxXmlNode& node)
 {
@@ -43,3 +46,14 @@ void TwitterUser::ParseXmlNode(const wxXmlNode& node)
 	}
 }
 
+void TwitterUser::GetProfileImage() const
+{
+	wxString data = HttpClient().Get(wxURL(GetProfileImageUrl()));
+
+	wxString filename; 
+	mkdir("imgs");
+	filename << _T("imgs/") << GetId() << _T(".") << GetProfileImageUrl().AfterLast('.');
+	std::ofstream file(filename.c_str());
+	file << data;
+	file.close();
+}

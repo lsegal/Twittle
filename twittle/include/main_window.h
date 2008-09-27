@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H 1
+#pragma once
 
 #include <wx/wx.h>
 #include "feed_panel.h"
@@ -25,5 +24,3 @@ public:
 
 	DECLARE_EVENT_TABLE()
 };
-
-#endif /* MAINWINDOW_H */

@@ -1,5 +1,4 @@
-#ifndef HTTPCLIENT_H
-#define HTTPCLIENT_H 1
+#pragma once
 
 #include <wx/sstream.h>
 #include <wx/url.h>
@@ -11,8 +10,7 @@ class HttpClient : public wxHTTP
 	wxInputStream *GetResourceStream(const wxURL& url);
 
 public:
+	HttpClient();
 	wxString Get(const wxURL& url);
 	wxXmlDocument GetXml(const wxURL& url);
 };
-
-#endif /* HTTPCLIENT_H */

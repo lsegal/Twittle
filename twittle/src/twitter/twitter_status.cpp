@@ -15,7 +15,7 @@ void TwitterStatus::ParseXmlNode(const wxXmlNode& node)
 			id = value;
 		}
 		else if (name == _T("created_at")) {
-			created_at = value;
+			created_at.ParseFormat(value, _T("%a %b %d %H:%M:%S +0000 %Y"));
 		}
 		else if (name == _T("text")) {
 			text = value;

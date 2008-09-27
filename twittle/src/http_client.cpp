@@ -1,14 +1,14 @@
 #include "http_client.h"
 #include <wx/app.h>
 
-wxInputStream *HttpClient::GetResourceStream(const wxURL& url)
+HttpClient::HttpClient()
 {
 	SetTimeout(10); // 10 seconds of timeout instead of 10 minutes
-	SetHeader(_T("Content-type"), _T("text/html; charset=utf-8"));
 	SetHeader(_T("User-Agent"), _T("Tweet!"));
+}
 
-	wxApp::IsMainLoopRunning();
-
+wxInputStream *HttpClient::GetResourceStream(const wxURL& url)
+{
 	// Connect to server and setup stream on path
 	Connect(url.GetServer());
 	wxString path = (url.GetPath() == _T("") ? _T("/") : url.GetPath());
