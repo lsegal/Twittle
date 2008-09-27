@@ -78,7 +78,7 @@ unsigned long HttpClient::GetToFile(const wxURL& url, const wxString& filename)
 		httpStream->Read(data, length);
 
 		std::ofstream file(filename.c_str(), std::ios_base::binary);
-		file.write(data, length+1);
+		file.write(data, length);
 		file.close();
 
 		delete data;

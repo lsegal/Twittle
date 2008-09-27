@@ -9,6 +9,7 @@
 class FeedPanel;
 
 DECLARE_EVENT_TYPE(wxEVT_FEED_UPDATED, -1)
+DECLARE_EVENT_TYPE(wxEVT_IMAGE_UPDATED, -2)
 
 class FeedPanelUpdater : public wxThread
 {
@@ -43,8 +44,8 @@ public:
 	wxString OnGetItem(size_t n) const;
 	//wxCoord OnMeasureItem(size_t n) const;
 
-	void BeginUpdate(const wxString& resource);
 	void OnFeedUpdated(wxCommandEvent &event);
+	void OnImageUpdated(wxCommandEvent &event);
 
 	DECLARE_EVENT_TABLE();
 };

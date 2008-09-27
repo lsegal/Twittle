@@ -14,15 +14,17 @@ void* FeedPanelUpdater::Entry()
 	evt.SetClientData(static_cast<void*>(&items));
 	wxPostEvent(&panel, evt);
 
-	std::vector<TwitterStatus>::iterator item;
-	for (item = items.begin(); item != items.end(); item++) {
+	evt.SetClientData(NULL);
+	for (unsigned int i = 0; i < items.size(); i++) {
 		// Cast to non-const TwitterUser because GetProfileImage modified
 		// TwitterUser object. We generally don't want modifications, but
 		// in this case we explicitly allow it.
-		static_cast<TwitterUser>((*item).GetUser()).GetProfileImage();
+		static_cast<TwitterUser>(items.at(i).GetUser()).GetProfileImage();
+
+		evt.SetExtraLong(i);
+		wxPostEvent(&panel, evt);
 	}
-	evt.SetClientData(NULL);
-	wxPostEvent(&panel, evt);
+
 
 	return 0;
 }
@@ -54,7 +56,7 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 {
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
 	SetItemCount(0);
-	BeginUpdate(Twitter::PublicTimelineUrl);
+	FeedPanelUpdater::Update(Twitter::PublicTimelineUrl, *this);
 }
 
 void FeedPanel::SetItems(std::vector<TwitterStatus> items_)
@@ -63,19 +65,18 @@ void FeedPanel::SetItems(std::vector<TwitterStatus> items_)
  	SetItemCount(items.size());
 }
 
-void FeedPanel::BeginUpdate(const wxString& url)
-{
-	FeedPanelUpdater *updater = new FeedPanelUpdater(url, *this);
-	updater->Create();
-	updater->Run();
-}
-
 void FeedPanel::OnFeedUpdated(wxCommandEvent &event)
 {
 	if (event.GetClientData()) {
 		SetItems(*static_cast<std::vector<TwitterStatus>*>(event.GetClientData()));
 	}
+
 	RefreshAll();
+}
+
+void FeedPanel::OnImageUpdated(wxCommandEvent &event)
+{
+	RefreshLine(event.GetExtraLong());
 }
 
 wxString FeedPanel::OnGetItem(size_t n) const
@@ -93,9 +94,10 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	list << status.GetText();
 
 	if (status.GetCreatedAt().IsValid()) {
-		list << _T("<br>");
+		list << _T("<p><font color='#aaaaaa'>");
 		list << status.GetCreatedAt().FormatISODate() << _T(" ");
 		list << status.GetCreatedAt().FormatISOTime();
+		list << _T("</font>");
 	}
 	list << _T("</td></tr></table>");
 	return list;
