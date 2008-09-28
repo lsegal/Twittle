@@ -11,8 +11,11 @@ class HttpClient : public wxHTTP
 
 public:
 	HttpClient();
+
+	static wxString UrlEncode(const wxString& input);
+
 	unsigned long GetContentLength();
 	wxString Get(const wxURL& url);
-	unsigned long GetToFile(const wxURL& url, const wxString& filename);
 	wxXmlDocument GetXml(const wxURL& url);
+	unsigned long GetToFile(const wxURL& url, const wxString& filename);
 };

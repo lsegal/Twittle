@@ -6,8 +6,11 @@
 class Application : public wxApp
 {
 	MainWindow *main;
+	Twitter twitter;
 
 public:
+	inline Twitter& Twitter() { return twitter; }
+
 	bool OnInit();
 };
 

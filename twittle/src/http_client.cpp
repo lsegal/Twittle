@@ -1,4 +1,6 @@
+#include <sstream>
 #include <fstream>
+#include <iomanip>
 #include "http_client.h"
 #include <wx/app.h>
 #include <wx/filesys.h>
@@ -20,14 +22,14 @@ unsigned long HttpClient::GetContentLength()
 wxInputStream *HttpClient::GetResourceStream(const wxURL& url)
 {
 	// Connect to server and setup stream on path
-	Connect(url.GetServer());
+	unsigned short port;
+	url.GetPort().ToULong(reinterpret_cast<unsigned long *>(&port));
+	Connect(url.GetServer(), port);
 	wxString path = (url.GetPath() == _T("") ? _T("/") : url.GetPath());
 	wxInputStream *stream = GetInputStream(path);
-	int x = this->GetResponse();
-	wxString y = this->GetContentType();
 
 	// Only return the stream if it's valid
-	if (GetError() == wxPROTO_NOERR || GetError() == wxPROTO_NOFILE) {
+	if (GetError() != wxPROTO_CONNERR) {
 		return stream;
 	}
 	else {
@@ -89,4 +91,21 @@ unsigned long HttpClient::GetToFile(const wxURL& url, const wxString& filename)
 	Close();
 
 	return GetContentLength();
+}
+
+wxString HttpClient::UrlEncode(const wxString& input)
+{
+	std::stringstream out;
+	const wxCharBuffer data = input.utf8_str();
+	for (unsigned int i = 0; i < input.length(); i++) {
+		char c = data[i];
+		char cminus = tolower((int)c);
+		if (cminus < 'a' || cminus > 'z') {
+			out << '%' << std::hex << std::setw(2) << (int)c;
+		}
+		else {
+			out << c;
+		}
+	} 
+	return wxString::From8BitData(out.rdbuf()->str().c_str());
 }

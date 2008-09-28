@@ -11,6 +11,27 @@ class FeedPanel;
 DECLARE_EVENT_TYPE(wxEVT_FEED_UPDATED, -1)
 DECLARE_EVENT_TYPE(wxEVT_IMAGE_UPDATED, -2)
 
+class FeedImageUpdater : public wxThread
+{
+	bool singleitem;
+	unsigned int index;
+	std::vector<TwitterStatus>& items;
+	FeedPanel& panel;
+
+	friend class FeedPanel;
+
+public:
+	FeedImageUpdater(std::vector<TwitterStatus> &items, FeedPanel& panel) :
+	  items(items), index(0), panel(panel), singleitem(false), wxThread(wxTHREAD_DETACHED) { }
+	FeedImageUpdater(TwitterStatus &item, unsigned int index, FeedPanel& panel);
+	~FeedImageUpdater();
+
+	static void Update(std::vector<TwitterStatus> &items, FeedPanel& panel);
+	static void Update(TwitterStatus &item, unsigned int index, FeedPanel& panel);
+
+	void* Entry();  // @override wxThread
+};
+
 class FeedPanelUpdater : public wxThread
 {
 	const wxString& url;
@@ -20,9 +41,9 @@ class FeedPanelUpdater : public wxThread
 
 public:
 	FeedPanelUpdater(const wxString& url, FeedPanel& panel) : 
-		url(url), panel(panel), wxThread(wxTHREAD_DETACHED) { }
+		url(url), panel(panel), wxThread(wxTHREAD_JOINABLE) { }
 
-	static void FeedPanelUpdater::Update(const wxString& url, FeedPanel& panel);
+	static void Update(const wxString& url, FeedPanel& panel);
 
 	void* Entry();  // @override wxThread
 	void  OnExit(); // @override wxThread
@@ -32,14 +53,15 @@ class FeedPanel : public wxHtmlListBox
 {
 	std::vector<TwitterStatus> items;
 
-	void SetItems(std::vector<TwitterStatus> items_); 
-
 public:
 	FeedPanel() : wxHtmlListBox() { }
 	FeedPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxHtmlListBoxNameStr);
 	void Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxHtmlListBoxNameStr);
+
+	void AddItems(std::vector<TwitterStatus> &items_); 
+	void AddItem(TwitterStatus &item); 
 
 	wxString OnGetItem(size_t n) const;
 	//wxCoord OnMeasureItem(size_t n) const;
@@ -48,4 +70,6 @@ public:
 	void OnImageUpdated(wxCommandEvent &event);
 
 	DECLARE_EVENT_TABLE();
+
+	friend class MainWindow;
 };

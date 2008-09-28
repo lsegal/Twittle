@@ -18,6 +18,8 @@ class MainWindow : public wxFrame
 public:
 	MainWindow();
 
+	void CheckEditboxEmpty();
+
 	// Events
 	void OnEditText(wxCommandEvent &evt);
 	void OnEditEnter(wxCommandEvent &evt);
