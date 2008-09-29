@@ -47,7 +47,6 @@ public:
 	static void Update(const wxString& url, FeedPanel& panel);
 
 	void* Entry();  // @override wxThread
-	void  OnExit(); // @override wxThread
 };
 
 class FeedPanel : public wxHtmlListBox

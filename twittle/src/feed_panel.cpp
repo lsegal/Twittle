@@ -63,6 +63,9 @@ void* FeedPanelUpdater::Entry()
 	evt.SetClientData(static_cast<void*>(items));
 	wxPostEvent(&panel, evt);
 
+	Sleep(180000);
+	FeedPanelUpdater::Update(url, panel);
+
 	return 0;
 }
 
@@ -71,12 +74,6 @@ void FeedPanelUpdater::Update(const wxString& url, FeedPanel& panel)
 	FeedPanelUpdater *updater = new FeedPanelUpdater(url, panel);
 	updater->Create();
 	updater->Run();
-}
-
-void FeedPanelUpdater::OnExit()
-{
-	Sleep(10000);
-	FeedPanelUpdater::Update(url, panel);
 }
 
 FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
@@ -93,7 +90,7 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 {
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
 	SetItemCount(0);
-	FeedPanelUpdater::Update(Twitter::PublicTimelineUrl, *this);
+	FeedPanelUpdater::Update(Twitter::FriendsTimelineUrl, *this);
 }
 
 void FeedPanel::AddItem(TwitterStatus& item)

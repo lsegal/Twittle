@@ -28,9 +28,10 @@ public:
 	bool VerifyCredentials(const wxString& username_, const wxString& password_) const;
 	void EndSession() const;
 
-	static wxString Twitter::TwitterBaseUrl;
-	static wxString Twitter::AccountBaseUrl;
-	static wxString Twitter::StatusesBaseUrl;
-	static wxString Twitter::PublicTimelineUrl;
-	static wxString Twitter::UpdateStatusUrl;
+	static wxString TwitterBaseUrl;
+	static wxString AccountBaseUrl;
+	static wxString StatusesBaseUrl;
+	static wxString PublicTimelineUrl;
+	static wxString FriendsTimelineUrl;
+	static wxString UpdateStatusUrl;
 };
