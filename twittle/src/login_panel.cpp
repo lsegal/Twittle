@@ -9,18 +9,23 @@ BEGIN_EVENT_TABLE(LoginPanel, wxPanel)
 	EVT_TEXT_ENTER(ID_PASSWORD, LoginPanel::OnLogin)
 END_EVENT_TABLE()
 
-LoginPanel::LoginPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id)
+LoginPanel::LoginPanel(wxWindow *parent) : wxPanel(parent)
 {
 	InitializeComponents();
 	OnText(wxCommandEvent());
+
+	// Give size hints for min and max
+	wxSize s = GetSize();
+	SetMinSize(wxSize(s.GetWidth(), s.GetHeight() + 100));
+	SetMaxSize(wxSize(400, 600));
 }
 
 void LoginPanel::InitializeComponents()
 {
 	wxStaticText *uLabel = new wxStaticText(this, wxID_ANY, _T("Username"));
 	wxStaticText *pLabel = new wxStaticText(this, wxID_ANY, _T("Password"));
-	username.Create(this, ID_USERNAME);
-	password.Create(this, ID_PASSWORD, wxEmptyString, 
+	username.Create(this, ID_USERNAME, _T("twittletest"));
+	password.Create(this, ID_PASSWORD, _T("twittle"), 
 		wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD | wxTE_PROCESS_ENTER);
 	loginButton.Create(this, ID_BUTTON, _T("Login"));
 	errorLabel.Create(this, wxID_ANY, wxEmptyString);
@@ -49,7 +54,7 @@ void LoginPanel::InitializeComponents()
 	panelSizer->AddStretchSpacer(500);
 	panelSizer->Add(vSizer, wxSizerFlags().Bottom().Center().Border(wxALL, 40));
 
-	SetSizer(panelSizer);
+	SetSizerAndFit(panelSizer);
 }
 
 void LoginPanel::OnLogin(wxCommandEvent& evt)
@@ -58,12 +63,13 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 	const wxString& pass = password.GetValue();
 
 	if (wxGetApp().GetTwitter().VerifyCredentials(user, pass)) {
-		errorLabel.SetLabel(wxEmptyString);
+		errorLabel.SetLabel(_T(""));
 
 		wxGetApp().Login(user, pass);
 	}
 	else {
 		errorLabel.SetLabel(_T("Invalid login."));
+		wxSleep(1);
 	}
 }
 

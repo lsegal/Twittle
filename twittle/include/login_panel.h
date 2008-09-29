@@ -2,7 +2,7 @@
 
 #include <wx/wx.h>
 
-class LoginPanel : wxPanel
+class LoginPanel : public wxPanel
 {
 	wxTextCtrl username;
 	wxTextCtrl password;
@@ -16,7 +16,7 @@ class LoginPanel : wxPanel
 	void InitializeComponents();
 
 public:
-	LoginPanel(wxWindow *parent, wxWindowID id);
+	LoginPanel(wxWindow *parent);
 
 	// events
 	void OnLogin(wxCommandEvent& evt);

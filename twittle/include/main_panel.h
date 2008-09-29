@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 #include "feed_panel.h"
 
-class MainPanel : wxPanel
+class MainPanel : public wxPanel
 {
 	enum ControlIdentifiers {
 		ID_EDIT, ID_CONTENT, ID_SUBMIT, ID_COUNTER
@@ -19,7 +19,7 @@ class MainPanel : wxPanel
 	void CheckEditboxEmpty();
 
 public:
-	MainPanel(wxWindow *parent, wxWindowID id);
+	MainPanel(wxWindow *parent);
 
 	// Events
 	void OnEditText(wxCommandEvent &evt);

@@ -7,10 +7,12 @@ BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_TEXT_ENTER(MainPanel::ID_EDIT, MainPanel::OnEditEnter)
 END_EVENT_TABLE()
 
-MainPanel::MainPanel(wxWindow *parent, wxWindowID id) : wxPanel(parent, id)
+MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 {
 	InitializeComponents();
 	CheckEditboxEmpty();
+
+	SetMinSize(wxSize(300, 300));
 }
 
 void MainPanel::InitializeComponents()
@@ -35,7 +37,8 @@ void MainPanel::InitializeComponents()
 	panelSizer->Add(&content, wxSizerFlags(1).Expand().Border(wxALL & ~(wxTOP), 5));
 	panelSizer->Add(editSizer, wxSizerFlags(0).Expand().Border(wxALL, 5));
 
-	SetSizer(panelSizer);
+	panelSizer->SetSizeHints(this);
+	SetSizerAndFit(panelSizer);
 }
 
 void MainPanel::OnEditText(wxCommandEvent &evt)
