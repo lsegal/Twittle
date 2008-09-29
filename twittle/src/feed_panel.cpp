@@ -10,19 +10,19 @@ DEFINE_EVENT_TYPE(wxEVT_FEED_UPDATED)
 DEFINE_EVENT_TYPE(wxEVT_IMAGE_UPDATED)
 
 FeedImageUpdater::FeedImageUpdater(TwitterStatus &item, unsigned int index, FeedPanel &panel) :
-	items(*new std::vector<TwitterStatus>), panel(panel), index(index),
-	singleitem(true), wxThread(wxTHREAD_DETACHED) 
+	wxThread(wxTHREAD_DETACHED), items(*new std::vector<TwitterStatus>),
+	panel(panel), index(index), singleitem(true)
 {
 	items.push_back(item);
 }
 
 FeedImageUpdater::~FeedImageUpdater()
 {
-	if (singleitem) {
+	//if (singleitem) {
 		// hack to delete a reference type that was dynamically allocated
 		std::vector<TwitterStatus> *i = &items;
 		delete i;
-	}
+	//}
 }
 
 void* FeedImageUpdater::Entry()
@@ -34,7 +34,6 @@ void* FeedImageUpdater::Entry()
 		static_cast<TwitterUser>(items.at(i).GetUser()).GetProfileImage();
 
 		wxCommandEvent evt(wxEVT_IMAGE_UPDATED, wxID_ANY);
-		evt.SetExtraLong(singleitem ? i : index);
 		wxPostEvent(&panel, evt);
 	}
 
@@ -57,14 +56,12 @@ void FeedImageUpdater::Update(TwitterStatus& item, unsigned int index, FeedPanel
 
 void* FeedPanelUpdater::Entry()
 {
-	std::vector<TwitterStatus> items = wxGetApp().Twitter().GetStatuses(url);
+	std::vector<TwitterStatus> *items =
+		new std::vector<TwitterStatus>(wxGetApp().GetTwitter().GetStatuses(url));
 
 	wxCommandEvent evt(wxEVT_FEED_UPDATED, wxID_ANY);
-	evt.SetClientData(static_cast<void*>(&items));
-	evt.SetClientObject(reinterpret_cast<wxClientData*>(this));
+	evt.SetClientData(static_cast<void*>(items));
 	wxPostEvent(&panel, evt);
-	
-	Wait();
 
 	return 0;
 }
@@ -78,28 +75,28 @@ void FeedPanelUpdater::Update(const wxString& url, FeedPanel& panel)
 
 void FeedPanelUpdater::OnExit()
 {
-//	wxSleep(10);
-//	FeedPanelUpdater::Update(url, panel);
+	Sleep(10000);
+	FeedPanelUpdater::Update(url, panel);
 }
 
-FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id, 
-					 const wxPoint& pos, const wxSize& size, 
-					 long style, const wxString& name) 
+FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
+					 const wxPoint& pos, const wxSize& size,
+					 long style, const wxString& name)
 : wxHtmlListBox(parent, id, pos, size, style, name)
 {
 	Create(parent, id, pos, size, style, name);
 }
 
-void FeedPanel::Create(wxWindow* parent, wxWindowID id, 
-					 const wxPoint& pos, const wxSize& size, 
-					 long style, const wxString& name) 
+void FeedPanel::Create(wxWindow* parent, wxWindowID id,
+					 const wxPoint& pos, const wxSize& size,
+					 long style, const wxString& name)
 {
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
 	SetItemCount(0);
 	FeedPanelUpdater::Update(Twitter::PublicTimelineUrl, *this);
 }
 
-void FeedPanel::AddItem(TwitterStatus& item) 
+void FeedPanel::AddItem(TwitterStatus& item)
 {
 	items.insert(items.begin(), item);
 }
@@ -121,19 +118,13 @@ void FeedPanel::AddItems(std::vector<TwitterStatus>& items_)
 	}
 	SetItemCount(items.size());
 
-	FeedImageUpdater::Update(items, *this);
+	FeedImageUpdater::Update(items_, *this);
 }
 
 void FeedPanel::OnFeedUpdated(wxCommandEvent &event)
 {
 	if (event.GetClientData()) {
 		AddItems(*static_cast<std::vector<TwitterStatus>*>(event.GetClientData()));
-	}
-
-	if (event.GetClientObject()) {
-		FeedPanelUpdater *updater = 
-			reinterpret_cast<FeedPanelUpdater*>(event.GetClientObject());
-		updater->Resume();
 	}
 
 	RefreshAll();

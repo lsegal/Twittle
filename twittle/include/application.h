@@ -9,9 +9,12 @@ class Application : public wxApp
 	Twitter twitter;
 
 public:
-	inline Twitter& Twitter() { return twitter; }
+	inline Twitter& GetTwitter() { return twitter; }
 
 	bool OnInit();
+	int OnExit();
+
+	void Login(const wxString& user, const wxString& pass);
 };
 
 DECLARE_APP(Application)

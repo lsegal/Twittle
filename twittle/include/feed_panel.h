@@ -22,7 +22,8 @@ class FeedImageUpdater : public wxThread
 
 public:
 	FeedImageUpdater(std::vector<TwitterStatus> &items, FeedPanel& panel) :
-	  items(items), index(0), panel(panel), singleitem(false), wxThread(wxTHREAD_DETACHED) { }
+		wxThread(wxTHREAD_DETACHED), items(items), index(0),
+		panel(panel), singleitem(false) { }
 	FeedImageUpdater(TwitterStatus &item, unsigned int index, FeedPanel& panel);
 	~FeedImageUpdater();
 
@@ -40,8 +41,8 @@ class FeedPanelUpdater : public wxThread
 	friend class FeedPanel;
 
 public:
-	FeedPanelUpdater(const wxString& url, FeedPanel& panel) : 
-		url(url), panel(panel), wxThread(wxTHREAD_JOINABLE) { }
+	FeedPanelUpdater(const wxString& url, FeedPanel& panel) :
+		wxThread(wxTHREAD_DETACHED), url(url), panel(panel) { }
 
 	static void Update(const wxString& url, FeedPanel& panel);
 
@@ -60,8 +61,8 @@ public:
 	void Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxHtmlListBoxNameStr);
 
-	void AddItems(std::vector<TwitterStatus> &items_); 
-	void AddItem(TwitterStatus &item); 
+	void AddItems(std::vector<TwitterStatus> &items_);
+	void AddItem(TwitterStatus &item);
 
 	wxString OnGetItem(size_t n) const;
 	//wxCoord OnMeasureItem(size_t n) const;
@@ -70,6 +71,4 @@ public:
 	void OnImageUpdated(wxCommandEvent &event);
 
 	DECLARE_EVENT_TABLE();
-
-	friend class MainWindow;
 };

@@ -7,7 +7,9 @@
 #include "twitter/twitter.h"
 #include <stdexcept>
 
-wxString Twitter::StatusesBaseUrl = _T("http://twitter.com/statuses/");
+wxString Twitter::TwitterBaseUrl = _T("http://twitter.com/");
+wxString Twitter::AccountBaseUrl = Twitter::TwitterBaseUrl + _T("account/");
+wxString Twitter::StatusesBaseUrl = Twitter::TwitterBaseUrl + _T("statuses/");
 wxString Twitter::PublicTimelineUrl = _T("public_timeline");
 wxString Twitter::UpdateStatusUrl = _T("update");
 
@@ -17,7 +19,7 @@ Twitter::Twitter(const wxString& username, const wxString& password)
 }
 
 void Twitter::SetAuth(const wxString& username_, const wxString& password_)
-{ 
+{
 	username = username_;
 	password = password_;
 }
@@ -83,7 +85,7 @@ TwitterStatus* Twitter::UpdateStatus(const wxString& message)
 
 	// check for errors
 	if (http.GetResponse() != 200) {
-		// TODO generate exception, use xml result 
+		// TODO generate exception, use xml result
 		return NULL;
 	}
 	else if (root.GetName() == _T("hash")) {
@@ -97,4 +99,16 @@ TwitterStatus* Twitter::UpdateStatus(const wxString& message)
 		// TODO generate unknownexception
 		return NULL;
 	}
+}
+
+bool Twitter::VerifyCredentials(const wxString& username_, const wxString& password_) const
+{
+	HttpClient http(username_, password_);
+	wxString result = http.Get(wxURL(AccountBaseUrl + _T("verify_credentials.xml")));
+	return (http.GetResponse() == 200) ? true : false;
+}
+
+void Twitter::EndSession() const
+{
+	HttpClient(username, password).Get(wxURL(AccountBaseUrl + _T("end_session.xml")));
 }

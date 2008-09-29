@@ -11,6 +11,7 @@ class HttpClient : public wxHTTP
 
 public:
 	HttpClient();
+	HttpClient(const wxString& user, const wxString& pass);
 
 	static wxString UrlEncode(const wxString& input);
 

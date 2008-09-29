@@ -5,24 +5,11 @@
 
 class MainWindow : public wxFrame
 {
-	enum {
-		ID_EDIT, ID_CONTENT, ID_SUBMIT, ID_COUNTER
-	};
-
-	wxTextCtrl editbox;
-	FeedPanel content;
-	wxButton submit;
-	wxStaticText charcounter;
-	wxFont font;
+	void ClearPanels();
 
 public:
 	MainWindow();
 
-	void CheckEditboxEmpty();
-
-	// Events
-	void OnEditText(wxCommandEvent &evt);
-	void OnEditEnter(wxCommandEvent &evt);
-
-	DECLARE_EVENT_TABLE()
+	void ShowFollowingPanel();
+	void ShowLogin();
 };

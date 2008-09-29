@@ -12,6 +12,18 @@ bool Application::OnInit()
 	wxFileSystem::AddHandler(new wxInternetFSHandler);
 	main = new MainWindow();
 	main->Show(true);
+	//main->SetTransparent(200);
 	return true;
 }
 
+int Application::OnExit()
+{
+	GetTwitter().EndSession();
+	return 0;
+}
+
+void Application::Login(const wxString& user, const wxString& pass)
+{
+	Twitter().SetAuth(user, pass);
+	main->ShowFollowingPanel();
+}

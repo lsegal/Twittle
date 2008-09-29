@@ -11,6 +11,13 @@ HttpClient::HttpClient()
 	SetHeader(_T("User-Agent"), _T("Tweet!"));
 }
 
+HttpClient::HttpClient(const wxString& user, const wxString& password)
+{
+	HttpClient();
+	SetUser(user);
+	SetPassword(password);
+}
+
 unsigned long HttpClient::GetContentLength()
 {
 	unsigned long val;
@@ -49,7 +56,6 @@ wxString HttpClient::Get(const wxURL& url)
 
 	// Close the stream
 	delete httpStream;
-	Close();
 
 	return data;
 }
@@ -64,7 +70,6 @@ wxXmlDocument HttpClient::GetXml(const wxURL& url)
 
 	// Close the stream
 	delete httpStream;
-	Close();
 
 	return doc;
 }
@@ -79,7 +84,7 @@ unsigned long HttpClient::GetToFile(const wxURL& url, const wxString& filename)
 
 		httpStream->Read(data, length);
 
-		std::ofstream file(filename.c_str(), std::ios_base::binary);
+		std::ofstream file(filename.utf8_str().data(), std::ios_base::binary);
 		file.write(data, length);
 		file.close();
 
@@ -106,6 +111,6 @@ wxString HttpClient::UrlEncode(const wxString& input)
 		else {
 			out << c;
 		}
-	} 
+	}
 	return wxString::From8BitData(out.rdbuf()->str().c_str());
 }

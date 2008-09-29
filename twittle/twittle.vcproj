@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\include&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswud&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;WINVER=0x0400;wxUSE_GUI=1;_WIN32;__WXMSW__;_WINDOWS;__WXDEBUG__"
+				PreprocessorDefinitions="_CRTDBG_MAP_ALLOC;_CRT_SECURE_NO_WARNINGS;WIN32;WINVER=0x0400;wxUSE_GUI=1;_WIN32;__WXMSW__;_WINDOWS;__WXDEBUG__"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
@@ -192,6 +192,22 @@
 		</File>
 		<File
 			RelativePath=".\include\http_client.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\login_panel.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\login_panel.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\main_panel.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\main_panel.h"
 			>
 		</File>
 		<File
