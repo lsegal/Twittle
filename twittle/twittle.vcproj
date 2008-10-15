@@ -179,6 +179,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\callback.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\feed_panel.cpp"
 			>
 		</File>
@@ -216,6 +220,10 @@
 		</File>
 		<File
 			RelativePath=".\include\main_window.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\thread_callback.h"
 			>
 		</File>
 		<File
