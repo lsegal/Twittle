@@ -214,6 +214,7 @@ void Twitter::UnregisterListener(TwitterUpdateListener& listener, const wxString
 	for (it = range.first; it != range.second; ++it) {
 		if (it->second == &listener) {
 			listeners.erase(it);
+			break;
 		}
 	}
 }

@@ -32,14 +32,19 @@ void FeedPanel::SetFeed(const wxString& resource, int delay)
 		// unregister the old resource
 		twitter.UnregisterListener(*this, feedResource);
 		twitter.EndFeed(feedResource);
+		SetItemCount(0); // flush the data
 	}
 
+	// Load any residual data in the feedResource
 	feedResource = resource;
+	TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
+	if (feed) {
+		SetItemCount(feed->GetStatuses().size());
+	}
+
+	// register the listener and begin the monitoring threads
 	twitter.RegisterListener(*this, feedResource);
 	twitter.BeginFeed(feedResource, delay);
-
-	wxCommandEvent evt(wxEVT_FEED_UPDATED, wxID_ANY);
-	wxPostEvent(this, evt);
 }
 
 void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& resource)
