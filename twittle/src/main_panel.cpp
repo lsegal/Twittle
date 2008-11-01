@@ -13,6 +13,8 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 	CheckEditboxEmpty();
 
 	SetMinSize(wxSize(300, 300));
+
+	content.SetFeed(Twitter::PublicTimelineUrl, 10);
 }
 
 void MainPanel::InitializeComponents()
@@ -61,20 +63,9 @@ void MainPanel::OnEditText(wxCommandEvent &evt)
 
 void MainPanel::OnEditEnter(wxCommandEvent &evt)
 {
-	TwitterStatus *status = wxGetApp().GetTwitter().UpdateStatus(editbox.GetValue());
-
-	if (status) {
-		// add status, clear editbox
+	if (wxGetApp().GetTwitter().UpdateStatus(editbox.GetValue())) {
 		editbox.SetValue(_T(""));
-
-		content.AddItem(*status);
-		content.RefreshAll();
-
-		// get image for item
-		FeedImageUpdater::Update(*status, 0, content);
 	}
-
-	delete status;
 }
 
 void MainPanel::CheckEditboxEmpty()

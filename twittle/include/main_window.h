@@ -14,7 +14,7 @@ class MainWindow : public wxFrame
 public:
 	MainWindow();
 
-	void ShowFollowingPanel();
+	void ShowMainPanel();
 	void ShowLogin();
 
 	// Events

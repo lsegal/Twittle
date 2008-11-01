@@ -2,11 +2,10 @@
 
 #include <wx/wx.h>
 #include <wx/xml/xml.h>
-#include "twitter_user.h"
 
 class TwitterUser
 {
-	wxString id;
+	unsigned long long id;
 	wxString name;
 	wxString screen_name;
 	wxString description;
@@ -17,7 +16,6 @@ class TwitterUser
 	unsigned long followers_count;
 
 public:
-	TwitterUser() { } //: profile_image_filename(_T("imgs/spacer.png")) { }
 	TwitterUser(const wxXmlNode& node);
 
 	void ParseXmlNode(const wxXmlNode& node);
@@ -25,7 +23,7 @@ public:
 	void GetProfileImage();
 	const wxString GetProfileImageFilename() const;
 
-	inline const wxString& GetId() const { return id; }
+	inline const unsigned long long GetId() const { return id; }
 	inline const wxString& GetName() const { return name; }
 	inline const wxString& GetScreenName() const { return screen_name; }
 	inline const wxString& GetDescription() const { return description; }

@@ -235,11 +235,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\twitter\twitter_feed.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\twitter\twitter_feed.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\twitter\twitter_status.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\include\twitter\twitter_status.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\twitter\twitter_update_listener.h"
 			>
 		</File>
 		<File

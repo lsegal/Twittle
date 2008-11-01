@@ -44,7 +44,7 @@ void MainWindow::ShowLogin()
 	SwapPanels(new LoginPanel(this));
 }
 
-void MainWindow::ShowFollowingPanel()
+void MainWindow::ShowMainPanel()
 {
 	SwapPanels(new MainPanel(this));
 }

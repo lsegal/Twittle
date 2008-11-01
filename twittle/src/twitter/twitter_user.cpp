@@ -1,10 +1,14 @@
+#include "thread_callback.h"
 #include "twitter/twitter_user.h"
 #include "http_client.h"
 
 TwitterUser::TwitterUser(const wxXmlNode& node)
 {
-	TwitterUser();
 	ParseXmlNode(node);
+
+	if (GetProfileImageUrl() != _T("")) {
+		GetProfileImage();
+	}
 }
 
 void TwitterUser::ParseXmlNode(const wxXmlNode& node)
@@ -14,7 +18,7 @@ void TwitterUser::ParseXmlNode(const wxXmlNode& node)
 		const wxString& tagName = child->GetName();
 		wxString value = child->GetNodeContent();
 		if (tagName == _T("id")) {
-			id = value;
+			value.ToULongLong(&id);
 		}
 		else if (tagName == _T("name")) {
 			name = value;
@@ -59,7 +63,5 @@ const wxString TwitterUser::GetProfileImageFilename() const
 
 void TwitterUser::GetProfileImage()
 {
-	HttpClient().GetToFile(
-		wxURL(GetProfileImageUrl()), 
-		GetProfileImageFilename());
+	HttpClient().GetToFile(wxURL(GetProfileImageUrl()), GetProfileImageFilename());
 }

@@ -6,52 +6,12 @@
 #include <wx/htmllbox.h>
 #include "twitter/twitter.h"
 
-class FeedPanel;
-
 DECLARE_EVENT_TYPE(wxEVT_FEED_UPDATED, -1)
 DECLARE_EVENT_TYPE(wxEVT_IMAGE_UPDATED, -2)
 
-class FeedImageUpdater : public wxThread
+class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 {
-	bool singleitem;
-	unsigned int index;
-	std::vector<TwitterStatus>& items;
-	FeedPanel& panel;
-
-	friend class FeedPanel;
-
-public:
-	FeedImageUpdater(std::vector<TwitterStatus> &items, FeedPanel& panel) :
-		wxThread(wxTHREAD_DETACHED), items(items), index(0),
-		panel(panel), singleitem(false) { }
-	FeedImageUpdater(TwitterStatus &item, unsigned int index, FeedPanel& panel);
-	~FeedImageUpdater();
-
-	static void Update(std::vector<TwitterStatus> &items, FeedPanel& panel);
-	static void Update(TwitterStatus &item, unsigned int index, FeedPanel& panel);
-
-	void* Entry();  // @override wxThread
-};
-
-class FeedPanelUpdater : public wxThread
-{
-	const wxString& url;
-	FeedPanel& panel;
-
-	friend class FeedPanel;
-
-public:
-	FeedPanelUpdater(const wxString& url, FeedPanel& panel) :
-		wxThread(wxTHREAD_DETACHED), url(url), panel(panel) { }
-
-	static void Update(const wxString& url, FeedPanel& panel);
-
-	void* Entry();  // @override wxThread
-};
-
-class FeedPanel : public wxHtmlListBox
-{
-	std::vector<TwitterStatus> items;
+	wxString feedResource;
 
 public:
 	FeedPanel() : wxHtmlListBox() { }
@@ -60,11 +20,14 @@ public:
 	void Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
 		const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxHtmlListBoxNameStr);
 
-	void AddItems(std::vector<TwitterStatus> &items_);
-	void AddItem(TwitterStatus &item);
+	void SetFeed(const wxString &resource, int delay = 300);
 
+	// @override wxHtmlListBox
 	wxString OnGetItem(size_t n) const;
 	//wxCoord OnMeasureItem(size_t n) const;
+
+	// @override TwitterUpdateListener
+	void TwitterUpdateReceived(const Twitter& twitter, const wxString& resource);
 
 	void OnFeedUpdated(wxCommandEvent &event);
 	void OnImageUpdated(wxCommandEvent &event);

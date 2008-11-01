@@ -12,7 +12,8 @@ END_EVENT_TABLE()
 LoginPanel::LoginPanel(wxWindow *parent) : wxPanel(parent)
 {
 	InitializeComponents();
-	OnText(wxCommandEvent());
+	wxCommandEvent c;
+	OnText(c);
 
 	// Give size hints for min and max
 	wxSize s = GetSize();
@@ -25,7 +26,7 @@ void LoginPanel::InitializeComponents()
 	wxStaticText *uLabel = new wxStaticText(this, wxID_ANY, _T("Username"));
 	wxStaticText *pLabel = new wxStaticText(this, wxID_ANY, _T("Password"));
 	username.Create(this, ID_USERNAME, _T("twittletest"));
-	password.Create(this, ID_PASSWORD, _T("twittle"), 
+	password.Create(this, ID_PASSWORD, _T("twittle"),
 		wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD | wxTE_PROCESS_ENTER);
 	loginButton.Create(this, ID_BUTTON, _T("Login"));
 	errorLabel.Create(this, wxID_ANY, wxEmptyString);

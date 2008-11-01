@@ -24,6 +24,6 @@ int Application::OnExit()
 
 void Application::Login(const wxString& user, const wxString& pass)
 {
-	GetTwitter().SetAuth(user, pass);
-	main->ShowFollowingPanel();
+	twitter.SetAuth(user, pass);
+	main->ShowMainPanel();
 }
