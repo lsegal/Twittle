@@ -2,30 +2,30 @@
 
 #include <wx/wx.h>
 
-#include "callback.h"
-
 template<typename T>
 class ThreadCallback : public wxThread
 {
-	Callback<T>& callback;
+	T& obj;
+	void (T::*func)();
 public:
-	ThreadCallback(Callback<T>& callback) : 
-	  callback(callback) { Create(); Run(); }
+	ThreadCallback(T& obj, void (T::*func)()) : 
+	  wxThread(wxTHREAD_JOINABLE), obj(obj), func(func) { Create(); Run(); }
 	
 	// @override wxThread
-	void* Entry() { callback.Call(); return 0; }
+	void* Entry() { (obj.*func)(); return 0; }
 };
 
 template<typename T, typename P1>
 class ThreadCallback1 : public wxThread
 {
 	P1& p1;
-	Callback1<T, P1>& callback;
-public:
-	ThreadCallback1(Callback1<T, P1>& callback, P1 & p1) : 
-		p1(p1), callback(callback) { Create(); Run(); }
+	T& obj;
+	void (T::*func)();
 
+public:
+	ThreadCallback1(T& obj, void (T::*func)(P1&), P1 & p1) : 
+		wxThread(wxTHREAD_JOINABLE), p1(p1), obj(obj), func(func) { Create(); Run();  }
 	
 	// @override wxThread
-	void* Entry() { callback.Call(p1); return 0; }
+	void* Entry() { (obj.*func)(p1); return 0; }
 };

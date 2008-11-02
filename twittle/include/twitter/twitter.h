@@ -29,7 +29,7 @@ private:
 	std::multimap<wxString, TwitterUpdateListener*> listeners;
 
 protected:
-	bool ResourceRequiresAuthentication(const wxString& resource);
+	bool ResourceRequiresAuthentication(const wxString& resource) const;
 	void SetAuth(HttpClient& http);
 
 	void RegisterUser(unsigned long long userid, TwitterUser* user);
@@ -44,7 +44,6 @@ public:
 	~Twitter();
 
 	void BeginFeed(const wxString& resource, int delay = 300);
-	void EndFeed(const wxString& resource);
 
 	void SetPublicDelay(unsigned int delay);
 	void SetFollowDelay(unsigned int delay);
@@ -77,4 +76,5 @@ public:
 	static wxString UpdateStatusUrl;
 
 	friend class TwitterStatus;
+	friend class TwitterFeed;
 };

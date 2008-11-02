@@ -25,6 +25,14 @@ Twitter::Twitter(const wxString& username, const wxString& password)
 
 Twitter::~Twitter()
 {	
+	// clear listeners
+	listeners.clear();
+
+	// end session 
+	if (username != _T("")) {
+		EndSession();
+	}
+
 	// delete feeds
 	map<wxString, TwitterFeed*>::iterator it;
 	for (it = feeds.begin(); it != feeds.end(); ++it) {
@@ -50,7 +58,7 @@ void Twitter::SetAuth(HttpClient& http)
 	http.SetPassword(password);
 }
 
-bool Twitter::ResourceRequiresAuthentication(const wxString& resource) {
+bool Twitter::ResourceRequiresAuthentication(const wxString& resource) const {
 	if (resource == PublicTimelineUrl) {
 		return false;
 	}
@@ -68,50 +76,6 @@ TwitterUser* Twitter::RetrieveUser(unsigned long long userid) const
 	return it != users.end() ? it->second : NULL;
 }
 
-void Twitter::RefreshFeed(const wxString &resource)
-{
-	TwitterFeed *feed = feeds.find(resource)->second;
-	HttpClient http;
-
-	if (ResourceRequiresAuthentication(resource)) {
-		SetAuth(http);
-	}
-
-	while (feed->IsEnabled()) {
-		bool updated = false;
-
-		wxXmlDocument doc = http.GetXml(wxURL(StatusesBaseUrl + resource + _T(".xml")));
-		wxXmlNode *root = doc.GetRoot();
-
-		if (root != NULL) {
-			wxXmlNode *node = root->GetChildren();
-
-			// create a list of the status nodes
-			vector<wxXmlNode*> nodes;
-			while (node) { 
-				if (node->GetName() == _T("status")) {
-					nodes.push_back(node);
-				}
-				node = node->GetNext();
-			}
-
-			// read nodes backwards
-			vector<wxXmlNode*>::reverse_iterator it;
-			for (it = nodes.rbegin(); it != nodes.rend(); ++it) {
-				if (feed->AddStatus(TwitterStatus(*this, **it))) {
-					// notify listeners if the status was added
-					NotifyListeners(resource);
-				}
-			}
-
-			// notify listeners if the status was added
-			//	NotifyListeners(resource);
-		}
-
-		wxSleep(feed->Delay());
-	}
-}
-
 void Twitter::BeginFeed(const wxString& resource, int delay)
 {
 	TwitterFeed *feed;
@@ -119,30 +83,15 @@ void Twitter::BeginFeed(const wxString& resource, int delay)
 	map<wxString, TwitterFeed*>::iterator it;
 	it = feeds.find(resource);
 	if (it == feeds.end()) {
-		feed = new TwitterFeed(*this);
+		feed = new TwitterFeed(*this, resource);
 		feeds.insert(make_pair(resource, feed));
-		feed->SetDelay(delay);
-		feed->Enable();
 	}
 	else {
 		feed = it->second;
-		feed->SetDelay(delay);
-		feed->Enable();
 	}
 
-	// callback to thread
-	new ThreadCallback1<Twitter, const wxString>(
-		*new Callback1<Twitter, const wxString>(*this, &Twitter::RefreshFeed),
-		resource
-	);
-}
-
-void Twitter::EndFeed(const wxString& resource)
-{
-	map<wxString, TwitterFeed*>::iterator it = feeds.find(resource);
-	if (it != feeds.end()) {
-		it->second->Disable();
-	}
+	feed->SetDelay(delay);
+	feed->Start();
 }
 
 TwitterFeed* Twitter::GetFeed(const wxString& resource) const

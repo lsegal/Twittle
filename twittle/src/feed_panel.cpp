@@ -17,6 +17,11 @@ FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
 	Create(parent, id, pos, size, style, name);
 }
 
+FeedPanel::~FeedPanel()
+{
+	wxGetApp().GetTwitter().UnregisterListener(*this, feedResource);
+}
+
 void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 					 const wxPoint& pos, const wxSize& size,
 					 long style, const wxString& name)
@@ -31,7 +36,7 @@ void FeedPanel::SetFeed(const wxString& resource, int delay)
 	if (feedResource != _T("")) {
 		// unregister the old resource
 		twitter.UnregisterListener(*this, feedResource);
-		twitter.EndFeed(feedResource);
+		twitter.GetFeed(feedResource)->Pause();
 		SetItemCount(0); // flush the data
 	}
 

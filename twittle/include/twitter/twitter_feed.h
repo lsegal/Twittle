@@ -10,22 +10,24 @@ class TwitterStatus;
 
 class TwitterFeed
 {
-	const Twitter& client;
-	bool enabled;
+	Twitter& client;
 	unsigned int delay;
+	wxString resource;
 	std::vector<TwitterStatus> statuses;
+	wxThread *thread;
 
 protected:
-	bool AddStatus(TwitterStatus& status);
+	void Refresh();
 
 public:
-	TwitterFeed(const Twitter& client) : enabled(false), client(client) { }
+	TwitterFeed(Twitter& client, const wxString& res);
+	~TwitterFeed();
+
 	inline void SetDelay(unsigned int delay_) { delay = delay_; }
-	inline unsigned int Delay() { return delay; }
-	inline void Enable() { enabled = true; }
-	inline void Disable() { enabled = false; }
-	inline bool IsEnabled() const { return enabled; }
 	inline const std::vector<TwitterStatus>& GetStatuses() const { return statuses; }
 
-	friend class Twitter;
+	void Start();
+	void Pause();
+
+	bool AddStatus(TwitterStatus& status);
 };

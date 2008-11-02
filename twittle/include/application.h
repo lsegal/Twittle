@@ -6,10 +6,10 @@
 class Application : public wxApp
 {
 	MainWindow *main;
-	Twitter twitter;
+	Twitter *twitter;
 
 public:
-	inline Twitter& GetTwitter() { return twitter; }
+	inline Twitter& GetTwitter() { return *twitter; }
 
 	bool OnInit();
 	int OnExit();
