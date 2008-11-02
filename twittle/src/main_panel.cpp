@@ -16,7 +16,7 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 
 	SetMinSize(wxSize(300, 300));
 
-	content.SetFeed(Twitter::PublicTimelineUrl, 10);
+	content.SetFeed(Twitter::FriendsTimelineUrl);
 }
 
 void MainPanel::InitializeComponents()
