@@ -12,8 +12,11 @@ TwitterFeed::TwitterFeed(Twitter& cli, const wxString& res) :
 
 TwitterFeed::~TwitterFeed()
 {
-	thread->Delete();
-	thread->Wait();
+	// wxWidgets HANGS on socket operations
+	// if you try to Delete() the thread...
+	// let's not worry about it at all, then.
+	//	thread->Delete();
+	//	thread->Wait();
 	delete thread;
 
 	statuses.clear();
