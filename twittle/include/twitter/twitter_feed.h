@@ -1,10 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <wx/wx.h>
-#include "twitter.h"
-#include "twitter_status.h"
-
+class wxThread;
 class Twitter;
 class TwitterStatus;
 

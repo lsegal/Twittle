@@ -1,3 +1,7 @@
+#include <vector>
+#include <wx/wx.h>
+#include "twitter/twitter.h"
+#include "twitter/twitter_status.h"
 #include "twitter/twitter_feed.h"
 #include "thread_callback.h"
 
