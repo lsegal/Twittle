@@ -6,11 +6,11 @@ class TwitterStatus;
 
 class TwitterFeed
 {
+	wxThread *thread;
 	Twitter& client;
 	unsigned int delay;
 	wxString resource;
 	std::vector<TwitterStatus> statuses;
-	wxThread *thread;
 
 protected:
 	void Refresh();

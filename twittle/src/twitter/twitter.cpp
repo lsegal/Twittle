@@ -31,11 +31,11 @@ Twitter::Twitter(const wxString& username, const wxString& password)
 }
 
 Twitter::~Twitter()
-{	
+{
 	// clear listeners
 	listeners.clear();
 
-	// end session 
+	// end session
 	if (username != _T("")) {
 		EndSession();
 	}
@@ -45,7 +45,7 @@ Twitter::~Twitter()
 	for (it = feeds.begin(); it != feeds.end(); ++it) {
 		delete it->second;
 	}
-	
+
 	// delete users
 	map<unsigned long long, TwitterUser*>::iterator it2;
 	for (it2 = users.begin(); it2 != users.end(); ++it2) {
@@ -132,7 +132,8 @@ bool Twitter::UpdateStatus(const wxString& message)
 	else if (root.GetName() == _T("status")) {
 		// Add to follow feed if it exists
 		TwitterFeed *feed = GetFeed(FriendsTimelineUrl);
-		if (feed && feed->AddStatus(TwitterStatus(*this, root))) {
+		TwitterStatus status(*this, root);
+		if (feed && feed->AddStatus(status)) {
 			// notify listeners
 			NotifyListeners(FriendsTimelineUrl);
 		}
@@ -162,9 +163,9 @@ void Twitter::RegisterListener(TwitterUpdateListener& listener, const wxString& 
 
 void Twitter::UnregisterListener(TwitterUpdateListener& listener, const wxString& resource)
 {
-	multimap<wxString, TwitterUpdateListener*>::const_iterator it;
-	pair<multimap<wxString, TwitterUpdateListener*>::const_iterator, 
-		multimap<wxString, TwitterUpdateListener*>::const_iterator> range;
+	multimap<wxString, TwitterUpdateListener*>::iterator it;
+	pair<multimap<wxString, TwitterUpdateListener*>::iterator,
+		multimap<wxString, TwitterUpdateListener*>::iterator> range;
 	range = listeners.equal_range(resource);
 
 	for (it = range.first; it != range.second; ++it) {
@@ -178,7 +179,7 @@ void Twitter::UnregisterListener(TwitterUpdateListener& listener, const wxString
 void Twitter::NotifyListeners(const wxString& resource) const
 {
 	multimap<wxString, TwitterUpdateListener*>::const_iterator it;
-	pair<multimap<wxString, TwitterUpdateListener*>::const_iterator, 
+	pair<multimap<wxString, TwitterUpdateListener*>::const_iterator,
 		multimap<wxString, TwitterUpdateListener*>::const_iterator> range;
 	range = listeners.equal_range(resource);
 
@@ -187,7 +188,7 @@ void Twitter::NotifyListeners(const wxString& resource) const
 	}
 }
 
-void Twitter::NotifyAllListeners() const 
+void Twitter::NotifyAllListeners() const
 {
 	multimap<wxString, TwitterUpdateListener*>::const_iterator it;
 	for (it = listeners.begin(); it != listeners.end(); ++it) {

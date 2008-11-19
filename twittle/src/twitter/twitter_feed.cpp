@@ -38,7 +38,7 @@ void TwitterFeed::Start()
 	}
 }
 
-void TwitterFeed::Pause() 
+void TwitterFeed::Pause()
 {
 	if (thread) thread->Pause();
 }
@@ -76,7 +76,7 @@ void TwitterFeed::Refresh()
 
 			// create a list of the status nodes
 			vector<wxXmlNode*> nodes;
-			while (node) { 
+			while (node) {
 				if (node->GetName() == _T("status")) {
 					nodes.push_back(node);
 				}
@@ -88,7 +88,8 @@ void TwitterFeed::Refresh()
 			for (it = nodes.rbegin(); it != nodes.rend(); ++it) {
 				thread->TestDestroy();
 
-				if (AddStatus(TwitterStatus(client, **it))) {
+				TwitterStatus status(client, **it);
+				if (AddStatus(status)) {
 					// notify listeners if the status was added
 					client.NotifyListeners(resource);
 				}

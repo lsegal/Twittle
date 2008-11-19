@@ -4,10 +4,10 @@
 
 // Events
 BEGIN_EVENT_TABLE(MainPanel, wxPanel)
-	EVT_TEXT(ID_EDIT, OnEditText)
-	EVT_TEXT_ENTER(ID_EDIT, OnEditEnter)
-	EVT_BUTTON(ID_PUBLIC, OnButtonClick)
-	EVT_BUTTON(ID_FRIEND, OnButtonClick)
+	EVT_TEXT(ID_EDIT, MainPanel::OnEditText)
+	EVT_TEXT_ENTER(ID_EDIT, MainPanel::OnEditEnter)
+	EVT_BUTTON(ID_PUBLIC, MainPanel::OnButtonClick)
+	EVT_BUTTON(ID_FRIEND, MainPanel::OnButtonClick)
 END_EVENT_TABLE()
 
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
