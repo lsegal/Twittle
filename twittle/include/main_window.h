@@ -1,7 +1,8 @@
 #pragma once
 
 #include <wx/wx.h>
-#include "feed_panel.h"
+
+class FeedPanel;
 
 DECLARE_EVENT_TYPE(wxEVT_CLEAR_PANEL, -1)
 

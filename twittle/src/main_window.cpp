@@ -1,5 +1,6 @@
 #include "main_window.h"
 #include "login_panel.h"
+#include "feed_panel.h"
 #include "main_panel.h"
 
 BEGIN_EVENT_TABLE(MainWindow, wxFrame)

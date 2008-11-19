@@ -1,4 +1,6 @@
 #include "application.h"
+#include "main_window.h"
+#include "twitter/twitter.h"
 #include <wx/image.h>
 #include <wx/socket.h>
 #include <wx/fs_inet.h>

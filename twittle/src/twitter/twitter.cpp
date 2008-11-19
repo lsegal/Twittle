@@ -4,10 +4,17 @@
  * @author Loren Segal
  */
 
-#include "twitter/twitter.h"
-#include "thread_callback.h"
 #include <stdexcept>
 #include <utility>
+#include <wx/xml/xml.h>
+#include "twitter/twitter_status.h"
+#include "twitter/twitter_update_listener.h"
+#include "twitter/twitter_feed.h"
+#include "twitter/twitter_user.h"
+#include "twitter/twitter.h"
+#include "thread_callback.h"
+#include "http_client.h"
+
 
 using namespace std;
 

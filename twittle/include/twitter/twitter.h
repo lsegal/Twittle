@@ -3,16 +3,12 @@
 #include <map>
 #include <vector>
 #include <wx/wx.h>
-#include <wx/xml/xml.h>
-#include "twitter_status.h"
-#include "twitter_update_listener.h"
-#include "twitter_feed.h"
-#include "twitter_user.h"
-#include "http_client.h"
 
 class TwitterStatus;
 class TwitterUser;
 class TwitterFeed;
+class TwitterUpdateListener;
+class HttpClient;
 
 class Twitter
 {

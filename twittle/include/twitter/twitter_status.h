@@ -1,7 +1,7 @@
 #pragma once
 
-class wxString;
-class wxDateTime;
+#include <wx/wx.h>
+
 class wxXmlNode;
 class Twitter;
 class TwitterUser;

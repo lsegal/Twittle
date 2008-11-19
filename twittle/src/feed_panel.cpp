@@ -1,5 +1,8 @@
 #include "feed_panel.h"
 #include "application.h"
+#include "twitter/twitter_feed.h"
+#include "twitter/twitter_user.h"
+#include "twitter/twitter_status.h"
 
 BEGIN_EVENT_TABLE(FeedPanel, wxHtmlListBox)
 	EVT_COMMAND(wxID_ANY, wxEVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)

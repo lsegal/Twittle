@@ -4,7 +4,9 @@
 #include <wx/wx.h>
 #include <wx/html/htmlwin.h>
 #include <wx/htmllbox.h>
-#include "twitter/twitter.h"
+#include "twitter/twitter_update_listener.h"
+
+class Twitter;
 
 DECLARE_EVENT_TYPE(wxEVT_FEED_UPDATED, -1)
 DECLARE_EVENT_TYPE(wxEVT_IMAGE_UPDATED, -2)

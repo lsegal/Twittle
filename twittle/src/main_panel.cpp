@@ -1,4 +1,5 @@
 #include "main_panel.h"
+#include "feed_panel.h"
 #include "application.h"
 
 // Events

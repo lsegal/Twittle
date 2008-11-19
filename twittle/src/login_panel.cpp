@@ -1,5 +1,6 @@
 #include "login_panel.h"
 #include "application.h"
+#include "twitter/twitter.h"
 
 BEGIN_EVENT_TABLE(LoginPanel, wxPanel)
 	EVT_TEXT(ID_USERNAME, LoginPanel::OnText)

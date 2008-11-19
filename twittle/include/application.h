@@ -1,7 +1,9 @@
 #pragma once
 
 #include <wx/wx.h>
-#include "main_window.h"
+
+class MainWindow;
+class Twitter;
 
 class Application : public wxApp
 {

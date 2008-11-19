@@ -4,6 +4,10 @@
 #include "http_client.h"
 #include <wx/app.h>
 #include <wx/filesys.h>
+#include <wx/sstream.h>
+#include <wx/url.h>
+#include <wx/xml/xml.h>
+#include <wx/protocol/http.h>
 
 HttpClient::HttpClient()
 {

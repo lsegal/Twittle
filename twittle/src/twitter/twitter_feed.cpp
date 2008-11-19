@@ -4,6 +4,7 @@
 #include "twitter/twitter_status.h"
 #include "twitter/twitter_feed.h"
 #include "thread_callback.h"
+#include "http_client.h"
 
 using namespace std;
 
