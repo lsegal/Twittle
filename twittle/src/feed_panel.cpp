@@ -96,11 +96,16 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	list << _T("<b>") + user.GetScreenName() + _T("</b>: ");
 	list << status.GetText();
 
-	if (status.GetCreatedAt().IsValid()) {
-		list << _T("<p><font color='#aaaaaa'>");
-		list << status.GetCreatedAt().FormatISODate() << _T(" ");
-		list << status.GetCreatedAt().FormatISOTime();
-		list << _T("</font>");
+	try {
+		if (status.GetCreatedAt().IsValid()) {
+			list << _T("<p><font color='#aaaaaa'>");
+			list << status.GetCreatedAt().FormatISODate() << _T(" ");
+			list << status.GetCreatedAt().FormatISOTime();
+			list << _T("</font>");
+		}
+	}
+	catch (...) {
+		// something funny happens here sometimes.
 	}
 	list << _T("</td></tr></table>");
 	return list;
