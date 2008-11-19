@@ -1,7 +1,7 @@
 #pragma once
 
-#include <wx/wx.h>
-#include <wx/xml/xml.h>
+class wxString;
+class wxXmlNode;
 
 class TwitterUser
 {
