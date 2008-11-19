@@ -1,11 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <wx/wx.h>
-#include <wx/xml/xml.h>
-#include "twitter.h"
-#include "twitter_user.h"
-
+class wxString;
+class wxDateTime;
+class wxXmlNode;
 class Twitter;
 class TwitterUser;
 

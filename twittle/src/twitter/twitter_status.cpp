@@ -1,3 +1,6 @@
+#include <wx/wx.h>
+#include <wx/xml/xml.h>
+#include "twitter/twitter.h"
 #include "twitter/twitter_status.h"
 
 TwitterStatus::TwitterStatus(Twitter& twitter, const wxXmlNode& node)
