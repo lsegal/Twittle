@@ -88,10 +88,15 @@ void TwitterFeed::Refresh()
 			for (it = nodes.rbegin(); it != nodes.rend(); ++it) {
 				thread->TestDestroy();
 
-				TwitterStatus status(client, **it);
-				if (AddStatus(status)) {
-					// notify listeners if the status was added
-					client.NotifyListeners(resource);
+				try {
+					TwitterStatus status(client, **it);
+					if (AddStatus(status)) {
+						// notify listeners if the status was added
+						client.NotifyListeners(resource);
+					}
+				}
+				catch (...) {
+					// parsing the node might have failed.
 				}
 			}
 

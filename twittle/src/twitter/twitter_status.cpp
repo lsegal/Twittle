@@ -19,7 +19,12 @@ void TwitterStatus::ParseXmlNode(Twitter& twitter, const wxXmlNode& node)
 			value.ToULongLong(&id);
 		}
 		else if (name == _T("created_at")) {
-			created_at.ParseFormat(value, _T("%a %b %d %H:%M:%S +0000 %Y"));
+			try {
+				created_at.ParseFormat(value, _T("%a %b %d %H:%M:%S +0000 %Y"));
+			}
+			catch (...) {
+				// generally should not happen
+			}
 		}
 		else if (name == _T("text")) {
 			text = value;
