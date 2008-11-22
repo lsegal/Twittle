@@ -15,6 +15,9 @@ class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 {
 	wxString feedResource;
 
+protected:
+	wxString DecorateStatusText(wxString text) const;
+
 public:
 	FeedPanel() : wxHtmlListBox() { }
 	FeedPanel(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
@@ -31,6 +34,8 @@ public:
 
 	// @override TwitterUpdateListener
 	void TwitterUpdateReceived(const Twitter& twitter, const wxString& resource);
+
+	void OnLinkClicked(wxHtmlLinkEvent &event);
 
 	void OnFeedUpdated(wxCommandEvent &event);
 	void OnImageUpdated(wxCommandEvent &event);
