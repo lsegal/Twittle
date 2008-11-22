@@ -78,8 +78,12 @@ void FeedPanel::OnImageUpdated(wxCommandEvent &event)
 {
 }
 
+static wxCriticalSection getItemSec;
+
 wxString FeedPanel::OnGetItem(size_t n) const
 {
+	getItemSec.Enter();
+
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	if (feed == NULL) return _T("");
 
@@ -108,5 +112,8 @@ wxString FeedPanel::OnGetItem(size_t n) const
 		// something funny happens here sometimes.
 	}
 	list << _T("</td></tr></table>");
+
+	getItemSec.Leave();
+
 	return list;
 }
