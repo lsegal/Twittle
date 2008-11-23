@@ -5,6 +5,10 @@
 #include <wx/socket.h>
 #include <wx/fs_inet.h>
 
+#ifdef WIN32
+#	define mkdir _mkdir
+#endif
+
 IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
@@ -13,6 +17,9 @@ bool Application::OnInit()
 	wxSocketBase::Initialize();
 	wxInitAllImageHandlers();
 	wxFileSystem::AddHandler(new wxInternetFSHandler);
+
+	// make the images directory if it does not exist
+	mkdir("imgs");
 
 	// twitter
 	twitter = new Twitter();
