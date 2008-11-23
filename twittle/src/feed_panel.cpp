@@ -13,22 +13,22 @@ class FilteredIterator
 	std::vector<TwitterStatus>::const_iterator iter;
 	std::vector<TwitterStatus>::const_iterator iterend;
 
-	bool valid() 
+	bool valid()
 	{
 		if (iter == iterend) return true;
 
 		if (filter & FeedPanel::FILTER_REPLIES) {
 			if (iter->GetText()[0] != _T('@')) return false;
-			if (wxGetApp().GetTwitter().GetUsername() == 
+			if (wxGetApp().GetTwitter().GetUsername() ==
 				iter->GetUser().GetScreenName()) return false;
 		}
 		return true;
 	}
 
 public:
-	FilteredIterator(std::vector<TwitterStatus>::const_iterator it, 
+	FilteredIterator(std::vector<TwitterStatus>::const_iterator it,
 		std::vector<TwitterStatus>::const_iterator end, unsigned int ftype = 0) :
-	  iter(it), iterend(end), filter(ftype) { }
+			filter(ftype), iter(it), iterend(end) { }
 
 	const FilteredIterator& operator++() { do { ++iter; } while (!valid()); return *this; }
 	const FilteredIterator& operator--() { do { --iter; } while (!valid()); return *this; }
@@ -42,7 +42,7 @@ public:
 BEGIN_EVENT_TABLE(FeedPanel, wxHtmlListBox)
 	EVT_COMMAND(wxID_ANY, wxEVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)
 	EVT_COMMAND(wxID_ANY, wxEVT_IMAGE_UPDATED, FeedPanel::OnImageUpdated)
-	EVT_HTML_LINK_CLICKED(1, FeedPanel::OnLinkClicked) 
+	EVT_HTML_LINK_CLICKED(1, FeedPanel::OnLinkClicked)
 END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_FEED_UPDATED)
@@ -51,7 +51,7 @@ DEFINE_EVENT_TYPE(wxEVT_IMAGE_UPDATED)
 FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
 					 const wxPoint& pos, const wxSize& size,
 					 long style, const wxString& name)
-: filter(0), wxHtmlListBox(parent, id, pos, size, style, name)
+: wxHtmlListBox(parent, id, pos, size, style, name), filter(0)
 {
 	Create(parent, 1, pos, size, style, name);
 }
@@ -74,23 +74,23 @@ unsigned int FeedPanel::GetStatusSize() const
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	const std::vector<TwitterStatus>& statuses = feed->GetStatuses();
 	FilteredIterator it(statuses.begin(), statuses.end(), filter);
-	for (it; it != statuses.end(); ++it, ++count);
+	for (; it != statuses.end(); ++it, ++count);
 	return count - 1;
 }
 
-const TwitterStatus& FeedPanel::GetStatusItem(unsigned int n) const
+const TwitterStatus FeedPanel::GetStatusItem(unsigned int n) const
 {
 	unsigned int count = 0;
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	const std::vector<TwitterStatus>& statuses = feed->GetStatuses();
 	FilteredIterator it(statuses.begin(), statuses.end(), filter);
-	for (it; it != statuses.end(); ++it, ++count) {
-		if (count - 1 == n) return static_cast<TwitterStatus&>(*it);
+	for (; it != statuses.end(); ++it, ++count) {
+		if (count - 1 == n) return *it;
 	}
 	throw "invalid status item";
 }
 
-void FeedPanel::SetFeed(const wxString& resource, int delay) 
+void FeedPanel::SetFeed(const wxString& resource, int delay)
 {
 	// Already watching this feed
 	if (resource == feedResource) return;
@@ -143,9 +143,9 @@ wxString FeedPanel::DecorateStatusText(wxString text) const
 	wxRegEx hashtags(_T("#([[:alnum:]_]+)"));
 	wxRegEx refs(_T("@([[:alnum:]_]+)"));
 
-	links.ReplaceAll(&text, _T("<a href='\\1'>\\1</a>"));	
-	refs.ReplaceAll(&text, _T("@<a href='http://twitter.com/\\1'>\\1</a>"));	
-	hashtags.ReplaceAll(&text, _T("#<a href='http://hashtags.org/tag/\\1'>\\1</a>"));	
+	links.ReplaceAll(&text, _T("<a href='\\1'>\\1</a>"));
+	refs.ReplaceAll(&text, _T("@<a href='http://twitter.com/\\1'>\\1</a>"));
+	hashtags.ReplaceAll(&text, _T("#<a href='http://hashtags.org/tag/\\1'>\\1</a>"));
 
 	return text;
 }
@@ -194,7 +194,7 @@ void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 {
 	wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(_T("text/html"));
 	if (ft == NULL) return;
-	
+
 	wxString url = evt.GetLinkInfo().GetHref();
 	if (!url.StartsWith(_T("http://"))) {
 		url = _T("http://") + url;

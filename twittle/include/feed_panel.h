@@ -19,7 +19,7 @@ class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 protected:
 	wxString DecorateStatusText(wxString text) const;
 	unsigned int GetStatusSize() const;
-	const TwitterStatus& GetStatusItem(unsigned int n) const;  
+	const TwitterStatus GetStatusItem(unsigned int n) const;
 
 public:
 	FeedPanel() : wxHtmlListBox(), filter(0) { }
@@ -34,7 +34,7 @@ public:
 	};
 
 	void SetFeed(const wxString &resource, int delay = 300);
-	
+
 	void ResetFilter() { filter = 0; SetItemCount(GetStatusSize()); }
 	void AddFilter(unsigned int ftype) { filter |= ftype; SetItemCount(GetStatusSize()); }
 	void RemoveFilter(unsigned int ftype) { filter &= ~ftype; SetItemCount(GetStatusSize()); }
