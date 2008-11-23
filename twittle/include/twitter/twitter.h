@@ -48,9 +48,6 @@ public:
 
 	TwitterUser *RetrieveUser(unsigned long long userid) const;
 
-	std::vector<TwitterStatus> GetPublicTimeline();
-	std::vector<TwitterStatus> GetStatuses(const wxString& resource, const wxString& format = _T("xml"));
-
 	// update status
 	bool UpdateStatus(const wxString& message);
 
@@ -62,6 +59,8 @@ public:
 	// listener pattern
 	void RegisterListener(TwitterUpdateListener& listener, const wxString& resource);
 	void UnregisterListener(TwitterUpdateListener& listener, const wxString& resource);
+
+	inline const wxString& GetUsername() const { return username; }
 
 	// constants
 	static wxString TwitterBaseUrl;

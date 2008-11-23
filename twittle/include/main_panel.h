@@ -8,7 +8,7 @@ class MainPanel : public wxPanel
 {
 	enum ControlIdentifiers {
 		ID_EDIT, ID_CONTENT, ID_SUBMIT, ID_COUNTER, 
-		ID_PUBLIC, ID_FRIEND
+		ID_PUBLIC, ID_FRIEND, ID_FILTER_AT
 	};
 
 	wxTextCtrl editbox;
@@ -18,6 +18,7 @@ class MainPanel : public wxPanel
 	wxFont font;
 	wxButton publicButton;
 	wxButton followButton;
+	wxButton atButton;
 
 	void InitializeComponents();
 	void CheckEditboxEmpty();

@@ -7,6 +7,38 @@
 #include "twitter/twitter_user.h"
 #include "twitter/twitter_status.h"
 
+class FilteredIterator
+{
+	unsigned int filter;
+	std::vector<TwitterStatus>::const_iterator iter;
+	std::vector<TwitterStatus>::const_iterator iterend;
+
+	bool valid() 
+	{
+		if (iter == iterend) return true;
+
+		if (filter & FeedPanel::FILTER_REPLIES) {
+			if (iter->GetText()[0] != _T('@')) return false;
+			if (wxGetApp().GetTwitter().GetUsername() == 
+				iter->GetUser().GetScreenName()) return false;
+		}
+		return true;
+	}
+
+public:
+	FilteredIterator(std::vector<TwitterStatus>::const_iterator it, 
+		std::vector<TwitterStatus>::const_iterator end, unsigned int ftype = 0) :
+	  iter(it), iterend(end), filter(ftype) { }
+
+	const FilteredIterator& operator++() { do { ++iter; } while (!valid()); return *this; }
+	const FilteredIterator& operator--() { do { --iter; } while (!valid()); return *this; }
+	bool operator==(const std::vector<TwitterStatus>::const_iterator& c) const { return iter == c; }
+	bool operator!=(const std::vector<TwitterStatus>::const_iterator& c) const { return iter != c; }
+	bool operator<(const std::vector<TwitterStatus>::const_iterator& c) const { return iter < c; }
+	bool operator>(const std::vector<TwitterStatus>::const_iterator& c) const { return iter > c; }
+	std::vector<TwitterStatus>::const_iterator::value_type operator*() const { return *iter; }
+};
+
 BEGIN_EVENT_TABLE(FeedPanel, wxHtmlListBox)
 	EVT_COMMAND(wxID_ANY, wxEVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)
 	EVT_COMMAND(wxID_ANY, wxEVT_IMAGE_UPDATED, FeedPanel::OnImageUpdated)
@@ -19,7 +51,7 @@ DEFINE_EVENT_TYPE(wxEVT_IMAGE_UPDATED)
 FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
 					 const wxPoint& pos, const wxSize& size,
 					 long style, const wxString& name)
-: wxHtmlListBox(parent, id, pos, size, style, name)
+: filter(0), wxHtmlListBox(parent, id, pos, size, style, name)
 {
 	Create(parent, 1, pos, size, style, name);
 }
@@ -36,8 +68,33 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
 }
 
+unsigned int FeedPanel::GetStatusSize() const
+{
+	unsigned int count = 0;
+	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
+	const std::vector<TwitterStatus>& statuses = feed->GetStatuses();
+	FilteredIterator it(statuses.begin(), statuses.end(), filter);
+	for (it; it != statuses.end(); ++it, ++count);
+	return count - 1;
+}
+
+const TwitterStatus& FeedPanel::GetStatusItem(unsigned int n) const
+{
+	unsigned int count = 0;
+	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
+	const std::vector<TwitterStatus>& statuses = feed->GetStatuses();
+	FilteredIterator it(statuses.begin(), statuses.end(), filter);
+	for (it; it != statuses.end(); ++it, ++count) {
+		if (count - 1 == n) return static_cast<TwitterStatus&>(*it);
+	}
+	throw "invalid status item";
+}
+
 void FeedPanel::SetFeed(const wxString& resource, int delay) 
 {
+	// Already watching this feed
+	if (resource == feedResource) return;
+
 	Twitter &twitter = wxGetApp().GetTwitter();
 
 	if (feedResource != _T("")) {
@@ -51,7 +108,7 @@ void FeedPanel::SetFeed(const wxString& resource, int delay)
 	feedResource = resource;
 	TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	if (feed) {
-		SetItemCount(feed->GetStatuses().size());
+		SetItemCount(GetStatusSize());
 	}
 
 	// register the listener and begin the monitoring threads
@@ -67,15 +124,13 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 	wxPostEvent(this, evt);
 }
 
+static wxCriticalSection feedUpdateSec;
+
 void FeedPanel::OnFeedUpdated(wxCommandEvent &event)
 {
-	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
-	if (feed) {
-		SetItemCount(feed->GetStatuses().size());
-	}
-	else {
-		SetItemCount(0);
-	}
+	feedUpdateSec.Enter();
+	SetItemCount(GetStatusSize());
+	feedUpdateSec.Leave();
 }
 
 void FeedPanel::OnImageUpdated(wxCommandEvent &event)
@@ -104,8 +159,8 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	if (feed == NULL) return _T("");
 
-	size_t len = feed->GetStatuses().size() - 1;
-	const TwitterStatus &status = feed->GetStatuses().at(len - n);
+	size_t len = GetStatusSize() - 1;
+	TwitterStatus status = GetStatusItem(len - n);
 	const TwitterUser &user = status.GetUser();
 
 	wxString list;
@@ -146,7 +201,7 @@ void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 	}
 
 	wxString cmd = ft->GetOpenCommand(url);
-	cmd.Replace(_T("file://"), _T(""));
+	cmd.Replace(_T("file://"), _T("")); // hack to remove wx 'bug'
 	wxExecute(cmd);
 	delete ft;
 }

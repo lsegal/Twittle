@@ -8,6 +8,7 @@ BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_TEXT_ENTER(ID_EDIT, MainPanel::OnEditEnter)
 	EVT_BUTTON(ID_PUBLIC, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FRIEND, MainPanel::OnButtonClick)
+	EVT_BUTTON(ID_FILTER_AT, MainPanel::OnButtonClick)
 END_EVENT_TABLE()
 
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
@@ -31,6 +32,7 @@ void MainPanel::InitializeComponents()
 	// buttons
 	publicButton.Create(this, ID_PUBLIC, _T("P"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	followButton.Create(this, ID_FRIEND, _T("F"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	atButton.Create(this, ID_FILTER_AT, _T("@"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 
 	editbox.SetFont(font);
 	charcounter.SetFont(font);
@@ -40,6 +42,7 @@ void MainPanel::InitializeComponents()
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	buttonSizer->Add(&publicButton);
 	buttonSizer->Add(&followButton);
+	buttonSizer->Add(&atButton);
 
 	wxBoxSizer *editSizer = new wxBoxSizer(wxHORIZONTAL);
 	editSizer->Add(&editbox, wxSizerFlags(1).Expand());
@@ -57,12 +60,18 @@ void MainPanel::InitializeComponents()
 
 void MainPanel::OnButtonClick(wxCommandEvent& event)
 {
+	content.ResetFilter();
+
 	switch (event.GetId()) {
 		case ID_PUBLIC:
 			content.SetFeed(Twitter::PublicTimelineUrl);
 			break;
 		case ID_FRIEND:
 			content.SetFeed(Twitter::FriendsTimelineUrl);
+			break;
+		case ID_FILTER_AT:
+			content.SetFeed(Twitter::FriendsTimelineUrl);
+			content.AddFilter(FeedPanel::FILTER_REPLIES);
 			break;
 	}
 }
