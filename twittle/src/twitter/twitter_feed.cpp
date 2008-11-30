@@ -3,6 +3,7 @@
 #include "twitter/twitter.h"
 #include "twitter/twitter_status.h"
 #include "twitter/twitter_feed.h"
+#include "twitter_feed_serializer.h"
 #include "thread_callback.h"
 #include "http_client.h"
 
@@ -17,6 +18,8 @@ TwitterFeed::TwitterFeed(Twitter& cli, const wxString& res) :
 
 TwitterFeed::~TwitterFeed()
 {
+	Save();
+
 	// wxWidgets HANGS on socket operations
 	// if you try to Delete() the thread...
 	// let's not worry about it at all, then.
@@ -45,13 +48,22 @@ void TwitterFeed::Pause()
 
 bool TwitterFeed::AddStatus(TwitterStatus& status)
 {
-	bool result = false;
+	bool exists = false, result = false;
 
 	addSec.Enter();
-	if (statuses.size() == 0 ||	statuses.at(statuses.size() - 1).GetId() < status.GetId()) {
+	
+	// check for existing status in the list
+	std::vector<TwitterStatus>::const_reverse_iterator it;
+	for (it = statuses.rbegin(); it != statuses.rend(); ++it) {
+		if (it->GetId() == status.GetId()) exists = true;
+	}
+
+	if (!exists) {
+		// add status since it does not yet exist
 		statuses.push_back(status);
 		result = true;
 	}
+
 	addSec.Leave();
 
 	return result;
@@ -104,10 +116,22 @@ void TwitterFeed::Refresh()
 			//	NotifyListeners(resource);
 		}
 
+		// What a perfect opportunity to save this resource
+		Save();
+
 		// Delay but make sure we can leave the thread easily
 		for (unsigned int i = 0; i < delay; i++) {
 			thread->TestDestroy();
 			wxSleep(1);
 		}
 	}
+}
+
+void TwitterFeed::Save()
+{
+	addSec.Enter();
+	
+	Serializer<wxString, TwitterFeed>::Write(resource, *this);
+	
+	addSec.Leave();
 }

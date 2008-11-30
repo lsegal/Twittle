@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include "twitter_feed_serializer.h"
+
 class wxThread;
 class Twitter;
 class TwitterStatus;
@@ -26,4 +29,9 @@ public:
 	void Pause();
 
 	bool AddStatus(TwitterStatus& status);
+
+	// serialization
+	void Save();
+
+	friend class Serializer<wxString, TwitterFeed>;
 };

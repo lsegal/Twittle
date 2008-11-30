@@ -225,6 +225,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\serializer.h"
+			>
+		</File>
+		<File
 			RelativePath=".\include\thread_callback.h"
 			>
 		</File>
@@ -242,6 +246,14 @@
 		</File>
 		<File
 			RelativePath=".\include\twitter\twitter_feed.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\twitter_feed_serializer.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\twitter_feed_serializer.h"
 			>
 		</File>
 		<File

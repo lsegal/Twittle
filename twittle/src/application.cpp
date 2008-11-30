@@ -21,6 +21,9 @@ bool Application::OnInit()
 	// make the images directory if it does not exist
 	mkdir("imgs");
 
+	// make the feeds directory if it does not exist
+	mkdir("feeds");
+
 	// twitter
 	twitter = new Twitter();
 
@@ -42,4 +45,11 @@ void Application::Login(const wxString& user, const wxString& pass)
 {
 	twitter->SetAuth(user, pass);
 	main->ShowMainPanel();
+}
+
+const wxString Application::GetFeedsPath()
+{
+	wxString path = _T("feeds/") + twitter->GetUsername() + _T("/");
+	mkdir(path.mb_str()); // make sure path exists
+	return path;
 }

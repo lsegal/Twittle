@@ -1,4 +1,6 @@
+#include <fstream>
 #include <wx/wx.h>
+#include <wx/file.h>
 #include <wx/xml/xml.h>
 #include "thread_callback.h"
 #include "twitter/twitter_user.h"
@@ -8,7 +10,8 @@ TwitterUser::TwitterUser(const wxXmlNode& node)
 {
 	ParseXmlNode(node);
 
-	if (GetProfileImageUrl() != _T("")) {
+	if (!wxFile::Exists(GetProfileImageFilename()) &&
+			!wxIsMainThread()) {
 		GetProfileImage();
 	}
 }
@@ -65,5 +68,6 @@ const wxString TwitterUser::GetProfileImageFilename() const
 
 void TwitterUser::GetProfileImage()
 {
+	if (GetProfileImageUrl() == _T("")) return;
 	HttpClient().GetToFile(wxURL(GetProfileImageUrl()), GetProfileImageFilename());
 }

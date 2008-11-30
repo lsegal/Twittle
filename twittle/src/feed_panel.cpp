@@ -110,6 +110,14 @@ void FeedPanel::SetFeed(const wxString& resource, int delay)
 	if (feed) {
 		SetItemCount(GetStatusSize());
 	}
+	else { 
+		// Attempt to de-serialize any saved data
+		feed = Serializer<wxString, TwitterFeed>().Read(feedResource);
+		if (feed) {
+			twitter.LoadFeed(feedResource, feed);
+			SetItemCount(GetStatusSize());
+		}
+	}
 
 	// register the listener and begin the monitoring threads
 	twitter.RegisterListener(*this, feedResource);

@@ -23,6 +23,6 @@ public:
 	inline const wxDateTime& GetCreatedAt() const { return created_at; }
 	inline const wxString& GetText() const { return text; }
 	inline const TwitterUser& GetUser() const { return *user; }
-	inline const bool isTruncated() const { return truncated; }
+	inline const bool IsTruncated() const { return truncated; }
 };
 

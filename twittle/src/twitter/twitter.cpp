@@ -91,7 +91,7 @@ void Twitter::BeginFeed(const wxString& resource, int delay)
 	it = feeds.find(resource);
 	if (it == feeds.end()) {
 		feed = new TwitterFeed(*this, resource);
-		feeds.insert(make_pair(resource, feed));
+		LoadFeed(resource, feed);
 	}
 	else {
 		feed = it->second;
@@ -99,6 +99,11 @@ void Twitter::BeginFeed(const wxString& resource, int delay)
 
 	feed->SetDelay(delay);
 	feed->Start();
+}
+
+void Twitter::LoadFeed(const wxString& resource, TwitterFeed *feed) 
+{
+	feeds.insert(make_pair(resource, feed));
 }
 
 TwitterFeed* Twitter::GetFeed(const wxString& resource) const

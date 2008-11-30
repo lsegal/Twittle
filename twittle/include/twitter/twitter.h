@@ -45,8 +45,10 @@ public:
 	void SetFollowDelay(unsigned int delay);
 
 	TwitterFeed* GetFeed(const wxString& resource) const;
+	void LoadFeed(const wxString& resource, TwitterFeed *feed);
 
 	TwitterUser *RetrieveUser(unsigned long long userid) const;
+	inline const std::map<unsigned long long, TwitterUser *>& GetUsers() { return users; }
 
 	// update status
 	bool UpdateStatus(const wxString& message);

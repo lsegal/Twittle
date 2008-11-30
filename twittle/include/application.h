@@ -17,6 +17,8 @@ public:
 	int OnExit();
 
 	void Login(const wxString& user, const wxString& pass);
+
+	const wxString GetFeedsPath();
 };
 
 DECLARE_APP(Application)
