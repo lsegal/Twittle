@@ -18,11 +18,10 @@ bool Application::OnInit()
 	wxInitAllImageHandlers();
 	wxFileSystem::AddHandler(new wxInternetFSHandler);
 
-	// make the images directory if it does not exist
+	// make the images, feeds, settings directories if they do not exist
 	mkdir("imgs");
-
-	// make the feeds directory if it does not exist
 	mkdir("feeds");
+	mkdir("settings");
 
 	// twitter
 	twitter = new Twitter();
@@ -37,6 +36,7 @@ bool Application::OnInit()
 
 int Application::OnExit()
 {
+	settings.Save();
 	delete twitter; 
 	return 0;
 }
@@ -47,9 +47,30 @@ void Application::Login(const wxString& user, const wxString& pass)
 	main->ShowMainPanel();
 }
 
+void Application::Logout()
+{
+	delete twitter;
+	twitter = new Twitter();
+	main->ShowLogin();
+}
+
 const wxString Application::GetFeedsPath()
 {
 	wxString path = _T("feeds/") + twitter->GetUsername() + _T("/");
+	mkdir(path.mb_str()); // make sure path exists
+	return path;
+}
+
+const wxString Application::GetImagesPath()
+{
+	wxString path = _T("imgs/");
+	mkdir(path.mb_str()); // make sure path exists
+	return path;
+}
+
+const wxString Application::GetSettingsPath()
+{
+	wxString path = _T("settings/");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }

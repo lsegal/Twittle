@@ -11,6 +11,7 @@ class LoginPanel : public wxPanel
 	wxTextCtrl password;
 	wxButton loginButton;
 	wxStaticText errorLabel;
+	wxCheckBox rememberCheck;
 
 	enum ControlIdentifiers {
 		ID_USERNAME, ID_PASSWORD, ID_BUTTON
@@ -19,7 +20,7 @@ class LoginPanel : public wxPanel
 	void InitializeComponents();
 
 public:
-	LoginPanel(wxWindow *parent);
+	LoginPanel(wxWindow *parent, bool autoLogin = false);
 
 	void Login();
 

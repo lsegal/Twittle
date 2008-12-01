@@ -1,5 +1,6 @@
 #include "login_panel.h"
 #include "application.h"
+#include "settings.h"
 #include "twitter/twitter.h"
 #include "thread_callback.h"
 
@@ -17,7 +18,7 @@ END_EVENT_TABLE()
 DEFINE_EVENT_TYPE(wxEVT_LOGIN_SUCCESS)
 DEFINE_EVENT_TYPE(wxEVT_LOGIN_FAILED)
 
-LoginPanel::LoginPanel(wxWindow *parent) : wxPanel(parent)
+LoginPanel::LoginPanel(wxWindow *parent, bool autoLogin) : wxPanel(parent)
 {
 	InitializeComponents();
 	wxCommandEvent c;
@@ -27,17 +28,29 @@ LoginPanel::LoginPanel(wxWindow *parent) : wxPanel(parent)
 	wxSize s = GetSize();
 	SetMinSize(wxSize(s.GetWidth(), s.GetHeight() + 100));
 	SetMaxSize(wxSize(400, 600));
+
+	// login if we have auto login set
+	if (autoLogin && wxGetApp().GetSettings().GetBool(_T("account.remember"))) {
+		wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, ID_BUTTON);
+		wxPostEvent(this, evt);
+	}
 }
 
 void LoginPanel::InitializeComponents()
 {
+	wxString user = wxGetApp().GetSettings().GetString(_T("account.username"));
+	wxString pass = wxGetApp().GetSettings().GetString(_T("account.password"));
+	bool remember = wxGetApp().GetSettings().GetBool(_T("account.remember"));
+
 	wxStaticText *uLabel = new wxStaticText(this, wxID_ANY, _T("Username"));
 	wxStaticText *pLabel = new wxStaticText(this, wxID_ANY, _T("Password"));
-	username.Create(this, ID_USERNAME, _T("twittletest"));
-	password.Create(this, ID_PASSWORD, _T("twittle"),
+	username.Create(this, ID_USERNAME, user);
+	password.Create(this, ID_PASSWORD, pass,
 		wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD | wxTE_PROCESS_ENTER);
 	loginButton.Create(this, ID_BUTTON, _T("Login"));
 	errorLabel.Create(this, wxID_ANY, wxEmptyString);
+	rememberCheck.Create(this, wxID_ANY, _T("Remember Password"));
+	rememberCheck.SetValue(remember);
 
 	wxBoxSizer *uSizer = new wxBoxSizer(wxHORIZONTAL);
 	uSizer->Add(uLabel, wxSizerFlags().Border(wxTOP, 5));
@@ -54,6 +67,8 @@ void LoginPanel::InitializeComponents()
 	vSizer->AddSpacer(10);
 	vSizer->Add(pSizer);
 	vSizer->AddSpacer(10);
+	vSizer->Add(&rememberCheck, wxSizerFlags().Right());
+	vSizer->AddSpacer(10);
 	vSizer->Add(&loginButton, wxSizerFlags().Right());
 	vSizer->AddSpacer(10);
 	vSizer->Add(&errorLabel);
@@ -67,20 +82,28 @@ void LoginPanel::InitializeComponents()
 
 static wxString s_user;
 static wxString s_pass;
+bool s_saveUserPass;
+bool loggedIn;
 
 void LoginPanel::Login()
 {
-	wxCommandEvent evt(wxEVT_LOGIN_FAILED, wxID_ANY);
-
-	if (wxGetApp().GetTwitter().VerifyCredentials(s_user, s_pass)) {
-		evt.SetEventType(wxEVT_LOGIN_SUCCESS);
-	}
-
-	wxPostEvent(this, evt);
+	loggedIn = wxGetApp().GetTwitter().VerifyCredentials(s_user, s_pass);
 }
 
 void LoginPanel::OnLoginSuccess(wxCommandEvent& evt)
 {
+	// If we're told to save the user/pass, set them in the settings
+	if (s_saveUserPass) {
+		wxGetApp().GetSettings().Set(_T("account.username"), s_user);
+		wxGetApp().GetSettings().Set(_T("account.password"), s_pass);
+	}
+	else {
+		wxGetApp().GetSettings().Set(_T("account.username"), _T(""));
+		wxGetApp().GetSettings().Set(_T("account.password"), _T(""));
+	}
+	wxGetApp().GetSettings().Set(_T("account.remember"), s_saveUserPass);
+
+	// Do login
 	errorLabel.SetLabel(_T(""));
 	wxGetApp().Login(s_user, s_pass);
 }
@@ -94,11 +117,15 @@ void LoginPanel::OnLoginFailed(wxCommandEvent& evt)
 
 void LoginPanel::OnLogin(wxCommandEvent& evt)
 {
+	username.Disable();
+	password.Disable();
+	loginButton.Disable();
 	errorLabel.SetForegroundColour(*wxBLACK);
 	errorLabel.SetLabel(_T("Logging in..."));
 
 	s_user = username.GetValue();
 	s_pass = password.GetValue();
+	s_saveUserPass = rememberCheck.GetValue();
 	ThreadCallback<LoginPanel> cb(*this, &LoginPanel::Login);
 
 	time_t timeNow = time(0);
@@ -110,6 +137,18 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 			errorLabel.SetForegroundColour(*wxRED);
 			errorLabel.SetLabel(_T("Error: login timeout."));
 		}
+	}
+	cb.Wait();
+
+	// do stuff
+	if (loggedIn) {
+		OnLoginSuccess(wxCommandEvent());
+	}
+	else {
+		OnLoginFailed(wxCommandEvent());
+		username.Enable();
+		password.Enable();
+		loginButton.Enable();
 	}
 }
 

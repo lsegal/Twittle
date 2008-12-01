@@ -25,6 +25,9 @@ TwitterFeed::~TwitterFeed()
 	// let's not worry about it at all, then.
 	//	thread->Delete();
 	//	thread->Wait();
+	// Note: Kill() seems to work fine... for now
+	thread->Kill(); 
+
 	delete thread;
 
 	statuses.clear();

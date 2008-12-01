@@ -25,6 +25,7 @@ class MainPanel : public wxPanel
 
 public:
 	MainPanel(wxWindow *parent);
+	virtual ~MainPanel();
 
 	// Events
 	void OnButtonClick(wxCommandEvent& evt);

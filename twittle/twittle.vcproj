@@ -229,6 +229,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\settings.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\settings.h"
+			>
+		</File>
+		<File
 			RelativePath=".\include\thread_callback.h"
 			>
 		</File>

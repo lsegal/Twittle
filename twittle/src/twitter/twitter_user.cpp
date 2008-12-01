@@ -5,6 +5,7 @@
 #include "thread_callback.h"
 #include "twitter/twitter_user.h"
 #include "http_client.h"
+#include "application.h"
 
 TwitterUser::TwitterUser(const wxXmlNode& node)
 {
@@ -56,12 +57,13 @@ void TwitterUser::ParseXmlNode(const wxXmlNode& node)
 
 const wxString TwitterUser::GetProfileImageFilename() const
 {
+	wxString basePath = wxGetApp().GetImagesPath();
 	if (GetProfileImageUrl() == _T("")) {
-		return _T("imgs/spacer.png");
+		return basePath + _T("spacer.png");
 	}
 
 	wxString filename;
-	filename << _T("imgs/") << GetId();
+	filename << basePath << GetId();
 	filename << _T(".") << GetProfileImageUrl().AfterLast('.');
 	return filename;
 }

@@ -19,6 +19,21 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 	SetMinSize(wxSize(300, 300));
 
 	content.SetFeed(Twitter::FriendsTimelineUrl);
+
+	// set height if we have one
+	long width = wxGetApp().GetSettings().GetLong(_T("window.width"));
+	long height = wxGetApp().GetSettings().GetLong(_T("window.height"));
+	if (width > 0 && height > 0) {
+		SetSize(width, height);
+	}
+}
+
+MainPanel::~MainPanel()
+{
+	long w, h;
+	GetParent()->GetSize((int*)&w, (int*)&h);
+	wxGetApp().GetSettings().Set(_T("window.width"), w);
+	wxGetApp().GetSettings().Set(_T("window.height"), h);
 }
 
 void MainPanel::InitializeComponents()
@@ -55,7 +70,7 @@ void MainPanel::InitializeComponents()
 	panelSizer->Add(editSizer, wxSizerFlags(0).Expand().Border(wxALL, 5));
 
 	panelSizer->SetSizeHints(this);
-	SetSizerAndFit(panelSizer);
+	SetSizer(panelSizer);
 }
 
 void MainPanel::OnButtonClick(wxCommandEvent& event)
