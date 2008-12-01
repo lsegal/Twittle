@@ -181,6 +181,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\resources\bird.psd"
+			>
+		</File>
+		<File
 			RelativePath=".\include\callback.h"
 			>
 		</File>
@@ -201,11 +205,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\resources\icon.xpm"
+			>
+		</File>
+		<File
 			RelativePath=".\src\login_panel.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\include\login_panel.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\resources\logo.xpm"
 			>
 		</File>
 		<File

@@ -25,6 +25,7 @@ public:
 	void Login();
 
 	// events
+	void OnPaint(wxPaintEvent& evt);
 	void OnLogin(wxCommandEvent& evt);
 	void OnLoginSuccess(wxCommandEvent& evt);
 	void OnLoginFailed(wxCommandEvent& evt);

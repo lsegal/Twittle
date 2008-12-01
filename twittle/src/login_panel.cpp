@@ -4,6 +4,8 @@
 #include "twitter/twitter.h"
 #include "thread_callback.h"
 
+#include "resources/logo.xpm"
+
 BEGIN_EVENT_TABLE(LoginPanel, wxPanel)
 	EVT_TEXT(ID_USERNAME, LoginPanel::OnText)
 	EVT_TEXT(ID_PASSWORD, LoginPanel::OnText)
@@ -13,6 +15,7 @@ BEGIN_EVENT_TABLE(LoginPanel, wxPanel)
 
 	EVT_COMMAND(wxID_ANY, wxEVT_LOGIN_SUCCESS, LoginPanel::OnLoginSuccess)
 	EVT_COMMAND(wxID_ANY, wxEVT_LOGIN_FAILED, LoginPanel::OnLoginFailed)
+	EVT_PAINT(LoginPanel::OnPaint)
 END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_LOGIN_SUCCESS)
@@ -25,9 +28,11 @@ LoginPanel::LoginPanel(wxWindow *parent, bool autoLogin) : wxPanel(parent)
 	OnText(c);
 
 	// Give size hints for min and max
-	wxSize s = GetSize();
-	SetMinSize(wxSize(s.GetWidth(), s.GetHeight() + 100));
+	int w, h;
+	parent->GetSize(&w, &h);
+	SetMinSize(wxSize(320, 520));
 	SetMaxSize(wxSize(400, 600));
+	SetSize(GetMinSize());
 
 	// login if we have auto login set
 	if (autoLogin && wxGetApp().GetSettings().GetBool(_T("account.remember"))) {
@@ -74,11 +79,33 @@ void LoginPanel::InitializeComponents()
 	vSizer->Add(&errorLabel);
 
 	wxBoxSizer *panelSizer = new wxBoxSizer(wxVERTICAL);
-	panelSizer->AddStretchSpacer(500);
+	panelSizer->AddSpacer(270);
 	panelSizer->Add(vSizer, wxSizerFlags().Bottom().Center().Border(wxALL, 40));
 
+	panelSizer->SetSizeHints(this);
 	SetSizerAndFit(panelSizer);
 }
+
+static wxBitmap logoBitmap(logo);
+void LoginPanel::OnPaint(wxPaintEvent& event)
+{
+	wxPaintDC dc(this);
+
+	wxRegionIterator upd = GetUpdateRegion();
+
+	wxSize s = GetParent()->GetClientSize();
+	wxRect logoRect((s.GetWidth() - 256) / 2, 20, 256, 256);
+	while (upd) {
+		wxRect rect = upd.GetRect();
+		dc.Clear();
+		if (logoRect.Intersects(rect)) {
+			dc.DrawBitmap(logoBitmap, logoRect.GetLeft(), logoRect.GetTop(), true);
+		}
+
+		++upd;
+	}
+}
+
 
 static wxString s_user;
 static wxString s_pass;
@@ -98,8 +125,8 @@ void LoginPanel::OnLoginSuccess(wxCommandEvent& evt)
 		wxGetApp().GetSettings().Set(_T("account.password"), s_pass);
 	}
 	else {
-		wxGetApp().GetSettings().Set(_T("account.username"), _T(""));
-		wxGetApp().GetSettings().Set(_T("account.password"), _T(""));
+		wxGetApp().GetSettings().Set(_T("account.username"), (const wxString&)_T(""));
+		wxGetApp().GetSettings().Set(_T("account.password"), (const wxString&)_T(""));
 	}
 	wxGetApp().GetSettings().Set(_T("account.remember"), s_saveUserPass);
 

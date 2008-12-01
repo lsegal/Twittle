@@ -4,6 +4,8 @@
 #include "main_panel.h"
 #include "application.h"
 
+#include "resources/icon.xpm"
+
 BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(ID_LOGOUT, MainWindow::OnLogout)
 	EVT_MENU(wxID_EXIT, MainWindow::OnExit)
@@ -13,8 +15,12 @@ END_EVENT_TABLE()
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
 
 MainWindow::MainWindow() : 
-	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 425)), panel(NULL)
+	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 520)), panel(NULL)
 {
+	SetIcon(wxIcon(icon)); // show icon
+	SetWindowStyle(GetWindowStyle() & ~wxMAXIMIZE_BOX); // no maximize ability
+
+	// Set last known position
 	long x = wxGetApp().GetSettings().GetLong(_T("window.x"));
 	long y = wxGetApp().GetSettings().GetLong(_T("window.y"));
 	if (x > 0 && y > 0) {
