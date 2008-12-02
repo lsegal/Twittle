@@ -72,7 +72,7 @@ void TwitterStatus::ParseXmlNode(Twitter& twitter, const wxXmlNode& node)
 wxString TwitterStatus::GetTimeSincePost() const
 {
 	long long tMin = 60, tHour = 3600, tDay = 86400;
-	wxDateTime now = wxDateTime::Now();
+	wxDateTime now = wxDateTime::Now().ToUTC();
 	wxTimeSpan diff = now - created_at;
 	long long diffSecs = diff.GetSeconds().ToLong(); // diff in seconds
 	

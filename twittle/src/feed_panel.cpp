@@ -7,6 +7,7 @@
 #include "twitter/twitter_feed.h"
 #include "twitter/twitter_user.h"
 #include "twitter/twitter_status.h"
+#include "thread_callback.h"
 
 class FilteredIterator
 {
@@ -41,27 +42,30 @@ public:
 };
 
 BEGIN_EVENT_TABLE(FeedPanel, wxHtmlListBox)
-	EVT_COMMAND(wxID_ANY, wxEVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)
-	EVT_COMMAND(wxID_ANY, wxEVT_IMAGE_UPDATED, FeedPanel::OnImageUpdated)
+	EVT_COMMAND(wxID_ANY, EVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)
+	EVT_COMMAND(wxID_ANY, EVT_IMAGE_UPDATED, FeedPanel::OnImageUpdated)
 	EVT_HTML_LINK_CLICKED(1, FeedPanel::OnLinkClicked)
 	EVT_RIGHT_DOWN(FeedPanel::OnRightClick)
 	EVT_MENU(ID_COPYTEXT, FeedPanel::CopyItemAsText)
 	EVT_MENU(ID_COPYHTML, FeedPanel::CopyItemAsHtml)
+	EVT_COMMAND(wxID_ANY, EVT_REFRESH_FEED, FeedPanel::OnUpdate)
 END_EVENT_TABLE()
 
-DEFINE_EVENT_TYPE(wxEVT_FEED_UPDATED)
-DEFINE_EVENT_TYPE(wxEVT_IMAGE_UPDATED)
+DEFINE_EVENT_TYPE(EVT_FEED_UPDATED)
+DEFINE_EVENT_TYPE(EVT_IMAGE_UPDATED)
+DEFINE_EVENT_TYPE(EVT_REFRESH_FEED)
 
 FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
 					 const wxPoint& pos, const wxSize& size,
 					 long style, const wxString& name)
-: wxHtmlListBox(parent, id, pos, size, style, name), filter(0)
+: wxHtmlListBox(parent, id, pos, size, style, name), filter(0), refreshThread(NULL)
 {
 	Create(parent, 1, pos, size, style, name);
 }
 
 FeedPanel::~FeedPanel()
 {
+	refreshThread->Kill();
 	wxGetApp().GetTwitter().UnregisterListener(*this, feedResource);
 }
 
@@ -72,6 +76,7 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
 	CreateItemMenu();
 	CreateAccelerators();
+	refreshThread = new ThreadCallback<FeedPanel>(*this, &FeedPanel::RefreshThread);
 }
 
 void FeedPanel::CreateAccelerators()
@@ -149,7 +154,7 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 {
 	if (resource != feedResource) return;
 
-	wxCommandEvent evt(wxEVT_FEED_UPDATED, wxID_ANY);
+	wxCommandEvent evt(EVT_FEED_UPDATED, wxID_ANY);
 	wxPostEvent(this, evt);
 }
 
@@ -266,4 +271,17 @@ void FeedPanel::CopyItemAsHtml(wxCommandEvent& evt)
 		wxTheClipboard->SetData(new wxTextDataObject(decoratedText));
 		wxTheClipboard->Close();
 	}
+}
+
+void FeedPanel::RefreshThread()
+{
+	while (true) {
+		wxSleep(60);
+		wxPostEvent(this, wxCommandEvent(EVT_REFRESH_FEED));
+	}
+}
+
+void FeedPanel::OnUpdate(wxCommandEvent& evt)
+{
+	RefreshAll();
 }

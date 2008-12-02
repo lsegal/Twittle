@@ -8,8 +8,9 @@
 
 class Twitter;
 
-DECLARE_EVENT_TYPE(wxEVT_FEED_UPDATED, -1)
-DECLARE_EVENT_TYPE(wxEVT_IMAGE_UPDATED, -2)
+DECLARE_EVENT_TYPE(EVT_FEED_UPDATED, -1)
+DECLARE_EVENT_TYPE(EVT_IMAGE_UPDATED, -2)
+DECLARE_EVENT_TYPE(EVT_REFRESH_FEED, -3)
 
 class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 {
@@ -17,6 +18,7 @@ class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 		ID_COPYTEXT, ID_COPYHTML
 	};
 
+	wxThread *refreshThread;
 	wxString feedResource;
 	unsigned int filter;
 	wxMenu itemMenu;
@@ -63,6 +65,10 @@ public:
 	void OnRightClick(wxMouseEvent &event);
 	void CopyItemAsText(wxCommandEvent& evt);
 	void CopyItemAsHtml(wxCommandEvent& evt);
+
+	// Refresh thread
+	void RefreshThread();
+	void OnUpdate(wxCommandEvent& evt);
 
 	DECLARE_EVENT_TABLE();
 };
