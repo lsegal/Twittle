@@ -249,6 +249,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\status_text_ctrl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\status_text_ctrl.h"
+			>
+		</File>
+		<File
 			RelativePath=".\include\thread_callback.h"
 			>
 		</File>

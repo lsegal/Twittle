@@ -13,6 +13,12 @@ class LoginPanel : public wxPanel
 	wxStaticText errorLabel;
 	wxCheckBox rememberCheck;
 
+	// For remembering login user
+	wxString s_user;
+	wxString s_pass;
+	bool s_saveUserPass;
+	bool loggedIn;
+
 	enum ControlIdentifiers {
 		ID_USERNAME, ID_PASSWORD, ID_BUTTON
 	};

@@ -30,7 +30,7 @@ LoginPanel::LoginPanel(wxWindow *parent, bool autoLogin) : wxPanel(parent)
 	// Give size hints for min and max
 	int w, h;
 	parent->GetSize(&w, &h);
-	SetMinSize(wxSize(320, 520));
+	SetMinSize(wxSize(320, 540));
 	SetMaxSize(wxSize(400, 600));
 	SetSize(GetMinSize());
 
@@ -105,12 +105,6 @@ void LoginPanel::OnPaint(wxPaintEvent& event)
 		++upd;
 	}
 }
-
-
-static wxString s_user;
-static wxString s_pass;
-bool s_saveUserPass;
-bool loggedIn;
 
 void LoginPanel::Login()
 {

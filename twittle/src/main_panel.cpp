@@ -14,7 +14,7 @@ END_EVENT_TABLE()
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 {
 	InitializeComponents();
-	CheckEditboxEmpty();
+	editbox.OnFocusLost(wxFocusEvent()); // unset focus
 
 	SetMinSize(wxSize(300, 300));
 
@@ -30,10 +30,9 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 
 MainPanel::~MainPanel()
 {
-	long w, h;
-	GetParent()->GetSize((int*)&w, (int*)&h);
-	wxGetApp().GetSettings().Set(_T("window.width"), w);
-	wxGetApp().GetSettings().Set(_T("window.height"), h);
+	wxSize s = GetParent()->GetClientSize();
+	wxGetApp().GetSettings().Set(_T("window.width"), (long)s.GetWidth());
+	wxGetApp().GetSettings().Set(_T("window.height"), (long)s.GetHeight());
 }
 
 void MainPanel::InitializeComponents()
@@ -71,6 +70,7 @@ void MainPanel::InitializeComponents()
 
 	panelSizer->SetSizeHints(this);
 	SetSizer(panelSizer);
+
 }
 
 void MainPanel::OnButtonClick(wxCommandEvent& event)
@@ -93,11 +93,14 @@ void MainPanel::OnButtonClick(wxCommandEvent& event)
 
 void MainPanel::OnEditText(wxCommandEvent &evt)
 {
-	wxString label;
-	unsigned int len = static_cast<unsigned int>(editbox.GetValue().length());
-	label << len;
-
-	charcounter.SetLabel(label);
+	unsigned int len;
+	if (editbox.IsActive()) {
+		len = static_cast<unsigned int>(editbox.GetValue().length());
+	}
+	else {
+		len = 0;
+	}
+	charcounter.SetLabel(wxString::Format(_T("%d"), len));
 
 	if (len > 140) {
 		charcounter.SetOwnForegroundColour(wxColour(200, 0, 0));
@@ -105,8 +108,6 @@ void MainPanel::OnEditText(wxCommandEvent &evt)
 	else {
 		charcounter.SetOwnForegroundColour(*wxBLACK);
 	}
-
-	CheckEditboxEmpty();
 }
 
 void MainPanel::OnEditEnter(wxCommandEvent &evt)
@@ -116,12 +117,3 @@ void MainPanel::OnEditEnter(wxCommandEvent &evt)
 	}
 }
 
-void MainPanel::CheckEditboxEmpty()
-{
-	if (editbox.GetValue().length() != 0) return;
-
-	//editbox.SetOwnForegroundColour(wxColour(160, 160, 160));
-	//editbox.SetValue(_T("What are you doing right now?"));
-	//editbox.SetSelection(0, 0);
-	//editbox.SetInsertionPoint(0);
-}

@@ -15,7 +15,7 @@ END_EVENT_TABLE()
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
 
 MainWindow::MainWindow() : 
-	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 520)), panel(NULL)
+	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)), panel(NULL)
 {
 	SetIcon(wxIcon(icon)); // show icon
 	SetWindowStyle(GetWindowStyle() & ~wxMAXIMIZE_BOX); // no maximize ability

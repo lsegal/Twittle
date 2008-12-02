@@ -2,6 +2,7 @@
 
 #include <wx/wx.h>
 #include <wx/toolbar.h>
+#include "status_text_ctrl.h"
 #include "feed_panel.h"
 
 class MainPanel : public wxPanel
@@ -11,7 +12,7 @@ class MainPanel : public wxPanel
 		ID_PUBLIC, ID_FRIEND, ID_FILTER_AT
 	};
 
-	wxTextCtrl editbox;
+	StatusTextCtrl editbox;
 	FeedPanel content;
 	wxButton submit;
 	wxStaticText charcounter;
@@ -21,7 +22,6 @@ class MainPanel : public wxPanel
 	wxButton atButton;
 
 	void InitializeComponents();
-	void CheckEditboxEmpty();
 
 public:
 	MainPanel(wxWindow *parent);
