@@ -11,6 +11,7 @@ class TwitterStatus
 	unsigned long long id;
 	wxDateTime created_at;
 	wxString text;
+	wxString source;
 	bool truncated;
 	TwitterUser *user;
 
@@ -19,9 +20,12 @@ public:
 
 	void ParseXmlNode(Twitter& twitter, const wxXmlNode& node);
 
+	wxString GetTimeSincePost() const;
+
 	inline const unsigned long long GetId() const { return id; }
 	inline const wxDateTime& GetCreatedAt() const { return created_at; }
 	inline const wxString& GetText() const { return text; }
+	inline const wxString& GetSource() const { return source; }
 	inline const TwitterUser& GetUser() const { return *user; }
 	inline const bool IsTruncated() const { return truncated; }
 };

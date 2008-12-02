@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include <wx/clipbrd.h>
 #include <wx/mimetype.h>
 #include <wx/regex.h>
 #include "feed_panel.h"
@@ -43,6 +44,9 @@ BEGIN_EVENT_TABLE(FeedPanel, wxHtmlListBox)
 	EVT_COMMAND(wxID_ANY, wxEVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)
 	EVT_COMMAND(wxID_ANY, wxEVT_IMAGE_UPDATED, FeedPanel::OnImageUpdated)
 	EVT_HTML_LINK_CLICKED(1, FeedPanel::OnLinkClicked)
+	EVT_RIGHT_DOWN(FeedPanel::OnRightClick)
+	EVT_MENU(ID_COPYTEXT, FeedPanel::CopyItemAsText)
+	EVT_MENU(ID_COPYHTML, FeedPanel::CopyItemAsHtml)
 END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_FEED_UPDATED)
@@ -66,6 +70,22 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 					 long style, const wxString& name)
 {
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
+	CreateItemMenu();
+	CreateAccelerators();
+}
+
+void FeedPanel::CreateAccelerators()
+{
+	wxAcceleratorEntry entries[1];
+	entries[0].Set(wxACCEL_CTRL, (int)'C', ID_COPYTEXT);
+	wxAcceleratorTable accel(1, entries);
+	SetAcceleratorTable(accel);
+}
+
+void FeedPanel::CreateItemMenu()
+{
+	itemMenu.Append(ID_COPYTEXT, _T("Copy as text"));
+	itemMenu.Append(ID_COPYHTML, _T("Copy as HTML"));
 }
 
 unsigned int FeedPanel::GetStatusSize() const
@@ -83,6 +103,7 @@ const TwitterStatus FeedPanel::GetStatusItem(unsigned int n) const
 	unsigned int count = 0;
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	const std::vector<TwitterStatus>& statuses = feed->GetStatuses();
+	n = (GetStatusSize() - 1) - n; // reverse n index
 	FilteredIterator it(statuses.begin(), statuses.end(), filter);
 	for (; it != statuses.end(); ++it, ++count) {
 		if (count - 1 == n) return *it;
@@ -167,8 +188,7 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	if (feed == NULL) return _T("");
 
-	size_t len = GetStatusSize() - 1;
-	TwitterStatus status = GetStatusItem(len - n);
+	TwitterStatus status = GetStatusItem(n);
 	const TwitterUser &user = status.GetUser();
 
 	wxString list;
@@ -180,17 +200,14 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	list << _T("<b>") + user.GetScreenName() + _T("</b>: ");
 	list << DecorateStatusText(status.GetText());
 
-	try {
-		if (status.GetCreatedAt().IsValid()) {
-			list << _T("<p><font color='#aaaaaa'>");
-			list << status.GetCreatedAt().FormatISODate() << _T(" ");
-			list << status.GetCreatedAt().FormatISOTime();
-			list << _T("</font>");
-		}
-	}
-	catch (...) {
-		// something funny happens here sometimes.
-	}
+	list << _T("<p><font color='#aaaaaa' size='2'>");
+	list << user.GetName() << _T(" (");
+	list << _T("<a href='http://twitter.com/") << user.GetScreenName() << _T("'>");
+	list << _T("<font color='#555555'>") << user.GetScreenName() << _T("</font></a>");
+	list << _T(") <font color='#555555'>") << status.GetTimeSincePost();
+	list << _T("</font> via <font color='#555555'>") << status.GetSource() << _T("</font>");
+	list << _T("</font>");
+
 	list << _T("</td></tr></table>");
 
 	getItemSec.Leave();
@@ -198,6 +215,9 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	return list;
 }
 
+/**
+ * Opens a URL in the system default browser 
+ */
 void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 {
 	wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(_T("text/html"));
@@ -209,7 +229,41 @@ void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 	}
 
 	wxString cmd = ft->GetOpenCommand(url);
-	cmd.Replace(_T("file://"), _T("")); // hack to remove wx 'bug'
+	cmd.Replace(_T("file://"), _T("")); // hack to remove wx file:// prefix 'bug'
 	wxExecute(cmd);
 	delete ft;
+}
+
+void FeedPanel::OnRightClick(wxMouseEvent& evt)
+{
+	// make sure an item gets selected
+	wxMouseEvent clickevt = evt;
+	clickevt.SetEventType(wxEVT_LEFT_DOWN);
+	wxPostEvent(this, clickevt);
+
+	// show popup menu
+	PopupMenu(&itemMenu, evt.GetPosition());
+}
+
+void FeedPanel::CopyItemAsText(wxCommandEvent& evt) 
+{
+	int selId = GetSelection();
+	if (selId != wxNOT_FOUND && wxTheClipboard->Open()) {
+		TwitterStatus status = GetStatusItem(selId);
+		wxString text = status.GetUser().GetScreenName() + _T(": ") + status.GetText();
+		wxTheClipboard->SetData(new wxTextDataObject(text));
+		wxTheClipboard->Close();
+	}
+}
+
+void FeedPanel::CopyItemAsHtml(wxCommandEvent& evt) 
+{
+	int selId = GetSelection();
+	if (selId != wxNOT_FOUND && wxTheClipboard->Open()) {
+		TwitterStatus status = GetStatusItem(selId);
+		wxString decoratedText = DecorateStatusText(status.GetText());
+		decoratedText = status.GetUser().GetScreenName() + _T(": ") + decoratedText;
+		wxTheClipboard->SetData(new wxTextDataObject(decoratedText));
+		wxTheClipboard->Close();
+	}
 }

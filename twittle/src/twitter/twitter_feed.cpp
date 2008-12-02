@@ -9,8 +9,6 @@
 
 using namespace std;
 
-static wxCriticalSection addSec;
-
 TwitterFeed::TwitterFeed(Twitter& cli, const wxString& res) :
 	thread(NULL), client(cli), resource(res)
 {

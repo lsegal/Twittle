@@ -14,6 +14,7 @@ class TwitterFeed
 	unsigned int delay;
 	wxString resource;
 	std::vector<TwitterStatus> statuses;
+	wxCriticalSection addSec;
 
 protected:
 	void Refresh();

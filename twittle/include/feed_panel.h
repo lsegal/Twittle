@@ -13,8 +13,16 @@ DECLARE_EVENT_TYPE(wxEVT_IMAGE_UPDATED, -2)
 
 class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 {
+	enum ControlIdentifiers {
+		ID_COPYTEXT, ID_COPYHTML
+	};
+
 	wxString feedResource;
 	unsigned int filter;
+	wxMenu itemMenu;
+
+	void CreateItemMenu();
+	void CreateAccelerators();
 
 protected:
 	wxString DecorateStatusText(wxString text) const;
@@ -50,6 +58,11 @@ public:
 
 	void OnFeedUpdated(wxCommandEvent &event);
 	void OnImageUpdated(wxCommandEvent &event);
+
+	// Popup menu events
+	void OnRightClick(wxMouseEvent &event);
+	void CopyItemAsText(wxCommandEvent& evt);
+	void CopyItemAsHtml(wxCommandEvent& evt);
 
 	DECLARE_EVENT_TABLE();
 };

@@ -80,16 +80,19 @@ wxXmlNode *Serializer<wxString, TwitterFeed>::StatusAsXml(const TwitterStatus &s
 	wxXmlNode *truncated = new wxXmlNode(wxXML_ELEMENT_NODE, _T("truncated"));
 	wxXmlNode *text = new wxXmlNode(wxXML_ELEMENT_NODE, _T("text"));
 	wxXmlNode *created_at = new wxXmlNode(wxXML_ELEMENT_NODE, _T("created_at"));
+	wxXmlNode *source = new wxXmlNode(wxXML_ELEMENT_NODE, _T("source"));
 
 	id->AddChild(new wxXmlNode(wxXML_TEXT_NODE, _T(""), wxString::Format(_T("%d"), status.GetId())));
 	truncated->AddChild(new wxXmlNode(wxXML_TEXT_NODE, _T(""), status.IsTruncated() ? _T("true") : _T("false")));
 	text->AddChild(new wxXmlNode(wxXML_TEXT_NODE, _T(""), status.GetText()));
+	source->AddChild(new wxXmlNode(wxXML_TEXT_NODE, _T(""), status.GetSource()));
 	created_at->AddChild(new wxXmlNode(wxXML_TEXT_NODE, _T(""), status.GetCreatedAt().Format(_T("%a %b %d %H:%M:%S +0000 %Y"))));
 
 	node->AddChild(id);
 	node->AddChild(truncated);
 	node->AddChild(created_at);
 	node->AddChild(text);
+	node->AddChild(source);
 	node->AddChild(UserAsXml(status.GetUser()));
 
 	return node;
