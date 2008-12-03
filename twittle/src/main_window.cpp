@@ -48,6 +48,7 @@ void MainWindow::SetTransparency()
 
 void MainWindow::SwapPanels(wxPanel *newPanel)
 {
+	Freeze();
 	wxCommandEvent event(wxEVT_CLEAR_PANEL, wxID_ANY);
 	event.SetEventObject(panel);
 	event.SetClientData(newPanel);
@@ -69,6 +70,7 @@ void MainWindow::OnClearPanel(wxCommandEvent& evt)
 	// Propagate the size hints from the main panel
 	SetSizeHints(panel->GetMinSize(), panel->GetMaxSize());
 	SetClientSize(panel->GetSize());
+	Thaw();
 }
 
 void MainWindow::ShowLogin(bool autoLogin)
