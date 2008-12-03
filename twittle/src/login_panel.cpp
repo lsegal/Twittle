@@ -27,6 +27,9 @@ LoginPanel::LoginPanel(wxWindow *parent, bool autoLogin) : wxPanel(parent)
 	wxCommandEvent c;
 	OnText(c);
 
+	// no maximize ability
+	parent->SetWindowStyle(parent->GetWindowStyle() & ~wxMAXIMIZE_BOX); 
+
 	// Give size hints for min and max
 	int w, h;
 	parent->GetSize(&w, &h);
@@ -82,8 +85,7 @@ void LoginPanel::InitializeComponents()
 	panelSizer->AddSpacer(270);
 	panelSizer->Add(vSizer, wxSizerFlags().Bottom().Center().Border(wxALL, 40));
 
-	panelSizer->SetSizeHints(this);
-	SetSizerAndFit(panelSizer);
+	SetSizer(panelSizer);
 }
 
 static wxBitmap logoBitmap(logo);

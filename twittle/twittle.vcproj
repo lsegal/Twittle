@@ -181,10 +181,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\resources\bird.psd"
-			>
-		</File>
-		<File
 			RelativePath=".\include\callback.h"
 			>
 		</File>
@@ -234,6 +230,14 @@
 		</File>
 		<File
 			RelativePath=".\include\main_window.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\options_dialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\options_dialog.h"
 			>
 		</File>
 		<File

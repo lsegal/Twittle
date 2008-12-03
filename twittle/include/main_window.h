@@ -9,11 +9,12 @@ DECLARE_EVENT_TYPE(wxEVT_CLEAR_PANEL, -1)
 class MainWindow : public wxFrame
 {
 	enum ControlIdentifiers {
-		ID_LOGOUT
+		ID_OPTIONS, ID_LOGOUT
 	};
 
 	wxPanel *panel;
 
+	void SetTransparency();
 	void SwapPanels(wxPanel *newPanel);
 	wxMenuBar *LoginMenuBar();
 	wxMenuBar *MainMenuBar();
@@ -27,6 +28,7 @@ public:
 
 	// Events
 	void OnClearPanel(wxCommandEvent& evt);
+	void OnOptions(wxCommandEvent& evt);
 	void OnLogout(wxCommandEvent& evt);
 	void OnExit(wxCommandEvent& evt);
 

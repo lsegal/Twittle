@@ -23,6 +23,9 @@ public:
 	void Set(const wxString& key, long value);
 	void Set(const wxString& key, bool value);
 
+	void Merge(const Settings& other);
+	void Defaults();
+
 	bool Load();
 	bool Save() const;
 };

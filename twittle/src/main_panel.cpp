@@ -21,6 +21,9 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 	SetAccelerators();
 	editbox.OnFocusLost(wxFocusEvent()); // unset focus
 
+	// replace maximize ability
+	parent->SetWindowStyle(parent->GetWindowStyle() | wxMAXIMIZE_BOX); 
+
 	SetMinSize(wxSize(300, 300));
 
 	content.SetFeed(Twitter::FriendsTimelineUrl);

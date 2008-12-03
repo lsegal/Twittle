@@ -4,10 +4,16 @@
 
 Settings::Settings() : loaded(false)
 {
-	if (!Load()) {
-		wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, _T("settings"));
-		doc.SetRoot(root);
-	}
+	wxXmlNode *root = new wxXmlNode(wxXML_ELEMENT_NODE, _T("settings"));
+	doc.SetRoot(root);
+	Defaults();
+}
+
+void Settings::Defaults()
+{
+	Set(_T("window.transparency"), 255L);
+	Set(_T("feedpanel.showscreenname"), true);
+	Set(_T("account.autologin"), false);
 }
 
 wxString Settings::SettingsFile() const
@@ -61,10 +67,40 @@ bool Settings::Load()
 	if (!wxFile::Exists(SettingsFile())) {
 		return false;
 	}
-	return doc.Load(SettingsFile());
+
+	Settings newSettings;
+	if (!newSettings.doc.Load(SettingsFile())) {
+		return false;
+	}
+
+	Merge(newSettings); // merge settings from xml file on disk
+
+	return true;
 }
 
 bool Settings::Save() const
 {
 	return doc.Save(SettingsFile());
+}
+
+/** 
+ * Merges a settings object with another. 
+ *
+ * Implementation note: this only works at the properties level of
+ * the root node of the xml file. Child elements will be ignored.
+ * This is not by design but by incomplete implementation.
+ */
+void Settings::Merge(const Settings& other)
+{
+	wxXmlProperty *prop = other.doc.GetRoot()->GetProperties();
+	while (prop) {
+		if (doc.GetRoot()->HasProp(prop->GetName())) {
+			doc.GetRoot()->DeleteProperty(prop->GetName());
+		}
+		doc.GetRoot()->AddProperty(prop->GetName(), prop->GetValue());
+
+		prop = prop->GetNext();
+	}
+
+	loaded = true;
 }

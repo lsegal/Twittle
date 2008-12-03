@@ -1,9 +1,9 @@
 #pragma once
 
 #include <wx/wx.h>
+#include "main_window.h"
 #include "settings.h"
 
-class MainWindow;
 class Twitter;
 
 class Application : public wxApp
@@ -13,6 +13,7 @@ class Application : public wxApp
 	Twitter *twitter;
 
 public:
+	inline MainWindow& GetMainWindow() { return *main; }
 	inline Twitter& GetTwitter() { return *twitter; }
 	inline Settings& GetSettings() { return settings; }
 

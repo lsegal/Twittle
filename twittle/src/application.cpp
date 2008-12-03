@@ -18,6 +18,9 @@ bool Application::OnInit()
 	wxInitAllImageHandlers();
 	wxFileSystem::AddHandler(new wxInternetFSHandler);
 
+	// load settings
+	settings.Load();
+
 	// make the images, feeds, settings directories if they do not exist
 	mkdir("imgs");
 	mkdir("feeds");

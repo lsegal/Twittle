@@ -3,10 +3,12 @@
 #include "feed_panel.h"
 #include "main_panel.h"
 #include "application.h"
+#include "options_dialog.h"
 
 #include "resources/icon.xpm"
 
 BEGIN_EVENT_TABLE(MainWindow, wxFrame)
+	EVT_MENU(ID_OPTIONS, MainWindow::OnOptions)
 	EVT_MENU(ID_LOGOUT, MainWindow::OnLogout)
 	EVT_MENU(wxID_EXIT, MainWindow::OnExit)
 	EVT_COMMAND(wxID_ANY, wxEVT_CLEAR_PANEL, MainWindow::OnClearPanel)
@@ -18,7 +20,7 @@ MainWindow::MainWindow() :
 	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)), panel(NULL)
 {
 	SetIcon(wxIcon(icon)); // show icon
-	SetWindowStyle(GetWindowStyle() & ~wxMAXIMIZE_BOX); // no maximize ability
+	SetTransparency(); // set transparency
 
 	// Set last known position
 	long x = wxGetApp().GetSettings().GetLong(_T("window.x"));
@@ -27,7 +29,7 @@ MainWindow::MainWindow() :
 		SetPosition(wxPoint(x, y));
 	}
 
-	ShowLogin(true);
+	ShowLogin(wxGetApp().GetSettings().GetBool(_T("account.autologin")));
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +38,11 @@ MainWindow::~MainWindow()
 	GetPosition((int*)&x, (int*)&y);
 	wxGetApp().GetSettings().Set(_T("window.x"), x);
 	wxGetApp().GetSettings().Set(_T("window.y"), y);
+}
+
+void MainWindow::SetTransparency()
+{
+	SetTransparent(wxGetApp().GetSettings().GetLong(_T("window.transparency")));
 }
 
 void MainWindow::SwapPanels(wxPanel *newPanel)
@@ -80,6 +87,8 @@ wxMenuBar *MainWindow::LoginMenuBar()
 	wxMenuBar *menuBar = new wxMenuBar;
 
 	wxMenu* file = new wxMenu;
+	file->Append(ID_OPTIONS, _T("&Options"));
+	file->AppendSeparator();
 	file->Append(wxID_EXIT, _T("&Quit"));
 
 	menuBar->Append(file, _T("&File"));
@@ -91,12 +100,27 @@ wxMenuBar *MainWindow::MainMenuBar()
 	wxMenuBar *menuBar = new wxMenuBar;
 
 	wxMenu* file = new wxMenu;
+	file->Append(ID_OPTIONS, _T("&Options"));
 	file->Append(ID_LOGOUT, _T("&Logout"));
 	file->AppendSeparator();
 	file->Append(wxID_EXIT, _T("&Quit"));
 
 	menuBar->Append(file, _T("&File"));
     return menuBar;
+}
+
+void MainWindow::OnOptions(wxCommandEvent& evt)
+{
+	OptionsDialog options(this);
+	if (options.ShowModal() == wxID_OK) {
+		// save settings
+		wxGetApp().GetSettings().Merge(options.GetSettings());
+		wxGetApp().GetSettings().Save();
+	}
+	else {
+		// reset transparency
+		SetTransparency();
+	}
 }
 
 void MainWindow::OnLogout(wxCommandEvent& evt)
