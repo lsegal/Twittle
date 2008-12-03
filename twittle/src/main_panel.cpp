@@ -54,7 +54,6 @@ void MainPanel::InitializeComponents()
 
 	editbox.SetFont(font);
 	charcounter.SetFont(font);
-	content.SetSelectionBackground(*wxBLACK);
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	buttonSizer->Add(&publicButton);

@@ -27,6 +27,7 @@ class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 
 protected:
 	wxString DecorateStatusText(wxString text) const;
+	wxString DecorateSource(wxString text) const;
 	unsigned int GetStatusSize() const;
 	const TwitterStatus GetStatusItem(unsigned int n) const;
 
@@ -54,6 +55,9 @@ public:
 
 	// @override TwitterUpdateListener
 	void TwitterUpdateReceived(const Twitter& twitter, const wxString& resource);
+
+	// @override wxHtmlListBox
+	wxColour GetSelectedTextColour(const wxColour& colFg) const;
 
 	void OnLinkClicked(wxHtmlLinkEvent &event);
 

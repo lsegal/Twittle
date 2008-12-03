@@ -72,6 +72,8 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 					 long style, const wxString& name)
 {
 	wxHtmlListBox::Create(parent, id, pos, size, style, name);
+	SetMargins(0, 0);
+	SetSelectionBackground(wxColour(240, 240, 240));
 	CreateItemMenu();
 	CreateAccelerators();
 	
@@ -185,6 +187,13 @@ wxString FeedPanel::DecorateStatusText(wxString text) const
 	return text;
 }
 
+wxString FeedPanel::DecorateSource(wxString text) const
+{
+	wxRegEx links(_T("(<a[^>]+>)([^<]+)"), wxRE_ICASE);
+	links.ReplaceAll(&text, _T("\\1<font color='#555555'>\\2</font>"));
+	return text;
+}
+
 static wxCriticalSection getItemSec;
 
 wxString FeedPanel::OnGetItem(size_t n) const
@@ -211,7 +220,7 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	list << _T("<a href='http://twitter.com/") << user.GetScreenName() << _T("'>");
 	list << _T("<font color='#555555'>") << user.GetScreenName() << _T("</font></a>");
 	list << _T(") <font color='#555555'>") << status.GetTimeSincePost();
-	list << _T("</font> via <font color='#555555'>") << status.GetSource() << _T("</font>");
+	list << _T("</font> via <font color='#555555'>") << DecorateSource(status.GetSource()) << _T("</font>");
 	list << _T("</font>");
 
 	list << _T("</td></tr></table>");
@@ -277,4 +286,9 @@ void FeedPanel::CopyItemAsHtml(wxCommandEvent& evt)
 void FeedPanel::OnUpdateUI(wxTimerEvent& evt)
 {
 	RefreshAll();
+}
+
+wxColour FeedPanel::GetSelectedTextColour(const wxColour& colFg) const
+{
+	return *wxBLACK;
 }
