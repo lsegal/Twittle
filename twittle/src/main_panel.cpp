@@ -4,7 +4,7 @@
 #include "thread_callback.h"
 #include "http_client.h"
 #include "is.gd/isgd.h"
-#include "twitpic/twitpic.h"
+#include "image_preview_dialog.h"
 #include <wx/regex.h>
 
 // Events
@@ -78,9 +78,11 @@ void MainPanel::InitializeComponents()
 
 	wxBoxSizer *editSizer = new wxBoxSizer(wxHORIZONTAL);
 	editSizer->Add(&editbox, wxSizerFlags(1).Expand());
-	editSizer->Add(&twitpic, wxSizerFlags(0).Right().Border(wxLEFT, 5));
+	editSizer->AddSpacer(5);
+	editSizer->Add(&twitpic);
 	editSizer->Add(&tinyurl);
-	editSizer->Add(&charcounter, wxSizerFlags(0).Center().Right().Border(wxLEFT, 5));
+	editSizer->AddSpacer(5);
+	editSizer->Add(&charcounter, wxSizerFlags(0).Center().Right());
 
 	wxBoxSizer *panelSizer = new wxBoxSizer(wxVERTICAL);
 	panelSizer->Add(buttonSizer, wxSizerFlags(0));
@@ -153,7 +155,6 @@ void MainPanel::OnShortenUrl(wxCommandEvent& evt)
 		}
 	}
 	wxEndBusyCursor();
-	cb.Wait();
 
 	// shortUrl should be filled
 	InsertUrl(shortUrl);
@@ -168,14 +169,9 @@ void MainPanel::ShortenUrl(wxString& shortUrl)
 
 void MainPanel::OnImageClick(wxCommandEvent& evt)
 {
-	const Twitter& twitter = wxGetApp().GetTwitter();
-	wxString filename = wxFileSelector(_T("Select an image to upload"));
-	try { 
-		wxString url = TwitPic::UploadImage(twitter.GetUsername(), twitter.GetPassword(), filename);
-		InsertUrl(url);
-	}
-	catch (wxString msg) {
-		wxMessageBox(msg, _T("Error while uploading image"), wxOK|wxICON_ERROR|wxCENTRE);
+	ImagePreviewDialog dlg(this);
+	if (dlg.ShowModal() == wxID_OK) {
+		InsertUrl(dlg.GetUrl());
 	}
 }
 
