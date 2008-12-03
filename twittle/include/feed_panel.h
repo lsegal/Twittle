@@ -10,15 +10,14 @@ class Twitter;
 
 DECLARE_EVENT_TYPE(EVT_FEED_UPDATED, -1)
 DECLARE_EVENT_TYPE(EVT_IMAGE_UPDATED, -2)
-DECLARE_EVENT_TYPE(EVT_REFRESH_FEED, -3)
 
 class FeedPanel : public wxHtmlListBox, public TwitterUpdateListener
 {
 	enum ControlIdentifiers {
-		ID_COPYTEXT, ID_COPYHTML
+		ID_UPDATEUI, ID_COPYTEXT, ID_COPYHTML
 	};
 
-	wxThread *refreshThread;
+	wxTimer updateUITimer;
 	wxString feedResource;
 	unsigned int filter;
 	wxMenu itemMenu;
@@ -66,9 +65,8 @@ public:
 	void CopyItemAsText(wxCommandEvent& evt);
 	void CopyItemAsHtml(wxCommandEvent& evt);
 
-	// Refresh thread
-	void RefreshThread();
-	void OnUpdate(wxCommandEvent& evt);
+	// Update UI
+	void OnUpdateUI(wxTimerEvent& evt);
 
 	DECLARE_EVENT_TABLE();
 };
