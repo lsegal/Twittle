@@ -148,11 +148,11 @@ void MainPanel::OnShortenUrl(wxCommandEvent& evt)
 	if (shortUrl.StartsWith(_T("http://"))) {
 		long from, to;
 		editbox.GetSelection(&from, &to);
-		wxString val = editbox.GetValue();
+		wxString val = (editbox.IsActive() ? editbox.GetValue() : _T(""));
 		val.replace(from, to-from, shortUrl);
 
 		editbox.SetFocus();
-		editbox.SetValue(shortUrl);
+		editbox.SetValue(val);
 
 		if (from != to) {
 			// reset selection
