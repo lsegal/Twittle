@@ -5,6 +5,7 @@
 #include <wx/app.h>
 #include <wx/filesys.h>
 #include <wx/sstream.h>
+#include <wx/wfstream.h>
 #include <wx/url.h>
 #include <wx/xml/xml.h>
 #include <wx/protocol/http.h>
@@ -83,16 +84,8 @@ unsigned long HttpClient::GetToFile(const wxURL& url, const wxString& filename)
 	wxInputStream *httpStream = GetResourceStream(url);
 
 	if (httpStream) {
-		unsigned int length = GetContentLength();
-		char *data = new char[length];
-
-		httpStream->Read(data, length);
-
-		std::ofstream file(filename.utf8_str().data(), std::ios_base::binary);
-		file.write(data, length);
-		file.close();
-
-		delete data;
+		wxFileOutputStream file(filename);
+		httpStream->Read(file);
 	}
 
 	// Close the stream
