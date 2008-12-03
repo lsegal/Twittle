@@ -158,7 +158,9 @@ bool Twitter::VerifyCredentials(const wxString& username_, const wxString& passw
 
 void Twitter::EndSession() const
 {
-	HttpClient(username, password).Get(wxURL(AccountBaseUrl + _T("end_session.xml")));
+	HttpClient cli(username, password);
+	cli.SetPostBuffer(_T(""));
+	cli.Get(wxURL(AccountBaseUrl + _T("end_session.xml")));
 }
 
 void Twitter::RegisterListener(TwitterUpdateListener& listener, const wxString& resource)

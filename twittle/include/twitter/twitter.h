@@ -63,6 +63,7 @@ public:
 	void UnregisterListener(TwitterUpdateListener& listener, const wxString& resource);
 
 	inline const wxString& GetUsername() const { return username; }
+	inline const wxString& GetPassword() const { return password; }
 
 	// constants
 	static wxString TwitterBaseUrl;
