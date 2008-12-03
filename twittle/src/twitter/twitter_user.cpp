@@ -11,8 +11,7 @@ TwitterUser::TwitterUser(const wxXmlNode& node)
 {
 	ParseXmlNode(node);
 
-	if (!wxFile::Exists(GetProfileImageFilename()) &&
-			!wxIsMainThread()) {
+	if (!wxFile::Exists(GetProfileImageFilename())) {
 		GetProfileImage();
 	}
 }
@@ -64,7 +63,7 @@ const wxString TwitterUser::GetProfileImageFilename() const
 
 	wxString filename;
 	filename << basePath << GetId();
-	filename << _T(".") << GetProfileImageUrl().AfterLast('.');
+	filename << _T("-") << GetProfileImageUrl().AfterLast(_T('/'));
 	return filename;
 }
 
