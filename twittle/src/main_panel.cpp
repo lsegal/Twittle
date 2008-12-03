@@ -18,6 +18,7 @@ END_EVENT_TABLE()
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 {
 	InitializeComponents();
+	SetAccelerators();
 	editbox.OnFocusLost(wxFocusEvent()); // unset focus
 
 	SetMinSize(wxSize(300, 300));
@@ -37,6 +38,14 @@ MainPanel::~MainPanel()
 	wxSize s = GetParent()->GetClientSize();
 	wxGetApp().GetSettings().Set(_T("window.width"), (long)s.GetWidth());
 	wxGetApp().GetSettings().Set(_T("window.height"), (long)s.GetHeight());
+}
+
+void MainPanel::SetAccelerators()
+{
+	wxAcceleratorEntry entries[1];
+	entries[0].Set(wxACCEL_CTRL, (int)'L', ID_TINYURL);
+	wxAcceleratorTable accel(1, entries);
+	SetAcceleratorTable(accel);	
 }
 
 void MainPanel::InitializeComponents()
@@ -120,9 +129,12 @@ void MainPanel::OnEditEnter(wxCommandEvent &evt)
 
 void MainPanel::OnShortenUrl(wxCommandEvent& evt)
 {
-	wxString defaultStr = editbox.GetStringSelection();
-	wxString result = wxGetTextFromUser(_T("Shorten URL with is.gd"), 
-		_T("Enter URL to shorten via http://is.gd"), defaultStr, this);
+	wxString result = editbox.GetStringSelection(); // start with any selection
+	if (result == wxEmptyString || (!result.StartsWith(_T("http")) && !result.StartsWith(_T("www.")))) { 
+		// no selection? or maybe it's invalid? ask user for url
+		result = wxGetTextFromUser(_T("Shorten URL with is.gd"), 
+			_T("Enter URL to shorten via http://is.gd"), result, this);
+	}
 
 	// start thread with timeout code
 	wxString shortUrl = result;

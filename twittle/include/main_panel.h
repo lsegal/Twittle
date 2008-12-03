@@ -22,6 +22,7 @@ class MainPanel : public wxPanel
 	wxButton atButton;
 
 	void InitializeComponents();
+	void SetAccelerators();
 
 public:
 	MainPanel(wxWindow *parent);
