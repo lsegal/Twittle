@@ -13,7 +13,7 @@
 HttpClient::HttpClient()
 {
 	SetTimeout(10); // 10 seconds of timeout instead of 10 minutes
-	SetHeader(_T("User-Agent"), _T("Tweet!"));
+	SetHeader(_T("User-Agent"), _T("Twittle"));
 }
 
 HttpClient::HttpClient(const wxString& user, const wxString& password)
