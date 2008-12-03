@@ -212,7 +212,9 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	list << user.GetProfileImageFilename();
 	list << _T("' align='left'>");
 	list << _T("</td><td valign='top'>");
-	list << _T("<b>") + user.GetScreenName() + _T("</b>: ");
+	if (wxGetApp().GetSettings().GetBool(_T("feedpanel.showscreenname"))) {
+		list << _T("<b>") + user.GetScreenName() + _T("</b>: ");
+	}
 	list << DecorateStatusText(status.GetText());
 
 	list << _T("<p><font color='#aaaaaa' size='2'>");
