@@ -150,6 +150,7 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 	ThreadCallback<LoginPanel> cb(*this, &LoginPanel::Login);
 
 	time_t timeNow = time(0);
+	wxBeginBusyCursor();
 	while (cb.IsAlive()) {
 		wxYield();
 
@@ -159,6 +160,7 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 			errorLabel.SetLabel(_T("Error: login timeout."));
 		}
 	}
+	wxEndBusyCursor();
 	cb.Wait();
 
 	// do stuff
