@@ -8,13 +8,14 @@
 class MainPanel : public wxPanel
 {
 	enum ControlIdentifiers {
-		ID_EDIT, ID_CONTENT, ID_TINYURL, ID_COUNTER, 
-		ID_PUBLIC, ID_FRIEND, ID_FILTER_AT
+		ID_EDIT, ID_CONTENT, ID_TINYURL, ID_TWITPIC,
+		ID_COUNTER, ID_PUBLIC, ID_FRIEND, ID_FILTER_AT
 	};
 
 	StatusTextCtrl editbox;
 	FeedPanel content;
 	wxButton tinyurl;
+	wxButton twitpic;
 	wxStaticText charcounter;
 	wxFont font;
 	wxButton publicButton;
@@ -23,6 +24,8 @@ class MainPanel : public wxPanel
 
 	void InitializeComponents();
 	void SetAccelerators();
+
+	void InsertUrl(const wxString& text);
 
 public:
 	MainPanel(wxWindow *parent);
@@ -37,6 +40,7 @@ public:
 
 	// Events
 	void OnButtonClick(wxCommandEvent& evt);
+	void OnImageClick(wxCommandEvent& evt);
 	void OnShortenUrl(wxCommandEvent& evt);
 	void OnEditText(wxCommandEvent& evt);
 	void OnEditEnter(wxCommandEvent& evt);
