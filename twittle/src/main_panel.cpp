@@ -103,21 +103,9 @@ void MainPanel::OnButtonClick(wxCommandEvent& event)
 
 void MainPanel::OnEditText(wxCommandEvent &evt)
 {
-	unsigned int len;
-	if (editbox.IsActive()) {
-		len = static_cast<unsigned int>(editbox.GetValue().length());
-	}
-	else {
-		len = 0;
-	}
+	size_t len = editbox.IsActive() ? editbox.GetValue().Length() : 0;
+	charcounter.SetOwnForegroundColour(len > 140 ? wxColour(200, 0, 0) : *wxBLACK);
 	charcounter.SetLabel(wxString::Format(_T("%d"), len));
-
-	if (len > 140) {
-		charcounter.SetOwnForegroundColour(wxColour(200, 0, 0));
-	}
-	else {
-		charcounter.SetOwnForegroundColour(*wxBLACK);
-	}
 }
 
 void MainPanel::OnEditEnter(wxCommandEvent &evt)
