@@ -17,7 +17,8 @@ END_EVENT_TABLE()
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
 
 MainWindow::MainWindow() : 
-	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)), panel(NULL)
+	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)), 
+		panel(NULL), loggedIn(false)
 {
 	SetIcon(wxIcon(icon)); // show icon
 	SetTransparency(); // set transparency
@@ -74,12 +75,14 @@ void MainWindow::ShowLogin(bool autoLogin)
 {
 	SwapPanels(new LoginPanel(this, autoLogin));
 	SetMenuBar(LoginMenuBar());
+	loggedIn = false;
 }
 
 void MainWindow::ShowMainPanel()
 {
 	SwapPanels(new MainPanel(this));
 	SetMenuBar(MainMenuBar());
+	loggedIn = true;
 }
 
 wxMenuBar *MainWindow::LoginMenuBar()
@@ -116,6 +119,12 @@ void MainWindow::OnOptions(wxCommandEvent& evt)
 		// save settings
 		wxGetApp().GetSettings().Merge(options.GetSettings());
 		wxGetApp().GetSettings().Save();
+
+		// update ui
+		if (loggedIn) {
+			MainPanel *main = static_cast<MainPanel*>(panel);
+			main->ForceUpdateUI();
+		}
 	}
 	else {
 		// reset transparency

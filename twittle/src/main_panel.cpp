@@ -86,6 +86,11 @@ void MainPanel::InitializeComponents()
 	SetSizer(panelSizer);
 }
 
+void MainPanel::ForceUpdateUI()
+{
+	content.RefreshAll();
+}
+
 void MainPanel::OnButtonClick(wxCommandEvent& event)
 {
 	content.ResetFilter();

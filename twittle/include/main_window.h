@@ -13,6 +13,7 @@ class MainWindow : public wxFrame
 	};
 
 	wxPanel *panel;
+	bool loggedIn;
 
 	void SetTransparency();
 	void SwapPanels(wxPanel *newPanel);

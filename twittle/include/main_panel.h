@@ -31,6 +31,10 @@ public:
 	// Shorten URL functionality (thread callback)
 	void ShortenUrl(wxString& shortUrl);
 
+	// Called after options have been changed
+	// and the feed panel UI needs to be updated
+	void ForceUpdateUI();
+
 	// Events
 	void OnButtonClick(wxCommandEvent& evt);
 	void OnShortenUrl(wxCommandEvent& evt);
