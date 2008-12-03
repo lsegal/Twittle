@@ -3,6 +3,8 @@
 #include "application.h"
 #include "thread_callback.h"
 #include "http_client.h"
+#include "is.gd/isgd.h"
+#include "twitpic/twitpic.h"
 #include <wx/regex.h>
 
 // Events
@@ -10,6 +12,7 @@ BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_TEXT(ID_EDIT, MainPanel::OnEditText)
 	EVT_TEXT_ENTER(ID_EDIT, MainPanel::OnEditEnter)
 	EVT_BUTTON(ID_TINYURL, MainPanel::OnShortenUrl)
+	EVT_BUTTON(ID_TWITPIC, MainPanel::OnImageClick)
 	EVT_BUTTON(ID_PUBLIC, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FRIEND, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FILTER_AT, MainPanel::OnButtonClick)
@@ -57,6 +60,7 @@ void MainPanel::InitializeComponents()
 	editbox.Create(this, ID_EDIT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	charcounter.Create(this, ID_COUNTER, _T("0"), wxDefaultPosition, wxSize(28, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	tinyurl.Create(this, ID_TINYURL, _T("L"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	twitpic.Create(this, ID_TWITPIC, _T("Q"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	content.Create(this, ID_CONTENT);
 
 	// buttons
@@ -74,7 +78,8 @@ void MainPanel::InitializeComponents()
 
 	wxBoxSizer *editSizer = new wxBoxSizer(wxHORIZONTAL);
 	editSizer->Add(&editbox, wxSizerFlags(1).Expand());
-	editSizer->Add(&tinyurl, wxSizerFlags(0).Right().Border(wxLEFT, 5));
+	editSizer->Add(&twitpic, wxSizerFlags(0).Right().Border(wxLEFT, 5));
+	editSizer->Add(&tinyurl);
 	editSizer->Add(&charcounter, wxSizerFlags(0).Center().Right().Border(wxLEFT, 5));
 
 	wxBoxSizer *panelSizer = new wxBoxSizer(wxVERTICAL);
@@ -143,47 +148,55 @@ void MainPanel::OnShortenUrl(wxCommandEvent& evt)
 
 		if ((wxDateTime::Now() - startTime) > wxTimeSpan::Seconds(10)) {
 			cb.Kill();
-			wxMessageBox(_T("Error while shortening URL"), 
-				_T("A connection timeout occurred while trying to connect to http://is.gd"), 
-				wxOK|wxICON_ERROR|wxCENTRE);
+			wxMessageBox(_T("A connection timeout occurred while trying to connect to http://is.gd"),
+				_T("Error while shortening URL"), wxOK|wxICON_ERROR|wxCENTRE);
 		}
 	}
 	wxEndBusyCursor();
 	cb.Wait();
 
 	// shortUrl should be filled
-	if (shortUrl.StartsWith(_T("http://"))) {
+	InsertUrl(shortUrl);
+}
+
+void MainPanel::ShortenUrl(wxString& shortUrl)
+{
+	wxString url = Isgd::ShortenUrl(shortUrl);
+	shortUrl.Empty();
+	shortUrl.Append(url);
+}
+
+void MainPanel::OnImageClick(wxCommandEvent& evt)
+{
+	const Twitter& twitter = wxGetApp().GetTwitter();
+	wxString filename = wxFileSelector(_T("Select an image to upload"));
+	try { 
+		wxString url = TwitPic::UploadImage(twitter.GetUsername(), twitter.GetPassword(), filename);
+		InsertUrl(url);
+	}
+	catch (wxString msg) {
+		wxMessageBox(msg, _T("Error while uploading image"), wxOK|wxICON_ERROR|wxCENTRE);
+	}
+}
+
+void MainPanel::InsertUrl(const wxString& text)
+{
+	if (text.StartsWith(_T("http://"))) {
 		long from, to;
 		editbox.GetSelection(&from, &to);
 		wxString val = (editbox.IsActive() ? editbox.GetValue() : _T(""));
-		val.replace(from, to-from, shortUrl);
+		val.replace(from, to-from, text);
 
 		editbox.SetFocus();
 		editbox.SetValue(val);
 
 		if (from != to) {
 			// reset selection
-			editbox.SetSelection(from, from + shortUrl.Length());
+			editbox.SetSelection(from, from + text.Length());
 		}
 		else {
 			// set normal cursor position
-			editbox.SetSelection(from + shortUrl.Length(), from + shortUrl.Length());
+			editbox.SetSelection(from + text.Length(), from + text.Length());
 		}
-	}
-}
-
-void MainPanel::ShortenUrl(wxString& shortUrl)
-{
-	HttpClient http;
-	http.SetHeader(_T("Referer"), _T("http://is.gd/"));
-	http.SetHeader(_T("Content-Type"), _T("application/x-www-form-urlencoded"));
-	http.SetPostBuffer(_T("URL=") + shortUrl);
-	wxString resp = http.Get(wxURL(_T("http://is.gd/create.php")));
-
-	// find url in result
-	wxRegEx re(_T("value=\"([^\"]+)\""), wxRE_ICASE | wxRE_ADVANCED);
-	if (re.Matches(resp)) {
-		shortUrl.Empty();
-		shortUrl.Append(re.GetMatch(resp, 1));
 	}
 }
