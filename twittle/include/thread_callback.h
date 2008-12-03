@@ -20,7 +20,7 @@ class ThreadCallback1 : public wxThread
 {
 	P1& p1;
 	T& obj;
-	void (T::*func)();
+	void (T::*func)(P1&);
 
 public:
 	ThreadCallback1(T& obj, void (T::*func)(P1&), P1 & p1) : 

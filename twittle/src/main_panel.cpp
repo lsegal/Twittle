@@ -1,11 +1,15 @@
 #include "main_panel.h"
 #include "feed_panel.h"
 #include "application.h"
+#include "thread_callback.h"
+#include "http_client.h"
+#include <wx/regex.h>
 
 // Events
 BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_TEXT(ID_EDIT, MainPanel::OnEditText)
 	EVT_TEXT_ENTER(ID_EDIT, MainPanel::OnEditEnter)
+	EVT_BUTTON(ID_TINYURL, MainPanel::OnShortenUrl)
 	EVT_BUTTON(ID_PUBLIC, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FRIEND, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FILTER_AT, MainPanel::OnButtonClick)
@@ -40,7 +44,7 @@ void MainPanel::InitializeComponents()
 	font.Create(11, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, _T("Arial"));
 	editbox.Create(this, ID_EDIT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	charcounter.Create(this, ID_COUNTER, _T("0"), wxDefaultPosition, wxSize(28, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	//submit.Create(this, ID_SUBMIT, _T("Go"), wxDefaultPosition, wxSize(30,30));
+	tinyurl.Create(this, ID_TINYURL, _T("L"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	content.Create(this, ID_CONTENT);
 
 	// buttons
@@ -50,7 +54,6 @@ void MainPanel::InitializeComponents()
 
 	editbox.SetFont(font);
 	charcounter.SetFont(font);
-	//submit.SetFont(font);
 	content.SetSelectionBackground(*wxBLACK);
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -60,8 +63,8 @@ void MainPanel::InitializeComponents()
 
 	wxBoxSizer *editSizer = new wxBoxSizer(wxHORIZONTAL);
 	editSizer->Add(&editbox, wxSizerFlags(1).Expand());
+	editSizer->Add(&tinyurl, wxSizerFlags(0).Right().Border(wxLEFT, 5));
 	editSizer->Add(&charcounter, wxSizerFlags(0).Center().Right().Border(wxLEFT, 5));
-	//editSizer->Add(&submit, wxSizerFlags(0).Right().Border(wxLEFT, 5));
 
 	wxBoxSizer *panelSizer = new wxBoxSizer(wxVERTICAL);
 	panelSizer->Add(buttonSizer, wxSizerFlags(0));
@@ -70,7 +73,6 @@ void MainPanel::InitializeComponents()
 
 	panelSizer->SetSizeHints(this);
 	SetSizer(panelSizer);
-
 }
 
 void MainPanel::OnButtonClick(wxCommandEvent& event)
@@ -117,3 +119,64 @@ void MainPanel::OnEditEnter(wxCommandEvent &evt)
 	}
 }
 
+void MainPanel::OnShortenUrl(wxCommandEvent& evt)
+{
+	wxString defaultStr = editbox.GetStringSelection();
+	wxString result = wxGetTextFromUser(_T("Shorten URL with is.gd"), 
+		_T("Enter URL to shorten via http://is.gd"), defaultStr, this);
+
+	// start thread with timeout code
+	wxString shortUrl = result;
+	ThreadCallback1<MainPanel, wxString> cb(*this, &MainPanel::ShortenUrl, shortUrl);
+
+	wxDateTime startTime = wxDateTime::Now();
+	wxBeginBusyCursor();
+	while (cb.IsAlive()) {
+		wxYield();
+
+		if ((wxDateTime::Now() - startTime) > wxTimeSpan::Seconds(10)) {
+			cb.Kill();
+			wxMessageBox(_T("Error while shortening URL"), 
+				_T("A connection timeout occurred while trying to connect to http://is.gd"), 
+				wxOK|wxICON_ERROR|wxCENTRE);
+		}
+	}
+	wxEndBusyCursor();
+	cb.Wait();
+
+	// shortUrl should be filled
+	if (shortUrl.StartsWith(_T("http://"))) {
+		long from, to;
+		editbox.GetSelection(&from, &to);
+		wxString val = editbox.GetValue();
+		val.replace(from, to-from, shortUrl);
+
+		editbox.SetFocus();
+		editbox.SetValue(shortUrl);
+
+		if (from != to) {
+			// reset selection
+			editbox.SetSelection(from, from + shortUrl.Length());
+		}
+		else {
+			// set normal cursor position
+			editbox.SetSelection(from + shortUrl.Length(), from + shortUrl.Length());
+		}
+	}
+}
+
+void MainPanel::ShortenUrl(wxString& shortUrl)
+{
+	HttpClient http;
+	http.SetHeader(_T("Referer"), _T("http://is.gd/"));
+	http.SetHeader(_T("Content-Type"), _T("application/x-www-form-urlencoded"));
+	http.SetPostBuffer(_T("URL=") + shortUrl);
+	wxString resp = http.Get(wxURL(_T("http://is.gd/create.php")));
+
+	// find url in result
+	wxRegEx re(_T("value=\"([^\"]+)\""), wxRE_ICASE | wxRE_ADVANCED);
+	if (re.Matches(resp)) {
+		shortUrl.Empty();
+		shortUrl.Append(re.GetMatch(resp, 1));
+	}
+}

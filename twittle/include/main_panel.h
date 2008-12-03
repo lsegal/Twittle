@@ -8,13 +8,13 @@
 class MainPanel : public wxPanel
 {
 	enum ControlIdentifiers {
-		ID_EDIT, ID_CONTENT, ID_SUBMIT, ID_COUNTER, 
+		ID_EDIT, ID_CONTENT, ID_TINYURL, ID_COUNTER, 
 		ID_PUBLIC, ID_FRIEND, ID_FILTER_AT
 	};
 
 	StatusTextCtrl editbox;
 	FeedPanel content;
-	wxButton submit;
+	wxButton tinyurl;
 	wxStaticText charcounter;
 	wxFont font;
 	wxButton publicButton;
@@ -27,8 +27,12 @@ public:
 	MainPanel(wxWindow *parent);
 	virtual ~MainPanel();
 
+	// Shorten URL functionality (thread callback)
+	void ShortenUrl(wxString& shortUrl);
+
 	// Events
 	void OnButtonClick(wxCommandEvent& evt);
+	void OnShortenUrl(wxCommandEvent& evt);
 	void OnEditText(wxCommandEvent& evt);
 	void OnEditEnter(wxCommandEvent& evt);
 
