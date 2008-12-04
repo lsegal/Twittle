@@ -13,6 +13,9 @@ IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
+	// conversion
+	wxConvCurrent = &wxConvISO8859_1;
+
 	// handlers
 	wxSocketBase::Initialize();
 	wxInitAllImageHandlers();
