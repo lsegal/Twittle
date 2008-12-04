@@ -1,6 +1,6 @@
 #include "twitpic/twitpic.h"
-#include "http_client.h"
-#include "multipart.h"
+#include "http/http_client.h"
+#include "http/multipart.h"
 #include <wx/xml/xml.h>
 #include <wx/wfstream.h>
 #include <wx/mimetype.h> 

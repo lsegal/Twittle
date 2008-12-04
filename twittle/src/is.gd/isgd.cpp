@@ -1,5 +1,5 @@
 #include "is.gd/isgd.h"
-#include "http_client.h"
+#include "http/http_client.h"
 #include <wx/regex.h>
 
 wxString Isgd::ShortenUrl(const wxString& url)

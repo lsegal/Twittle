@@ -13,7 +13,7 @@
 #include "twitter/twitter_user.h"
 #include "twitter/twitter.h"
 #include "thread_callback.h"
-#include "http_client.h"
+#include "http/http_client.h"
 
 
 using namespace std;

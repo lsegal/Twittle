@@ -5,7 +5,7 @@
 #include "twitter/twitter_feed.h"
 #include "twitter_feed_serializer.h"
 #include "thread_callback.h"
-#include "http_client.h"
+#include "http/http_client.h"
 
 using namespace std;
 

@@ -4,7 +4,7 @@
 #include <wx/xml/xml.h>
 #include "thread_callback.h"
 #include "twitter/twitter_user.h"
-#include "http_client.h"
+#include "http/http_client.h"
 #include "application.h"
 
 TwitterUser::TwitterUser(const wxXmlNode& node)
