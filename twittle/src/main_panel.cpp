@@ -157,7 +157,7 @@ void MainPanel::OnShortenUrl(wxCommandEvent& evt)
 	wxEndBusyCursor();
 
 	// shortUrl should be filled
-	InsertUrl(shortUrl);
+	editbox.InsertUrl(shortUrl);
 }
 
 void MainPanel::ShortenUrl(wxString& shortUrl)
@@ -171,28 +171,6 @@ void MainPanel::OnImageClick(wxCommandEvent& evt)
 {
 	ImagePreviewDialog dlg(this);
 	if (dlg.ShowModal() == wxID_OK) {
-		InsertUrl(dlg.GetUrl());
-	}
-}
-
-void MainPanel::InsertUrl(const wxString& text)
-{
-	if (text.StartsWith(_T("http://"))) {
-		long from, to;
-		editbox.GetSelection(&from, &to);
-		wxString val = (editbox.IsActive() ? editbox.GetValue() : _T(""));
-		val.replace(from, to-from, text);
-
-		editbox.SetFocus();
-		editbox.SetValue(val);
-
-		if (from != to) {
-			// reset selection
-			editbox.SetSelection(from, from + text.Length());
-		}
-		else {
-			// set normal cursor position
-			editbox.SetSelection(from + text.Length(), from + text.Length());
-		}
+		editbox.InsertUrl(dlg.GetUrl());
 	}
 }

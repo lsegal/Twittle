@@ -25,8 +25,6 @@ class MainPanel : public wxPanel
 	void InitializeComponents();
 	void SetAccelerators();
 
-	void InsertUrl(const wxString& text);
-
 public:
 	MainPanel(wxWindow *parent);
 	virtual ~MainPanel();

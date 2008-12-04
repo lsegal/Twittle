@@ -8,6 +8,8 @@ public:
 	StatusTextCtrl();
 	virtual ~StatusTextCtrl() { }
 
+	void InsertUrl(const wxString& url);
+
 	bool IsActive() const;
 
 	void OnFocusGained(wxFocusEvent& evt);

@@ -34,3 +34,25 @@ void StatusTextCtrl::OnFocusLost(wxFocusEvent& evt)
 		SetInsertionPoint(0);
 	}
 }
+
+void StatusTextCtrl::InsertUrl(const wxString& text)
+{
+	if (text.StartsWith(_T("http://"))) {
+		long from, to;
+		GetSelection(&from, &to);
+		wxString val = (IsActive() ? GetValue() : _T(""));
+		val.replace(from, to-from, text);
+
+		SetFocus();
+		SetValue(val);
+
+		if (from != to) {
+			// reset selection
+			SetSelection(from, from + text.Length());
+		}
+		else {
+			// set normal cursor position
+			SetSelection(from + text.Length(), from + text.Length());
+		}
+	}
+}
