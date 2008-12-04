@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)_objs"
 			ConfigurationType="1"
 			CharacterSet="1"
 			ManagedExtensions="0"
@@ -97,7 +97,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)_objs"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -181,7 +181,15 @@
 			>
 		</File>
 		<File
+			RelativePath=".\resources\atsign.psd"
+			>
+		</File>
+		<File
 			RelativePath=".\include\resources\atsign.xpm"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\bird.psd"
 			>
 		</File>
 		<File
@@ -197,19 +205,31 @@
 			>
 		</File>
 		<File
+			RelativePath=".\resources\home.psd"
+			>
+		</File>
+		<File
 			RelativePath=".\include\resources\home.xpm"
 			>
 		</File>
 		<File
-			RelativePath=".\src\http_client.cpp"
+			RelativePath=".\src\http\http_client.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\include\http_client.h"
+			RelativePath=".\include\http\http_client.h"
 			>
 		</File>
 		<File
 			RelativePath=".\include\resources\icon.xpm"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\icon1.ico"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\icon16x16.ico"
 			>
 		</File>
 		<File
@@ -229,6 +249,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\resources\link.psd"
+			>
+		</File>
+		<File
 			RelativePath=".\include\resources\link.xpm"
 			>
 		</File>
@@ -242,6 +266,18 @@
 		</File>
 		<File
 			RelativePath=".\include\resources\logo.xpm"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\logo128x128.ico"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\logo32x32.ico"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\logo64x64.ico"
 			>
 		</File>
 		<File
@@ -261,11 +297,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\multipart.cpp"
+			RelativePath=".\src\http\multipart.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\include\multipart.h"
+			RelativePath=".\include\http\multipart.h"
 			>
 		</File>
 		<File
@@ -277,7 +313,19 @@
 			>
 		</File>
 		<File
+			RelativePath=".\resources\pub.psd"
+			>
+		</File>
+		<File
 			RelativePath=".\include\resources\public_icon.xpm"
+			>
+		</File>
+		<File
+			RelativePath=".\include\win32\resource.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\win32\resource.rc"
 			>
 		</File>
 		<File
@@ -310,6 +358,10 @@
 		</File>
 		<File
 			RelativePath=".\include\twitpic\twitpic.h"
+			>
+		</File>
+		<File
+			RelativePath=".\resources\twitpic.psd"
 			>
 		</File>
 		<File
