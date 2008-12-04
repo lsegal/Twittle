@@ -14,13 +14,13 @@ class MainPanel : public wxPanel
 
 	StatusTextCtrl editbox;
 	FeedPanel content;
-	wxButton tinyurl;
-	wxButton twitpic;
+	wxBitmapButton tinyurl;
+	wxBitmapButton twitpic;
 	wxStaticText charcounter;
 	wxFont font;
-	wxButton publicButton;
-	wxButton followButton;
-	wxButton atButton;
+	wxBitmapButton publicButton;
+	wxBitmapButton followButton;
+	wxBitmapButton atButton;
 
 	void InitializeComponents();
 	void SetAccelerators();

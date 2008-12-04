@@ -7,6 +7,13 @@
 #include "image_preview_dialog.h"
 #include <wx/regex.h>
 
+// Icons
+#include "resources/atsign.xpm"
+#include "resources/twitpic_normal.xpm"
+#include "resources/link.xpm"
+#include "resources/public_icon.xpm"
+#include "resources/home.xpm"
+
 // Events
 BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_TEXT(ID_EDIT, MainPanel::OnEditText)
@@ -61,17 +68,27 @@ void MainPanel::InitializeComponents()
 	font.Create(11, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, _T("Arial"));
 	editbox.Create(this, ID_EDIT, _T(""), wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	charcounter.Create(this, ID_COUNTER, _T("0"), wxDefaultPosition, wxSize(28, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	tinyurl.Create(this, ID_TINYURL, _T("L"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	twitpic.Create(this, ID_TWITPIC, _T("Q"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	content.Create(this, ID_CONTENT);
 
 	// buttons
-	publicButton.Create(this, ID_PUBLIC, _T("P"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	followButton.Create(this, ID_FRIEND, _T("F"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	atButton.Create(this, ID_FILTER_AT, _T("@"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	publicButton.Create(this, ID_PUBLIC, wxBitmap(public_icon), wxDefaultPosition, wxDefaultSize);
+	followButton.Create(this, ID_FRIEND, wxBitmap(home), wxDefaultPosition, wxDefaultSize);
+	atButton.Create(this, ID_FILTER_AT, wxBitmap(atsign), wxDefaultPosition, wxDefaultSize);
+	tinyurl.Create(this, ID_TINYURL, wxBitmap(link), wxDefaultPosition, wxDefaultSize);
+	twitpic.Create(this, ID_TWITPIC, wxBitmap(twitpic_normal), wxDefaultPosition, wxDefaultSize);
+
+	publicButton.SetToolTip(_T("View all public tweets"));
+	followButton.SetToolTip(_T("View your friends' tweets"));
+	atButton.SetToolTip(_T("View replies directed to you"));
+	tinyurl.SetToolTip(_T("Shorten a URL with http://is.gd"));
+	twitpic.SetToolTip(_T("Upload an image via http://twitpic.com"));
 
 	editbox.SetFont(font);
 	charcounter.SetFont(font);
+
+	wxBoxSizer *buttonSizer2 = new wxBoxSizer(wxHORIZONTAL);
+	buttonSizer2->Add(&twitpic, wxSizerFlags().Right());
+	buttonSizer2->Add(&tinyurl, wxSizerFlags().Right());
 
 	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	buttonSizer->Add(&publicButton);
@@ -81,8 +98,7 @@ void MainPanel::InitializeComponents()
 	wxBoxSizer *editSizer = new wxBoxSizer(wxHORIZONTAL);
 	editSizer->Add(&editbox, wxSizerFlags(1).Expand());
 	editSizer->AddSpacer(5);
-	editSizer->Add(&twitpic);
-	editSizer->Add(&tinyurl);
+	editSizer->Add(buttonSizer2);
 	editSizer->AddSpacer(5);
 	editSizer->Add(&charcounter, wxSizerFlags(0).Center().Right());
 

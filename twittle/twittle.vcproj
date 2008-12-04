@@ -181,6 +181,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\resources\atsign.xpm"
+			>
+		</File>
+		<File
 			RelativePath=".\include\callback.h"
 			>
 		</File>
@@ -190,6 +194,10 @@
 		</File>
 		<File
 			RelativePath=".\include\feed_panel.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\resources\home.xpm"
 			>
 		</File>
 		<File
@@ -218,6 +226,10 @@
 		</File>
 		<File
 			RelativePath=".\include\is.gd\isgd.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\resources\link.xpm"
 			>
 		</File>
 		<File
@@ -265,6 +277,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\resources\public_icon.xpm"
+			>
+		</File>
+		<File
 			RelativePath=".\include\serializer.h"
 			>
 		</File>
@@ -294,6 +310,10 @@
 		</File>
 		<File
 			RelativePath=".\include\twitpic\twitpic.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\resources\twitpic_normal.xpm"
 			>
 		</File>
 		<File
