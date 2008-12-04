@@ -2,7 +2,7 @@
 #include "feed_panel.h"
 #include "application.h"
 #include "thread_callback.h"
-#include "http_client.h"
+#include "http/http_client.h"
 #include "is.gd/isgd.h"
 #include "image_preview_dialog.h"
 #include <wx/regex.h>

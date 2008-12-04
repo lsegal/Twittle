@@ -29,6 +29,9 @@ MainWindow::MainWindow() :
 	if (x > 0 && y > 0) {
 		SetPosition(wxPoint(x, y));
 	}
+	else {
+		Center();
+	}
 
 	ShowLogin(wxGetApp().GetSettings().GetBool(_T("account.autologin")));
 }
