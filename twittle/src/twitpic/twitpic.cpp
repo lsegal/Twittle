@@ -31,6 +31,7 @@ wxString TwitPic::UploadImage(const wxString& user, const wxString& pass,
 	part.Add(_T("password"), pass);
 	part.End();
 
+	http.SetTimeout(240); // longer timeout for files
 	http.SetHeader(_T("Content-Type"), _T("multipart/form-data; boundary=\"") + part.GetBoundary() + _T("\""));
 	http.SetPostBuffer(part.GetString());
 	wxXmlDocument doc = http.GetXml(wxURL(_T("http://twitpic.com/api/upload")));

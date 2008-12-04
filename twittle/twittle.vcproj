@@ -205,6 +205,22 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\image_preview_dialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\image_preview_dialog.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\is.gd\isgd.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\is.gd\isgd.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\login_panel.cpp"
 			>
 		</File>
@@ -230,6 +246,14 @@
 		</File>
 		<File
 			RelativePath=".\include\main_window.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\multipart.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\multipart.h"
 			>
 		</File>
 		<File
@@ -262,6 +286,14 @@
 		</File>
 		<File
 			RelativePath=".\include\thread_callback.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\twitpic\twitpic.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\twitpic\twitpic.h"
 			>
 		</File>
 		<File

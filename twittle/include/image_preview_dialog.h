@@ -17,11 +17,15 @@ class ImagePreviewDialog : public wxDialog
 
 	void InitializeComponents();
 
+	// Shows the image specified by the image filename
+	void ShowImagePreview();
+
 	// Resizes an image to fit inside a width x height
 	wxImage& ResizeToFit(wxImage& image, int w, int h);
 
 public:
 	ImagePreviewDialog(wxWindow *parent);
+	ImagePreviewDialog(wxWindow *parent, wxString initFilename);
 	virtual ~ImagePreviewDialog();
 
 	inline wxString GetUrl() { return imageUrl; }

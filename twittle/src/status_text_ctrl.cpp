@@ -1,4 +1,5 @@
 #include "status_text_ctrl.h"
+#include <wx/clipbrd.h>
 
 BEGIN_EVENT_TABLE(StatusTextCtrl, wxTextCtrl)
 	EVT_SET_FOCUS(StatusTextCtrl::OnFocusGained)
@@ -54,5 +55,22 @@ void StatusTextCtrl::InsertUrl(const wxString& text)
 			// set normal cursor position
 			SetSelection(from + text.Length(), from + text.Length());
 		}
+	}
+}
+
+bool StatusTextCtrl::CanPaste()
+{
+	if (wxTheClipboard->Open()) {
+//		wxTheClipboard->GetData(&data);
+		wxTheClipboard->Close();
+	}
+	return true;
+}
+
+void StatusTextCtrl::Paste()
+{
+	if (wxTheClipboard->Open()) {
+//		wxTheClipboard->GetData(&data);
+		wxTheClipboard->Close();
 	}
 }

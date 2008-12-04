@@ -16,6 +16,7 @@ BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_BUTTON(ID_PUBLIC, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FRIEND, MainPanel::OnButtonClick)
 	EVT_BUTTON(ID_FILTER_AT, MainPanel::OnButtonClick)
+	EVT_DROP_FILES(MainPanel::OnDropFiles)
 END_EVENT_TABLE()
 
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
@@ -23,6 +24,7 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
 	InitializeComponents();
 	SetAccelerators();
 	editbox.OnFocusLost(wxFocusEvent()); // unset focus
+	DragAcceptFiles(true); // accept file dragging
 
 	// replace maximize ability
 	parent->SetWindowStyle(parent->GetWindowStyle() | wxMAXIMIZE_BOX); 
@@ -172,5 +174,18 @@ void MainPanel::OnImageClick(wxCommandEvent& evt)
 	ImagePreviewDialog dlg(this);
 	if (dlg.ShowModal() == wxID_OK) {
 		editbox.InsertUrl(dlg.GetUrl());
+	}
+}
+
+void MainPanel::OnDropFiles(wxDropFilesEvent& evt)
+{
+	int numFiles = evt.GetNumberOfFiles();
+	wxString *files = evt.GetFiles();
+
+	if (numFiles > 0) {
+		ImagePreviewDialog dlg(this, files[0]);
+		if (dlg.ShowModal() == wxID_OK) {
+			editbox.InsertUrl(dlg.GetUrl());
+		}
 	}
 }

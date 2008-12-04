@@ -15,6 +15,14 @@ ImagePreviewDialog::ImagePreviewDialog(wxWindow *parent) :
 	wxPostEvent(this, wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_CHOOSEIMAGE));
 }
 
+ImagePreviewDialog::ImagePreviewDialog(wxWindow *parent, wxString initFilename) :
+	wxDialog(parent, wxID_ANY, _T("Select an image to upload"), wxDefaultPosition,
+		wxSize(400, 400)), callback(NULL), imageFilename(initFilename)
+{
+	InitializeComponents();
+	ShowImagePreview();
+}
+
 ImagePreviewDialog::~ImagePreviewDialog()
 {
 	if (wxIsBusy()) wxEndBusyCursor();
@@ -70,7 +78,7 @@ bool ImagePreviewDialog::TransferDataFromWindow()
 	while (callback->IsAlive()) {
 		wxYield();
 
-		if ((wxDateTime::Now() - startTime) > wxTimeSpan::Seconds(10000)) {
+		if ((wxDateTime::Now() - startTime) > wxTimeSpan::Seconds(120)) {
 			callback->Kill();
 			progress.SetOwnForegroundColour(*wxRED);
 			progress.SetLabel(_T("Connection timeout."));
@@ -104,6 +112,17 @@ void ImagePreviewDialog::ImageUpload(wxString& filename)
 	}
 }
 
+void ImagePreviewDialog::ShowImagePreview()
+{
+	// set preview
+	wxImage image(imageFilename);
+	ResizeToFit(image, 250, 250);
+
+	// center image
+	imagePreview.GetParent()->GetSizer()->RecalcSizes();
+	imagePreview.SetBitmap(wxBitmap(image));
+}
+
 void ImagePreviewDialog::OnChooseImage(wxCommandEvent& evt)
 {
 	wxString tmpFilename = wxFileSelector(_T("Select an image to upload"));
@@ -117,25 +136,18 @@ void ImagePreviewDialog::OnChooseImage(wxCommandEvent& evt)
 	
 	imageFilename = tmpFilename;
 	
-	// set preview
-	wxImage image(imageFilename);
-	ResizeToFit(image, 250, 250);
-
-	// center image
-	imagePreview.GetParent()->GetSizer()->RecalcSizes();
-
-	imagePreview.SetBitmap(wxBitmap(image));
+	ShowImagePreview();
 }
 
 wxImage& ImagePreviewDialog::ResizeToFit(wxImage& image, int w, int h)
 {
 	int iw = image.GetWidth(), ih = image.GetHeight();
-	if (ih > iw && ih > h) {
+	if (ih >= iw && ih > h) {
 		double aspect = (double)iw / (double)ih;
 		int newWidth = (int)(200.0 * aspect);
 		image.Rescale(newWidth, 200, wxIMAGE_QUALITY_HIGH);
 	}
-	else if (iw > ih && iw > w) {
+	else if (iw >= ih && iw > w) {
 		double aspect = (double)ih / (double)iw;
 		int newHeight = (int)(200.0 * aspect);
 		image.Rescale(200, newHeight, wxIMAGE_QUALITY_HIGH);

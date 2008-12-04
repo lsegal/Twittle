@@ -42,6 +42,7 @@ public:
 	void OnShortenUrl(wxCommandEvent& evt);
 	void OnEditText(wxCommandEvent& evt);
 	void OnEditEnter(wxCommandEvent& evt);
+	void OnDropFiles(wxDropFilesEvent& evt);
 
 	DECLARE_EVENT_TABLE()
 };
