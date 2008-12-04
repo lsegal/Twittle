@@ -10,6 +10,7 @@ class OptionsDialog : public wxDialog
 	wxCheckBox showScreenNamePrefix;
 	wxSlider transparency;
 	wxStaticText transLabel;
+	wxComboBox editPosition;
 
 	void InitializeComponents();
 	void InitializeValues();

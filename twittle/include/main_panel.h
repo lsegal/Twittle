@@ -5,6 +5,8 @@
 #include "status_text_ctrl.h"
 #include "feed_panel.h"
 
+class MainWindow;
+
 class MainPanel : public wxPanel
 {
 	enum ControlIdentifiers {
@@ -21,8 +23,11 @@ class MainPanel : public wxPanel
 	wxBitmapButton publicButton;
 	wxBitmapButton followButton;
 	wxBitmapButton atButton;
+	wxBoxSizer *buttonSizer;
+	wxBoxSizer *editSizer;
 
 	void InitializeComponents();
+	void SetPanelOrder();
 	void SetAccelerators();
 
 public:
@@ -45,4 +50,6 @@ public:
 	void OnDropFiles(wxDropFilesEvent& evt);
 
 	DECLARE_EVENT_TABLE()
+
+	friend class MainWindow;
 };

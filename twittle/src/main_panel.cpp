@@ -26,7 +26,7 @@ BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 	EVT_DROP_FILES(MainPanel::OnDropFiles)
 END_EVENT_TABLE()
 
-MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent)
+MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent), buttonSizer(NULL), editSizer(NULL)
 {
 	InitializeComponents();
 	SetAccelerators();
@@ -90,12 +90,12 @@ void MainPanel::InitializeComponents()
 	buttonSizer2->Add(&twitpic, wxSizerFlags().Right());
 	buttonSizer2->Add(&tinyurl, wxSizerFlags().Right());
 
-	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
+	buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	buttonSizer->Add(&publicButton);
 	buttonSizer->Add(&followButton);
 	buttonSizer->Add(&atButton);
 
-	wxBoxSizer *editSizer = new wxBoxSizer(wxHORIZONTAL);
+	editSizer = new wxBoxSizer(wxHORIZONTAL);
 	editSizer->Add(&editbox, wxSizerFlags(1).Expand());
 	editSizer->AddSpacer(5);
 	editSizer->Add(buttonSizer2);
@@ -103,12 +103,37 @@ void MainPanel::InitializeComponents()
 	editSizer->Add(&charcounter, wxSizerFlags(0).Center().Right());
 
 	wxBoxSizer *panelSizer = new wxBoxSizer(wxVERTICAL);
-	panelSizer->Add(buttonSizer, wxSizerFlags(0));
-	panelSizer->Add(&content, wxSizerFlags(1).Expand().Border(wxALL & ~(wxTOP), 5));
-	panelSizer->Add(editSizer, wxSizerFlags(0).Expand().Border(wxALL, 5));
-
 	panelSizer->SetSizeHints(this);
 	SetSizer(panelSizer);
+
+	SetPanelOrder();
+}
+
+void MainPanel::SetPanelOrder()
+{
+	wxSizer *sizer = GetSizer();
+
+	Freeze();
+
+	sizer->Detach(editSizer);
+	sizer->Detach(buttonSizer);
+	sizer->Detach(&content);
+
+	wxString editPosition = wxGetApp().GetSettings().GetString(_T("feedpanel.editposition"));
+	if (editPosition == _T("top")) {
+		sizer->Add(editSizer, wxSizerFlags(0).Expand().Border(wxALL, 5));
+		sizer->Add(&content, wxSizerFlags(1).Expand().Border(wxALL & ~(wxTOP), 5));
+		sizer->Add(buttonSizer, wxSizerFlags(0));
+	}
+	else { // bottom
+		sizer->Add(buttonSizer, wxSizerFlags(0));
+		sizer->Add(&content, wxSizerFlags(1).Expand().Border(wxALL & ~(wxTOP), 5));
+		sizer->Add(editSizer, wxSizerFlags(0).Expand().Border(wxALL, 5));
+	}
+
+	sizer->Layout();
+	
+	Thaw();
 }
 
 void MainPanel::ForceUpdateUI()

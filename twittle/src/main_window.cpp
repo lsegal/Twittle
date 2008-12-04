@@ -125,6 +125,7 @@ void MainWindow::OnOptions(wxCommandEvent& evt)
 		// update ui
 		if (loggedIn) {
 			MainPanel *main = static_cast<MainPanel*>(panel);
+			main->SetPanelOrder();
 			main->ForceUpdateUI();
 		}
 	}

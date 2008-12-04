@@ -13,6 +13,7 @@ void Settings::Defaults()
 {
 	Set(_T("window.transparency"), 255L);
 	Set(_T("feedpanel.showscreenname"), true);
+	Set(_T("feedpanel.editposition"), _T("bottom"));
 	Set(_T("account.autologin"), false);
 }
 
