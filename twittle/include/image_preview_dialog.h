@@ -1,10 +1,13 @@
 #pragma once
 
 #include <wx/wx.h>
+#include "thread_callback.h"
 
 class ImagePreviewDialog : public wxDialog
 {
 	enum ControlIdentifiers { ID_CHOOSEIMAGE };
+
+	ThreadCallback1<ImagePreviewDialog, wxString> *callback;
 
 	wxString imageUrl;
 	wxString imageFilename;
@@ -19,6 +22,7 @@ class ImagePreviewDialog : public wxDialog
 
 public:
 	ImagePreviewDialog(wxWindow *parent);
+	virtual ~ImagePreviewDialog();
 
 	inline wxString GetUrl() { return imageUrl; }
 

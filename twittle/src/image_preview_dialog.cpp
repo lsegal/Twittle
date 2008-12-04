@@ -1,5 +1,4 @@
 #include "image_preview_dialog.h"
-#include "thread_callback.h"
 #include "twitpic/twitpic.h"
 #include "application.h"
 #include "twitter/twitter.h"
@@ -10,10 +9,17 @@ END_EVENT_TABLE()
 
 ImagePreviewDialog::ImagePreviewDialog(wxWindow *parent) :
 	wxDialog(parent, wxID_ANY, _T("Select an image to upload"), wxDefaultPosition,
-		wxSize(400, 400))
+		wxSize(400, 400)), callback(NULL)
 {
 	InitializeComponents();
 	wxPostEvent(this, wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_CHOOSEIMAGE));
+}
+
+ImagePreviewDialog::~ImagePreviewDialog()
+{
+	if (wxIsBusy()) wxEndBusyCursor();
+	if (callback && callback->IsAlive()) callback->Kill();
+	delete callback;
 }
 
 void ImagePreviewDialog::InitializeComponents()
@@ -53,23 +59,29 @@ bool ImagePreviewDialog::TransferDataFromWindow()
 	wxWindow *cancelButton = FindWindowById(wxID_CANCEL, this);
 	chooseImageButton.Disable();
 	if (okButton) okButton->Disable();
+	progress.SetOwnForegroundColour(*wxBLACK);
 	progress.SetLabel(_T("Uploading ..."));
 
-	ThreadCallback1<ImagePreviewDialog, wxString> cb(*this, &ImagePreviewDialog::ImageUpload, imageFilename);
+	callback = new ThreadCallback1<
+		ImagePreviewDialog, wxString>(*this, &ImagePreviewDialog::ImageUpload, imageFilename);
 
 	wxDateTime startTime = wxDateTime::Now();
 	wxBeginBusyCursor();
-	while (cb.IsAlive()) {
+	while (callback->IsAlive()) {
 		wxYield();
 
-		if ((wxDateTime::Now() - startTime) > wxTimeSpan::Seconds(10)) {
-			cb.Kill();
+		if ((wxDateTime::Now() - startTime) > wxTimeSpan::Seconds(10000)) {
+			callback->Kill();
+			progress.SetOwnForegroundColour(*wxRED);
 			progress.SetLabel(_T("Connection timeout."));
 //			wxMessageBox(_T("A connection timeout occurred while trying to connect to http://twitpic.com"), 
 //				_T("Error while uploading image"), wxOK|wxICON_ERROR|wxCENTRE);
 		}
 	}
 	wxEndBusyCursor();
+
+	delete callback;
+	callback = NULL;
 
 	// reenable buttons
 	chooseImageButton.Enable();
@@ -85,7 +97,9 @@ void ImagePreviewDialog::ImageUpload(wxString& filename)
 		imageUrl = TwitPic::UploadImage(twitter.GetUsername(), twitter.GetPassword(), filename);
 	}
 	catch (wxString msg) {
-		//wxMessageBox(msg, _T("Error while uploading image"), wxOK|wxICON_ERROR|wxCENTRE);
+//		wxMessageBox(msg, _T("Error while uploading image"), wxOK|wxICON_ERROR|wxCENTRE);
+		progress.SetOwnForegroundColour(*wxRED);
+		progress.SetLabel(msg);
 		imageUrl = wxEmptyString;
 	}
 }
