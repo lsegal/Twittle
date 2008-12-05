@@ -25,9 +25,8 @@ bool Application::OnInit()
 	settings.Load();
 
 	// make the images, feeds, settings directories if they do not exist
-	mkdir("imgs");
-	mkdir("feeds");
-	mkdir("settings");
+	mkdir("images");
+	mkdir("accounts");
 
 	// twitter
 	twitter = new Twitter();
@@ -62,21 +61,23 @@ void Application::Logout()
 
 const wxString Application::GetFeedsPath()
 {
-	wxString path = _T("feeds/") + twitter->GetUsername() + _T("/");
+	wxString path = _T("accounts/") + twitter->GetUsername() + _T("/");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }
 
 const wxString Application::GetImagesPath()
 {
-	wxString path = _T("imgs/");
+	wxString path = _T("images/");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }
 
 const wxString Application::GetSettingsPath()
 {
-	wxString path = _T("settings/");
+	// this checks for and creates an empty directory,
+	// but we keep it around just in case we decide to change the path name
+	wxString path = _T("");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }
