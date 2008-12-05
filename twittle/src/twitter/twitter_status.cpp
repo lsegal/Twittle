@@ -75,7 +75,7 @@ wxString TwitterStatus::GetTimeSincePost() const
 	wxDateTime now = wxDateTime::Now().ToUTC();
 	wxTimeSpan diff = now - created_at;
 	long long diffSecs = diff.GetSeconds().ToLong(); // diff in seconds
-	
+
 	if (diffSecs < tMin) { // show in seconds
 		return wxString::Format(_T("%ds ago"), diffSecs);
 	}
@@ -89,3 +89,4 @@ wxString TwitterStatus::GetTimeSincePost() const
 		return wxString::Format(_T("about %dd ago"), diffSecs / tDay);
 	}
 }
+

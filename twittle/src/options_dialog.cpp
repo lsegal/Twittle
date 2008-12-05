@@ -5,15 +5,16 @@ BEGIN_EVENT_TABLE(OptionsDialog, wxDialog)
 	EVT_SCROLL(OptionsDialog::TransparencyChanged)
 END_EVENT_TABLE()
 
-OptionsDialog::OptionsDialog(wxWindow *parent) : 
-		wxDialog(parent, wxID_ANY, _T("Twittle Options"), wxDefaultPosition, wxSize(350, 240)), 
+OptionsDialog::OptionsDialog(wxWindow *parent) :
+		wxDialog(parent, wxID_ANY, _T("Twittle Options"), wxDefaultPosition, wxSize(350, 240)),
 		settings(wxGetApp().GetSettings())
 {
+	wxScrollEvent evt;
 	InitializeComponents();
 	InitializeValues();
-	TransparencyChanged(wxScrollEvent());
+	TransparencyChanged(evt);
 }
-	
+
 void OptionsDialog::InitializeComponents()
 {
 	wxString editLabels[] = { _T("Top"), _T("Bottom") };
@@ -45,7 +46,7 @@ void OptionsDialog::InitializeComponents()
 	wxSizer *borderedSizer = new wxBoxSizer(wxVERTICAL);
 	borderedSizer->Add(panelSizer, wxSizerFlags(1).Expand().Border(wxALL, 20));
 
-	SetSizer(borderedSizer);	
+	SetSizer(borderedSizer);
 	Center();
 }
 
@@ -62,7 +63,7 @@ void OptionsDialog::InitializeValues()
 
 void OptionsDialog::TransparencyChanged(wxScrollEvent& evt)
 {
-	transLabel.SetLabel(wxString::Format(_T("%.0f%%"), 
+	transLabel.SetLabel(wxString::Format(_T("%.0f%%"),
 		(double)transparency.GetValue() / transparency.GetMax() * 100));
 
 	wxGetApp().GetMainWindow().SetTransparent(transparency.GetValue());

@@ -25,8 +25,8 @@ public:
 	static wxString UploadImage(const wxString& user, const wxString& pass,
 		const wxString& buffer, const wxString& filename);
 
-	/** 
-	 * Uploads an image file from the filesystem to TwicPic and returns the 
+	/**
+	 * Uploads an image file from the filesystem to TwicPic and returns the
 	 * URL for the image
 	 */
 	static wxString UploadImage(const wxString& user, const wxString& pass, const wxString& filename);

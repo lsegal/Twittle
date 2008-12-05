@@ -19,7 +19,7 @@ public:
 	const wxString& GetBoundary() { return boundary; }
 
 	void Add(const wxString& name, const wxString& value);
-	void AddFile(const wxString& name, const wxString& value, 
-		const wxString& filename = wxEmptyString, 
+	void AddFile(const wxString& name, const wxString& value,
+		const wxString& filename = wxEmptyString,
 		const wxString& mimeType = _T("application/octet-stream"));
 };

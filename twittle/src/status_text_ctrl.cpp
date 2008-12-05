@@ -10,7 +10,8 @@ static wxColour INACTIVE_COLOUR(160, 160, 160);
 
 StatusTextCtrl::StatusTextCtrl() : wxTextCtrl()
 {
-	OnFocusLost(wxFocusEvent());
+	wxFocusEvent evt;
+	OnFocusLost(evt);
 }
 
 bool StatusTextCtrl::IsActive() const

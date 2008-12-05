@@ -9,7 +9,7 @@ class Isgd
 {
 public:
 	/**
-	 * Returns the shortened url from is.gd or wxEmptyString 
+	 * Returns the shortened url from is.gd or wxEmptyString
 	 * if an error occurred.
 	 */
 	static wxString ShortenUrl(const wxString& url);

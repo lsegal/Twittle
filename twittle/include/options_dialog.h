@@ -17,7 +17,7 @@ class OptionsDialog : public wxDialog
 
 public:
 	OptionsDialog(wxWindow *parent);
-	virtual ~OptionsDialog() { } 
+	virtual ~OptionsDialog() { }
 
 	inline const Settings & GetSettings() { return settings; }
 

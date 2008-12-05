@@ -10,7 +10,7 @@ void Multipart::Add(const wxString& name, const wxString& value)
 	buffer << value << crlf;
 }
 
-void Multipart::AddFile(const wxString& name, const wxString& value, 
+void Multipart::AddFile(const wxString& name, const wxString& value,
 						const wxString& filename, const wxString& mimeType)
 {
 	buffer << _T("--") << boundary << crlf;

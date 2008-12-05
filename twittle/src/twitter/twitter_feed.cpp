@@ -1,4 +1,5 @@
 #include <vector>
+#include <iterator>
 #include <wx/wx.h>
 #include "twitter/twitter.h"
 #include "twitter/twitter_status.h"
@@ -24,7 +25,7 @@ TwitterFeed::~TwitterFeed()
 	//	thread->Delete();
 	//	thread->Wait();
 	// Note: Kill() seems to work fine... for now
-	thread->Kill(); 
+	thread->Kill();
 
 	delete thread;
 
@@ -49,18 +50,29 @@ void TwitterFeed::Pause()
 
 bool TwitterFeed::AddStatus(TwitterStatus& status)
 {
-	bool exists = false, result = false;
+	bool result = false, alreadyAdded = false;
 
 	addSec.Enter();
-	
-	// check for existing status in the list
-	std::vector<TwitterStatus>::const_reverse_iterator it;
-	for (it = statuses.rbegin(); it != statuses.rend(); ++it) {
-		if (it->GetId() == status.GetId()) exists = true;
-	}
 
-	if (!exists) {
-		// add status since it does not yet exist
+	// check for existing status in the list before adding
+	if (statuses.size() > 0) {
+		// try to add status to right position in the list (incremental order)
+		std::vector<TwitterStatus>::iterator it;
+		for (it = statuses.begin(); it != statuses.end(); ++it) {
+			if (it->GetId() == status.GetId()) {
+				alreadyAdded = true;
+				break;
+			}
+			if (it->GetId() > status.GetId()) {
+				statuses.insert(it, status);
+				result = true;
+				break;
+			}
+		}
+	}
+	
+	// must be larger than all statuses, add it to the end
+	if (!result && !alreadyAdded) {
 		statuses.push_back(status);
 		result = true;
 	}
@@ -131,8 +143,8 @@ void TwitterFeed::Refresh()
 void TwitterFeed::Save()
 {
 	addSec.Enter();
-	
+
 	Serializer<wxString, TwitterFeed>::Write(resource, *this);
-	
+
 	addSec.Leave();
 }

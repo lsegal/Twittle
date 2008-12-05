@@ -28,7 +28,7 @@ LoginPanel::LoginPanel(wxWindow *parent, bool autoLogin) : wxPanel(parent)
 	OnText(c);
 
 	// no maximize ability
-	parent->SetWindowStyle(parent->GetWindowStyle() & ~wxMAXIMIZE_BOX); 
+	parent->SetWindowStyle(parent->GetWindowStyle() & ~wxMAXIMIZE_BOX);
 
 	// Give size hints for min and max
 	int w, h;
@@ -166,11 +166,12 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 	cb.Wait();
 
 	// do stuff
+	wxCommandEvent cEvt;
 	if (loggedIn) {
-		OnLoginSuccess(wxCommandEvent());
+		OnLoginSuccess(cEvt);
 	}
 	else {
-		OnLoginFailed(wxCommandEvent());
+		OnLoginFailed(cEvt);
 		username.Enable();
 		password.Enable();
 		loginButton.Enable();

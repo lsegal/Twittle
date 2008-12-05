@@ -28,13 +28,14 @@ END_EVENT_TABLE()
 
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent), buttonSizer(NULL), editSizer(NULL)
 {
+	wxFocusEvent evt;
 	InitializeComponents();
 	SetAccelerators();
-	editbox.OnFocusLost(wxFocusEvent()); // unset focus
+	editbox.OnFocusLost(evt); // unset focus
 	DragAcceptFiles(true); // accept file dragging
 
 	// replace maximize ability
-	parent->SetWindowStyle(parent->GetWindowStyle() | wxMAXIMIZE_BOX); 
+	parent->SetWindowStyle(parent->GetWindowStyle() | wxMAXIMIZE_BOX);
 
 	SetMinSize(wxSize(300, 300));
 
@@ -60,7 +61,7 @@ void MainPanel::SetAccelerators()
 	wxAcceleratorEntry entries[1];
 	entries[0].Set(wxACCEL_CTRL, (int)'L', ID_TINYURL);
 	wxAcceleratorTable accel(1, entries);
-	SetAcceleratorTable(accel);	
+	SetAcceleratorTable(accel);
 }
 
 void MainPanel::InitializeComponents()
@@ -132,7 +133,7 @@ void MainPanel::SetPanelOrder()
 	}
 
 	sizer->Layout();
-	
+
 	Thaw();
 }
 
@@ -176,9 +177,9 @@ void MainPanel::OnEditEnter(wxCommandEvent &evt)
 void MainPanel::OnShortenUrl(wxCommandEvent& evt)
 {
 	wxString result = editbox.GetStringSelection(); // start with any selection
-	if (result == wxEmptyString || (!result.StartsWith(_T("http")) && !result.StartsWith(_T("www.")))) { 
+	if (result == wxEmptyString || (!result.StartsWith(_T("http")) && !result.StartsWith(_T("www.")))) {
 		// no selection? or maybe it's invalid? ask user for url
-		result = wxGetTextFromUser(_T("Shorten URL with is.gd"), 
+		result = wxGetTextFromUser(_T("Shorten URL with is.gd"),
 			_T("Enter URL to shorten via http://is.gd"), result, this);
 	}
 

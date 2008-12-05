@@ -321,6 +321,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\win32\resource.aps"
+			>
+		</File>
+		<File
 			RelativePath=".\include\win32\resource.h"
 			>
 		</File>

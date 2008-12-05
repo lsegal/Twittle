@@ -12,7 +12,8 @@ ImagePreviewDialog::ImagePreviewDialog(wxWindow *parent) :
 		wxSize(400, 400)), callback(NULL)
 {
 	InitializeComponents();
-	wxPostEvent(this, wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_CHOOSEIMAGE));
+	wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, ID_CHOOSEIMAGE);
+	wxPostEvent(this, evt);
 }
 
 ImagePreviewDialog::ImagePreviewDialog(wxWindow *parent, wxString initFilename) :
@@ -64,7 +65,6 @@ bool ImagePreviewDialog::TransferDataFromWindow()
 {
 	// disable all buttons
 	wxWindow *okButton = FindWindowById(wxID_OK, this);
-	wxWindow *cancelButton = FindWindowById(wxID_CANCEL, this);
 	chooseImageButton.Disable();
 	if (okButton) okButton->Disable();
 	progress.SetOwnForegroundColour(*wxBLACK);
@@ -82,7 +82,7 @@ bool ImagePreviewDialog::TransferDataFromWindow()
 			callback->Kill();
 			progress.SetOwnForegroundColour(*wxRED);
 			progress.SetLabel(_T("Connection timeout."));
-//			wxMessageBox(_T("A connection timeout occurred while trying to connect to http://twitpic.com"), 
+//			wxMessageBox(_T("A connection timeout occurred while trying to connect to http://twitpic.com"),
 //				_T("Error while uploading image"), wxOK|wxICON_ERROR|wxCENTRE);
 		}
 	}
@@ -94,13 +94,13 @@ bool ImagePreviewDialog::TransferDataFromWindow()
 	// reenable buttons
 	chooseImageButton.Enable();
 	if (okButton) okButton->Enable();
-	
+
 	return !imageUrl.IsEmpty();
 }
 
 void ImagePreviewDialog::ImageUpload(wxString& filename)
 {
-	try { 
+	try {
 		const Twitter& twitter = wxGetApp().GetTwitter();
 		imageUrl = TwitPic::UploadImage(twitter.GetUsername(), twitter.GetPassword(), filename);
 	}
@@ -133,9 +133,9 @@ void ImagePreviewDialog::OnChooseImage(wxCommandEvent& evt)
 	else if (!tmpFilename) {
 		return;
 	}
-	
+
 	imageFilename = tmpFilename;
-	
+
 	ShowImagePreview();
 }
 
