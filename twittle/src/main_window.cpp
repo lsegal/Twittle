@@ -5,22 +5,31 @@
 #include "application.h"
 #include "options_dialog.h"
 
+#ifdef __WXMSW__
+#	include <strsafe.h>
+#	include <shellapi.h>
+#endif
+
 #include "resources/icon.xpm"
+static wxIcon appIcon(icon);
 
 BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(wxID_PREFERENCES, MainWindow::OnOptions)
 	EVT_MENU(ID_LOGOUT, MainWindow::OnLogout)
 	EVT_MENU(wxID_EXIT, MainWindow::OnExit)
 	EVT_COMMAND(wxID_ANY, wxEVT_CLEAR_PANEL, MainWindow::OnClearPanel)
+	EVT_ICONIZE(MainWindow::OnIconize)
 END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
 
-MainWindow::MainWindow() :
-	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)),
-		panel(NULL), loggedIn(false)
+MainWindow::MainWindow(bool showInTaskbar) : 
+	wxFrame(NULL, wxID_ANY, wxGetApp().APPNAME, wxDefaultPosition, wxSize(320, 540), 
+		showInTaskbar ? wxDEFAULT_FRAME_STYLE : wxDEFAULT_FRAME_STYLE | wxFRAME_NO_TASKBAR),
+	panel(NULL), loggedIn(false)
 {
-	SetIcon(wxIcon(icon)); // show icon
+	wxGetApp().SetTopWindow(this); // set top level window immediately
+	SetIcon(appIcon); // show icon
 	SetTransparency(); // set transparency
 
 	// Set last known position
@@ -49,6 +58,60 @@ void MainWindow::SetTransparency()
 	SetTransparent(wxGetApp().GetSettings().GetLong(_T("window.transparency")));
 }
 
+void MainWindow::SetTrayIcon()
+{
+	bool showInTray = wxGetApp().GetSettings().GetBool(_T("window.showintray"));
+	bool minimizeToTray = wxGetApp().GetSettings().GetBool(_T("window.minimizetotray"));
+	if (showInTray || (IsIconized() && minimizeToTray)) {
+		wxString tooltip = wxGetApp().APPNAME;
+		if (loggedIn) {
+			tooltip.Append(_T(" (logged in as ") + wxGetApp().GetTwitter().GetUsername() + _T(")"));
+		}
+
+		trayIcon.SetIcon(appIcon, tooltip);
+	TrayNotification(_T("welcome to the usa"));
+	}
+	else if (trayIcon.IsIconInstalled()) {
+		trayIcon.RemoveIcon();
+	}
+}
+
+// Shows a Tray notification (bubble)
+// Currently implemented in Win32 only.
+// wxWidgets 2.9 has this functionality,
+// but it is not yet released 
+void MainWindow::TrayNotification(const wxString& text, int delay)
+{
+#ifdef __WXMSW__ // win32 only
+
+	
+
+	NOTIFYICONDATA data;
+	data.cbSize = sizeof(NOTIFYICONDATA);
+	data.hWnd = (HWND)GetHWND();
+	data.uID = 99;
+	data.uFlags = NIF_MESSAGE|NIF_INFO|NIF_ICON;
+	data.uCallbackMessage = 0;
+	data.hIcon = (HICON)GetIcon().GetHICON();
+	StringCchCopy(data.szInfo, text.Length(), text.data());
+	data.uVersion = NOTIFYICON_VERSION;
+	data.uTimeout = delay * 1000;
+	StringCchCopy(data.szInfoTitle, strlen("Twittle Update"), L"Twittle Update");
+	data.dwInfoFlags = NIIF_INFO;
+	HRESULT result = Shell_NotifyIcon(NIM_MODIFY, &data);
+#endif
+}
+
+void MainWindow::OnIconize(wxIconizeEvent& evt)
+{
+	bool minimizeToTray = wxGetApp().GetSettings().GetBool(_T("window.minimizetotray"));
+	bool showInTaskbar = wxGetApp().GetSettings().GetBool(_T("window.showintaskbar"));
+	if (minimizeToTray || showInTaskbar) {
+		Hide();
+		SetTrayIcon();
+	}
+}
+
 void MainWindow::SwapPanels(wxPanel *newPanel)
 {
 	Freeze();
@@ -74,20 +137,22 @@ void MainWindow::OnClearPanel(wxCommandEvent& evt)
 	SetSizeHints(panel->GetMinSize(), panel->GetMaxSize());
 	SetClientSize(panel->GetSize());
 	Thaw();
+
+	SetTrayIcon();
 }
 
 void MainWindow::ShowLogin(bool autoLogin)
 {
+	loggedIn = false;
 	SwapPanels(new LoginPanel(this, autoLogin));
 	SetMenuBar(LoginMenuBar());
-	loggedIn = false;
 }
 
 void MainWindow::ShowMainPanel()
 {
+	loggedIn = true;
 	SwapPanels(new MainPanel(this));
 	SetMenuBar(MainMenuBar());
-	loggedIn = true;
 }
 
 wxMenuBar *MainWindow::LoginMenuBar()
@@ -131,6 +196,7 @@ void MainWindow::OnOptions(wxCommandEvent& evt)
 			main->SetPanelOrder();
 			main->ForceUpdateUI();
 		}
+		SetTrayIcon();
 	}
 	else {
 		// reset transparency

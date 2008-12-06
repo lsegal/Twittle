@@ -1,6 +1,7 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
+#include "application.h"
 #include "http/http_client.h"
 #include <wx/app.h>
 #include <wx/filesys.h>
@@ -13,7 +14,7 @@
 HttpClient::HttpClient()
 {
 	SetTimeout(10); // 10 seconds of timeout instead of 10 minutes
-	SetHeader(_T("User-Agent"), _T("Twittle"));
+	SetHeader(_T("User-Agent"), wxGetApp().APPNAME + _T(" ") + wxGetApp().APPVERSION);
 }
 
 HttpClient::HttpClient(const wxString& user, const wxString& password)

@@ -157,6 +157,18 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 {
 	if (resource != feedResource) return;
 
+	bool showNotifications = wxGetApp().GetSettings().GetBool(_T("window.shownotifications"));
+	if (showNotifications && resource == Twitter::FriendsTimelineUrl) {
+		// show update notifications for friends
+		TwitterFeed *feed = twitter.GetFeed(resource);
+		if (feed && feed->GetStatuses().size() > 0) {
+			const TwitterStatus& last = feed->GetStatuses().back();
+			wxString notification = last.GetUser().GetScreenName() + _T(": ") + 
+				last.GetText() + _T(" (") + last.GetTimeSincePost() + _T(")");
+			wxGetApp().GetMainWindow().TrayNotification(notification);
+		}
+	}
+
 	wxCommandEvent evt(EVT_FEED_UPDATED, wxID_ANY);
 	wxPostEvent(this, evt);
 }

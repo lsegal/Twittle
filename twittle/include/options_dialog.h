@@ -8,6 +8,10 @@ class OptionsDialog : public wxDialog
 	Settings settings;
 	wxCheckBox autoLogin;
 	wxCheckBox showScreenNamePrefix;
+	wxCheckBox showInTray;
+	wxCheckBox showInTaskbar;
+	wxCheckBox minimizeToTray;
+	wxCheckBox showNotifications;
 	wxSlider transparency;
 	wxStaticText transLabel;
 	wxComboBox editPosition;

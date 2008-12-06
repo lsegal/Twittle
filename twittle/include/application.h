@@ -13,6 +13,9 @@ class Application : public wxApp
 	Twitter *twitter;
 
 public:
+	static const wxString APPNAME;
+	static const wxString APPVERSION;
+
 	inline MainWindow& GetMainWindow() { return *main; }
 	inline Twitter& GetTwitter() { return *twitter; }
 	inline Settings& GetSettings() { return settings; }

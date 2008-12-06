@@ -18,6 +18,9 @@
 
 IMPLEMENT_APP(Application)
 
+const wxString Application::APPNAME = _T("Twittle");
+const wxString Application::APPVERSION = _T("0.5 beta");
+
 bool Application::OnInit()
 {
 #ifdef __WXMAC__
@@ -46,10 +49,9 @@ bool Application::OnInit()
 	twitter = new Twitter();
 
 	// main window
-	main = new MainWindow();
+	main = new MainWindow(settings.GetBool(_T("window.showintaskbar")));
 	main->Show(true);
-	//main->SetTransparent(200);
-	SetTopWindow(main);
+
 	return true;
 }
 

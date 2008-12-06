@@ -197,6 +197,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\include\win32\compat.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\feed_panel.cpp"
 			>
 		</File>
@@ -250,10 +254,6 @@
 		</File>
 		<File
 			RelativePath=".\resources\link.psd"
-			>
-		</File>
-		<File
-			RelativePath=".\include\resources\link.xpm"
 			>
 		</File>
 		<File
@@ -354,6 +354,14 @@
 		</File>
 		<File
 			RelativePath=".\include\thread_callback.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\tray_icon.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\tray_icon.h"
 			>
 		</File>
 		<File
