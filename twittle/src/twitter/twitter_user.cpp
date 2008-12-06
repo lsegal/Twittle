@@ -5,7 +5,8 @@
 #include "thread_callback.h"
 #include "twitter/twitter_user.h"
 #include "http/http_client.h"
-#include "application.h"
+#include "application.h" // hack for writing out image files
+#include "win32/compat.h"
 
 TwitterUser::TwitterUser(const wxXmlNode& node)
 {
@@ -23,7 +24,8 @@ void TwitterUser::ParseXmlNode(const wxXmlNode& node)
 		const wxString& tagName = child->GetName();
 		wxString value = child->GetNodeContent();
 		if (tagName == _T("id")) {
-			value.ToULongLong(&id);
+			id = strtoull(value.mb_str(), NULL, 10);
+			// value.ToULongLong(&id); (GCC doesn't like this)
 		}
 		else if (tagName == _T("name")) {
 			name = value;

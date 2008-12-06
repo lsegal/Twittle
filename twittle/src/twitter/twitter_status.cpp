@@ -1,8 +1,10 @@
 #include <wx/wx.h>
 #include <wx/xml/xml.h>
+#include <stdlib.h>
 #include "twitter/twitter.h"
 #include "twitter/twitter_user.h"
 #include "twitter/twitter_status.h"
+#include "win32/compat.h"
 
 TwitterStatus::TwitterStatus(Twitter& twitter, const wxXmlNode& node) : source(_T("web"))
 {
@@ -16,7 +18,8 @@ void TwitterStatus::ParseXmlNode(Twitter& twitter, const wxXmlNode& node)
 		const wxString& name = child->GetName();
 		wxString value = child->GetNodeContent();
 		if (name == _T("id")) {
-			value.ToULongLong(&id);
+			id = strtoull(value.mb_str(), NULL, 10);
+			// value.ToULongLong(&id); (GCC implementations don't like this!)
 		}
 		else if (name == _T("created_at")) {
 			try {
@@ -42,7 +45,8 @@ void TwitterStatus::ParseXmlNode(Twitter& twitter, const wxXmlNode& node)
 			while (sub) {
 				if (sub->GetName() == _T("id")) {
 					unsigned long long tid;
-					sub->GetNodeContent().ToULongLong(&tid);
+					tid = strtoull(sub->GetNodeContent().mb_str(), NULL, 10);
+					// sub->GetNodeContent().ToULongLong(&tid); (GCC implementations don't like this!)
 					TwitterUser *tmp = twitter.RetrieveUser(tid);
 					if (tmp) {
 						user = tmp;
