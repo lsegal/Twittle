@@ -161,13 +161,9 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 	wxPostEvent(this, evt);
 }
 
-static wxCriticalSection feedUpdateSec;
-
 void FeedPanel::OnFeedUpdated(wxCommandEvent &event)
 {
-	feedUpdateSec.Enter();
 	SetItemCount(GetStatusSize());
-	feedUpdateSec.Leave();
 }
 
 void FeedPanel::OnImageUpdated(wxCommandEvent &event)
