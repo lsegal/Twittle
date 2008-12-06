@@ -194,12 +194,8 @@ wxString FeedPanel::DecorateSource(wxString text) const
 	return text;
 }
 
-static wxCriticalSection getItemSec;
-
 wxString FeedPanel::OnGetItem(size_t n) const
 {
-	getItemSec.Enter();
-
 	const TwitterFeed *feed = wxGetApp().GetTwitter().GetFeed(feedResource);
 	if (feed == NULL) return _T("");
 
@@ -226,8 +222,6 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	list << _T("</font>");
 
 	list << _T("</td></tr></table>");
-
-	getItemSec.Leave();
 
 	return list;
 }
