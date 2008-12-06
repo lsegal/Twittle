@@ -6,7 +6,7 @@ BEGIN_EVENT_TABLE(OptionsDialog, wxDialog)
 END_EVENT_TABLE()
 
 OptionsDialog::OptionsDialog(wxWindow *parent) :
-		wxDialog(parent, wxID_ANY, _T("Twittle Options"), wxDefaultPosition, wxSize(350, 240)),
+		wxDialog(parent, wxID_ANY, _T("Twittle Options"), wxDefaultPosition, wxSize(375, 240)),
 		settings(wxGetApp().GetSettings())
 {
 	wxScrollEvent evt;

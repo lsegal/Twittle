@@ -10,8 +10,6 @@ static wxColour INACTIVE_COLOUR(160, 160, 160);
 
 StatusTextCtrl::StatusTextCtrl() : wxTextCtrl()
 {
-	wxFocusEvent evt;
-	OnFocusLost(evt);
 }
 
 bool StatusTextCtrl::IsActive() const
@@ -56,22 +54,5 @@ void StatusTextCtrl::InsertUrl(const wxString& text)
 			// set normal cursor position
 			SetSelection(from + text.Length(), from + text.Length());
 		}
-	}
-}
-
-bool StatusTextCtrl::CanPaste()
-{
-	if (wxTheClipboard->Open()) {
-//		wxTheClipboard->GetData(&data);
-		wxTheClipboard->Close();
-	}
-	return true;
-}
-
-void StatusTextCtrl::Paste()
-{
-	if (wxTheClipboard->Open()) {
-//		wxTheClipboard->GetData(&data);
-		wxTheClipboard->Close();
 	}
 }

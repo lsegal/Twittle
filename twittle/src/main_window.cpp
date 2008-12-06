@@ -8,7 +8,7 @@
 #include "resources/icon.xpm"
 
 BEGIN_EVENT_TABLE(MainWindow, wxFrame)
-	EVT_MENU(ID_OPTIONS, MainWindow::OnOptions)
+	EVT_MENU(wxID_PREFERENCES, MainWindow::OnOptions)
 	EVT_MENU(ID_LOGOUT, MainWindow::OnLogout)
 	EVT_MENU(wxID_EXIT, MainWindow::OnExit)
 	EVT_COMMAND(wxID_ANY, wxEVT_CLEAR_PANEL, MainWindow::OnClearPanel)
@@ -16,8 +16,8 @@ END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
 
-MainWindow::MainWindow() : 
-	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)), 
+MainWindow::MainWindow() :
+	wxFrame(NULL, wxID_ANY, _T("Twittle"), wxDefaultPosition, wxSize(320, 540)),
 		panel(NULL), loggedIn(false)
 {
 	SetIcon(wxIcon(icon)); // show icon
@@ -95,12 +95,12 @@ wxMenuBar *MainWindow::LoginMenuBar()
 	wxMenuBar *menuBar = new wxMenuBar;
 
 	wxMenu* file = new wxMenu;
-	file->Append(ID_OPTIONS, _T("&Options"));
+	file->Append(wxID_PREFERENCES, _T("&Options\tCtrl+O"));
 	file->AppendSeparator();
-	file->Append(wxID_EXIT, _T("&Quit"));
+	file->Append(wxID_EXIT, _T("E&xit\tCtrl+Q"));
 
 	menuBar->Append(file, _T("&File"));
-    return menuBar;
+	return menuBar;
 }
 
 wxMenuBar *MainWindow::MainMenuBar()
@@ -108,10 +108,10 @@ wxMenuBar *MainWindow::MainMenuBar()
 	wxMenuBar *menuBar = new wxMenuBar;
 
 	wxMenu* file = new wxMenu;
-	file->Append(ID_OPTIONS, _T("&Options"));
+	file->Append(wxID_PREFERENCES, _T("&Options\tCtrl+O"));
 	file->Append(ID_LOGOUT, _T("&Logout"));
 	file->AppendSeparator();
-	file->Append(wxID_EXIT, _T("&Quit"));
+	file->Append(wxID_EXIT, _T("E&xit\tCtrl+Q"));
 
 	menuBar->Append(file, _T("&File"));
     return menuBar;

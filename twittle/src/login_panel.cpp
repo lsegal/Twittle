@@ -143,6 +143,7 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 	username.Disable();
 	password.Disable();
 	loginButton.Disable();
+	rememberCheck.Disable();
 	errorLabel.SetForegroundColour(*wxBLACK);
 	errorLabel.SetLabel(_T("Logging in..."));
 
@@ -174,6 +175,7 @@ void LoginPanel::OnLogin(wxCommandEvent& evt)
 		OnLoginFailed(cEvt);
 		username.Enable();
 		password.Enable();
+		rememberCheck.Enable();
 		loginButton.Enable();
 	}
 }

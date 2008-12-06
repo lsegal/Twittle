@@ -10,7 +10,7 @@
 // Icons
 #include "resources/atsign.xpm"
 #include "resources/twitpic_normal.xpm"
-#include "resources/link.xpm"
+#include "resources/link_icon.xpm"
 #include "resources/public_icon.xpm"
 #include "resources/home.xpm"
 
@@ -75,7 +75,7 @@ void MainPanel::InitializeComponents()
 	publicButton.Create(this, ID_PUBLIC, wxBitmap(public_icon), wxDefaultPosition, wxDefaultSize);
 	followButton.Create(this, ID_FRIEND, wxBitmap(home), wxDefaultPosition, wxDefaultSize);
 	atButton.Create(this, ID_FILTER_AT, wxBitmap(atsign), wxDefaultPosition, wxDefaultSize);
-	tinyurl.Create(this, ID_TINYURL, wxBitmap(link), wxDefaultPosition, wxDefaultSize);
+	tinyurl.Create(this, ID_TINYURL, wxBitmap(link_icon), wxDefaultPosition, wxDefaultSize);
 	twitpic.Create(this, ID_TWITPIC, wxBitmap(twitpic_normal), wxDefaultPosition, wxDefaultSize);
 
 	publicButton.SetToolTip(_T("View all public tweets"));

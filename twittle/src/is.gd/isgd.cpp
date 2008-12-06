@@ -11,7 +11,7 @@ wxString Isgd::ShortenUrl(const wxString& url)
 	wxString resp = http.Get(wxURL(_T("http://is.gd/create.php")));
 
 	// find url in result
-	wxRegEx re(_T("value=\"([^\"]+)\""), wxRE_ICASE | wxRE_ADVANCED);
+	wxRegEx re(_T("value=\"([^\"]+)\""), wxRE_ICASE);
 	if (re.Matches(resp)) {
 		return re.GetMatch(resp, 1);
 	}

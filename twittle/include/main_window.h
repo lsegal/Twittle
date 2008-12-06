@@ -9,7 +9,7 @@ DECLARE_EVENT_TYPE(wxEVT_CLEAR_PANEL, -1)
 class MainWindow : public wxFrame
 {
 	enum ControlIdentifiers {
-		ID_OPTIONS, ID_LOGOUT
+		ID_LOGOUT = 1
 	};
 
 	wxPanel *panel;

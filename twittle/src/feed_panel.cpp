@@ -76,7 +76,7 @@ void FeedPanel::Create(wxWindow* parent, wxWindowID id,
 	SetSelectionBackground(wxColour(240, 240, 240));
 	CreateItemMenu();
 	CreateAccelerators();
-	
+
 	// Start update UI timer
 	updateUITimer.SetOwner(this, ID_UPDATEUI);
 	updateUITimer.Start(60000, false); // 60 second update
@@ -139,7 +139,7 @@ void FeedPanel::SetFeed(const wxString& resource, int delay)
 	if (feed) {
 		SetItemCount(GetStatusSize());
 	}
-	else { 
+	else {
 		// Attempt to de-serialize any saved data
 		feed = Serializer<wxString, TwitterFeed>().Read(feedResource);
 		if (feed) {
@@ -176,7 +176,7 @@ void FeedPanel::OnImageUpdated(wxCommandEvent &event)
 
 wxString FeedPanel::DecorateStatusText(wxString text) const
 {
-	wxRegEx links(_T("((?:https?|www\\.)://[^[:space:]]+)"), wxRE_ICASE | wxRE_ADVANCED);
+	wxRegEx links(_T("((https?|www\\.)://[^[:space:]]+)"), wxRE_ICASE);
 	wxRegEx hashtags(_T("#([[:alnum:]_]+)"));
 	wxRegEx refs(_T("@([[:alnum:]_]+)"));
 
@@ -233,7 +233,7 @@ wxString FeedPanel::OnGetItem(size_t n) const
 }
 
 /**
- * Opens a URL in the system default browser 
+ * Opens a URL in the system default browser
  */
 void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 {
@@ -262,7 +262,7 @@ void FeedPanel::OnRightClick(wxMouseEvent& evt)
 	PopupMenu(&itemMenu, evt.GetPosition());
 }
 
-void FeedPanel::CopyItemAsText(wxCommandEvent& evt) 
+void FeedPanel::CopyItemAsText(wxCommandEvent& evt)
 {
 	int selId = GetSelection();
 	if (selId != wxNOT_FOUND && wxTheClipboard->Open()) {
@@ -273,7 +273,7 @@ void FeedPanel::CopyItemAsText(wxCommandEvent& evt)
 	}
 }
 
-void FeedPanel::CopyItemAsHtml(wxCommandEvent& evt) 
+void FeedPanel::CopyItemAsHtml(wxCommandEvent& evt)
 {
 	int selId = GetSelection();
 	if (selId != wxNOT_FOUND && wxTheClipboard->Open()) {

@@ -7,12 +7,26 @@
 
 #ifdef WIN32
 #	define mkdir _mkdir
+#else
+#	include <sys/stat.h>
+#	define mkdir(dir) mkdir(dir, S_IRWXU|S_IRWXG);
+#endif
+
+#ifdef __WXMAC__
+#	include <ApplicationServices/ApplicationServices.h>
 #endif
 
 IMPLEMENT_APP(Application)
 
 bool Application::OnInit()
 {
+#ifdef __WXMAC__
+	// Bring process to front on a Mac
+	ProcessSerialNumber PSN;
+	GetCurrentProcess(&PSN);
+	TransformProcessType(&PSN, kProcessTransformToForegroundApplication);
+#endif
+
 	// conversion
 	wxConvCurrent = &wxConvISO8859_1;
 
@@ -42,7 +56,7 @@ bool Application::OnInit()
 int Application::OnExit()
 {
 	settings.Save();
-	delete twitter; 
+	delete twitter;
 	return 0;
 }
 
