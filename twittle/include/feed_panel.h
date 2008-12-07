@@ -44,7 +44,7 @@ public:
 		FILTER_NONE = 0, FILTER_REPLIES
 	};
 
-	void SetFeed(const wxString &resource, int delay = 300);
+	void SetFeed(const wxString &resource, int delay = 120);
 
 	void ResetFilter() { filter = 0; SetItemCount(GetStatusSize()); }
 	void AddFilter(unsigned int ftype) { filter |= ftype; SetItemCount(GetStatusSize()); }
