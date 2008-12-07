@@ -184,6 +184,7 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 void FeedPanel::OnFeedUpdated(wxCommandEvent &event)
 {
 	SetItemCount(GetStatusSize());
+	RefreshAll();
 }
 
 void FeedPanel::OnImageUpdated(wxCommandEvent &event)
