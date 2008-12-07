@@ -3,6 +3,7 @@
 
 BEGIN_EVENT_TABLE(TrayIcon, wxTaskBarIcon)
 	EVT_TASKBAR_LEFT_DCLICK(TrayIcon::OnDoubleClick) 
+	EVT_MENU(wxID_ANY, TrayIcon::OnMenu)
 END_EVENT_TABLE()
 
 wxMenu *TrayIcon::CreatePopupMenu()
@@ -33,4 +34,10 @@ void TrayIcon::OnDoubleClick(wxTaskBarIconEvent& evt)
 		main.SetTrayIcon();
 	}
 	main.Raise();
+}
+
+void TrayIcon::OnMenu(wxCommandEvent& evt)
+{
+	MainWindow& main = wxGetApp().GetMainWindow();
+	wxPostEvent(&main, evt);
 }

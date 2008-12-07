@@ -9,6 +9,7 @@ public:
 
 	// events
 	void OnDoubleClick(wxTaskBarIconEvent& evt);
+	void OnMenu(wxCommandEvent& evt);
 
 	DECLARE_EVENT_TABLE();
 };
