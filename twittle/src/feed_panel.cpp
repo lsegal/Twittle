@@ -1,6 +1,5 @@
 #include <wx/wx.h>
 #include <wx/clipbrd.h>
-#include <wx/mimetype.h>
 #include <wx/regex.h>
 #include "feed_panel.h"
 #include "application.h"
@@ -248,18 +247,7 @@ wxString FeedPanel::OnGetItem(size_t n) const
  */
 void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 {
-	wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(_T("text/html"));
-	if (ft == NULL) return;
-
-	wxString url = evt.GetLinkInfo().GetHref();
-	if (!url.StartsWith(_T("http://"))) {
-		url = _T("http://") + url;
-	}
-
-	wxString cmd = ft->GetOpenCommand(url);
-	cmd.Replace(_T("file://"), _T("")); // hack to remove wx file:// prefix 'bug'
-	wxExecute(cmd);
-	delete ft;
+	wxGetApp().OpenUrl(evt.GetLinkInfo().GetHref());
 }
 
 void FeedPanel::OnRightClick(wxMouseEvent& evt)

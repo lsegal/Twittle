@@ -4,6 +4,7 @@
 #include <wx/image.h>
 #include <wx/socket.h>
 #include <wx/fs_inet.h>
+#include <wx/mimetype.h>
 
 #ifdef WIN32
 #	define mkdir _mkdir
@@ -73,6 +74,22 @@ void Application::Logout()
 	delete twitter;
 	twitter = new Twitter();
 	main->ShowLogin();
+}
+
+void Application::OpenUrl(const wxString& url)
+{
+	wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromMimeType(_T("text/html"));
+	if (ft == NULL) return;
+
+	wxString totalUrl = url;
+	if (!url.StartsWith(_T("http://"))) {
+		totalUrl = _T("http://") + totalUrl;
+	}
+
+	wxString cmd = ft->GetOpenCommand(totalUrl);
+	cmd.Replace(_T("file://"), _T("")); // hack to remove wx file:// prefix 'bug'
+	wxExecute(cmd);
+	delete ft;
 }
 
 const wxString Application::GetFeedsPath()

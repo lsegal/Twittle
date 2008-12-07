@@ -16,6 +16,9 @@ public:
 	static const wxString APPNAME;
 	static const wxString APPVERSION;
 
+	// Opens a URL in the default browser
+	static void OpenUrl(const wxString& url);
+
 	inline MainWindow& GetMainWindow() { return *main; }
 	inline Twitter& GetTwitter() { return *twitter; }
 	inline Settings& GetSettings() { return settings; }
