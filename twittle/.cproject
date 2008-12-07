@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?fileVersion 4.0.0?>
 
 <cproject>
@@ -24,7 +24,7 @@
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1218119002" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
 <tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.334387860" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug">
-<option id="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level.1869773702" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level.1869773702" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level.836596190" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.option.include.paths.664511672" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 <listOptionValue builtIn="false" value="&quot;${project_loc}/include&quot;"/>
@@ -32,7 +32,7 @@
 <listOptionValue builtIn="false" value="&quot;${WXWIN}/include&quot;"/>
 </option>
 <option id="gnu.cpp.compiler.option.preprocessor.def.1032288993" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-<listOptionValue builtIn="false" value="__WXWIN__"/>
+<listOptionValue builtIn="false" value="__WXMSW__"/>
 <listOptionValue builtIn="false" value="__WXDEBUG__"/>
 <listOptionValue builtIn="false" value="_UNICODE"/>
 <listOptionValue builtIn="false" value="_WIN32"/>
@@ -43,14 +43,14 @@
 <option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.mingw.exe.debug.option.optimization.level.460855247" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.debug.option.optimization.level" valueType="enumerated"/>
 <option id="gnu.c.compiler.mingw.exe.debug.option.debugging.level.495349849" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 <option id="gnu.c.compiler.option.preprocessor.def.symbols.1437029557" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-<listOptionValue builtIn="false" value="__WXWIN__"/>
+<listOptionValue builtIn="false" value="__WXMSW__"/>
 <listOptionValue builtIn="false" value="__WXDEBUG__"/>
 <listOptionValue builtIn="false" value="WIN32"/>
 <listOptionValue builtIn="false" value="_WIN32"/>
 <listOptionValue builtIn="false" value="_UNICODE"/>
 </option>
 <option id="gnu.c.compiler.option.include.paths.1067976740" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/twittle}/include&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${project_loc}/include&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${WXWIN}/lib/gcc_lib/mswud&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${WXWIN}/include&quot;"/>
 </option>
@@ -63,6 +63,7 @@
 </option>
 <option id="gnu.cpp.link.option.libs.589731908" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="wxmsw28ud_core"/>
+<listOptionValue builtIn="false" value="wxmsw28ud_adv"/>
 <listOptionValue builtIn="false" value="wxmsw28ud_html"/>
 <listOptionValue builtIn="false" value="wxmsw28ud_xrc"/>
 <listOptionValue builtIn="false" value="wxbase28ud"/>
@@ -863,7 +864,7 @@
 </extensions>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<configuration artifactName="twittle" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.2132555783" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
+<configuration artifactName="twittle" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.2132555783" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
 <folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.2132555783." name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.1899955888" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 <targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1242599657" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
