@@ -37,7 +37,7 @@ public:
 	void OnLogout(wxCommandEvent& evt);
 	void OnExit(wxCommandEvent& evt);
 
-	void TrayNotification(const wxString& text, int delay = 5);
+	void TrayNotification(const wxString& text, const wxString& title = _T("Twittle"), const wxIcon* icon = NULL, int delay = 5);
 
 	DECLARE_EVENT_TABLE();
 

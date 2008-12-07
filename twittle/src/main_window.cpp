@@ -69,35 +69,71 @@ void MainWindow::SetTrayIcon()
 		}
 
 		trayIcon.SetIcon(appIcon, tooltip);
-	TrayNotification(_T("welcome to the usa"));
 	}
 	else if (trayIcon.IsIconInstalled()) {
 		trayIcon.RemoveIcon();
 	}
 }
 
+// HACK to get the icon handle from the TaskBarIconWindow 
+#ifdef __WXMSW__
+
+static WXHWND trayIconHWND = NULL;
+
+static BOOL CALLBACK FindTrayIconWindow(HWND hwnd, LPARAM param)
+{
+	RECT rect;
+	GetWindowRect(hwnd, &rect);
+	if (GetWindowTextLength(hwnd) == 0 &&
+			rect.right == 400 && rect.bottom == 250 && 
+			rect.top == 0 && rect.left == 0) {
+		trayIconHWND = hwnd;
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static void GetTrayIconHWND()
+{
+	EnumWindows(FindTrayIconWindow, 0);
+}
+#endif
+
 // Shows a Tray notification (bubble)
 // Currently implemented in Win32 only.
 // wxWidgets 2.9 has this functionality,
 // but it is not yet released 
-void MainWindow::TrayNotification(const wxString& text, int delay)
+void MainWindow::TrayNotification(const wxString& text, const wxString& title, const wxIcon* icon, int delay)
 {
+	// return if the window is active
+//	if (IsActive()) return;
+
 #ifdef __WXMSW__ // win32 only
-
-	
-
+	GetTrayIconHWND();
 	NOTIFYICONDATA data;
+
+	if (text.length() > 128) {
+		wxString trunc = text.SubString(0, 123) + _T("...");
+		StringCchCopy(data.szInfo, 128, trunc.data());
+	}
+	else {
+		StringCchCopy(data.szInfo, 128, text.data());
+	}
+
+	StringCchCopy(data.szInfoTitle, 64, title.data());
+
 	data.cbSize = sizeof(NOTIFYICONDATA);
-	data.hWnd = (HWND)GetHWND();
+	data.hWnd = (HWND)trayIconHWND;
 	data.uID = 99;
-	data.uFlags = NIF_MESSAGE|NIF_INFO|NIF_ICON;
+	data.uFlags = NIF_INFO;
 	data.uCallbackMessage = 0;
-	data.hIcon = (HICON)GetIcon().GetHICON();
-	StringCchCopy(data.szInfo, text.Length(), text.data());
+	data.hIcon = icon ? (HICON)icon->GetHICON() : NULL;
 	data.uVersion = NOTIFYICON_VERSION;
 	data.uTimeout = delay * 1000;
-	StringCchCopy(data.szInfoTitle, strlen("Twittle Update"), L"Twittle Update");
-	data.dwInfoFlags = NIIF_INFO;
+	data.dwInfoFlags = icon ? NIIF_USER : 0;
+#if (NTDDI_VERSION >= NTDDI_VISTA)
+	data.hBalloonIcon = NULL;
+#endif
 	HRESULT result = Shell_NotifyIcon(NIM_MODIFY, &data);
 #endif
 }
