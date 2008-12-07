@@ -103,10 +103,10 @@ static void GetTrayIconHWND()
 // Currently implemented in Win32 only.
 // wxWidgets 2.9 has this functionality,
 // but it is not yet released 
-void MainWindow::TrayNotification(const wxString& text, const wxString& title, const wxIcon* icon, int delay)
+void MainWindow::TrayNotification(const wxString& text, const wxString& title, const wxIcon* cIcon, int delay)
 {
 	// return if the window is active
-//	if (IsActive()) return;
+	if (IsActive()) return;
 
 #ifdef __WXMSW__ // win32 only
 	GetTrayIconHWND();
@@ -127,12 +127,12 @@ void MainWindow::TrayNotification(const wxString& text, const wxString& title, c
 	data.uID = 99;
 	data.uFlags = NIF_INFO;
 	data.uCallbackMessage = 0;
-	data.hIcon = icon ? (HICON)icon->GetHICON() : NULL;
+	data.hIcon = NULL;
 	data.uVersion = NOTIFYICON_VERSION;
 	data.uTimeout = delay * 1000;
-	data.dwInfoFlags = icon ? NIIF_USER : 0;
+	data.dwInfoFlags = cIcon ? NIIF_USER : 0;
 #if (NTDDI_VERSION >= NTDDI_VISTA)
-	data.hBalloonIcon = NULL;
+	data.hBalloonIcon = cIcon ? (HICON)cIcon->GetHICON() : NULL;
 #endif
 	HRESULT result = Shell_NotifyIcon(NIM_MODIFY, &data);
 #endif

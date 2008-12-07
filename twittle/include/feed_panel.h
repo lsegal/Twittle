@@ -30,6 +30,7 @@ protected:
 	wxString DecorateSource(wxString text) const;
 	unsigned int GetStatusSize() const;
 	const TwitterStatus GetStatusItem(unsigned int n) const;
+	void StatusNotification(const TwitterStatus& status);
 
 public:
 	FeedPanel() : wxHtmlListBox(), filter(0) { }

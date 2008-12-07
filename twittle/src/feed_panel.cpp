@@ -119,6 +119,17 @@ const TwitterStatus FeedPanel::GetStatusItem(unsigned int n) const
 	throw "invalid status item";
 }
 
+void FeedPanel::StatusNotification(const TwitterStatus& status)
+{
+	wxString title = status.GetUser().GetName() + _T(" (") + 
+		status.GetUser().GetScreenName() + _T(") tweets:");
+	if (title.Length() > 64) {
+		title = status.GetUser().GetScreenName() + _T(" tweets:");
+	}
+	wxString notification = status.GetText();
+	wxGetApp().GetMainWindow().TrayNotification(notification, title);
+}
+
 void FeedPanel::SetFeed(const wxString& resource, int delay)
 {
 	// Already watching this feed
@@ -163,9 +174,7 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 		TwitterFeed *feed = twitter.GetFeed(resource);
 		if (feed && feed->GetStatuses().size() > 0) {
 			const TwitterStatus& last = feed->GetStatuses().back();
-			wxString notification = last.GetUser().GetScreenName() + _T(": ") + 
-				last.GetText() + _T(" (") + last.GetTimeSincePost() + _T(")");
-			wxGetApp().GetMainWindow().TrayNotification(notification);
+			StatusNotification(last);
 		}
 	}
 
