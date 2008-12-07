@@ -1,3 +1,15 @@
+#ifdef __WXMSW__
+#	define _WIN32_WINNT 0x600
+#	define _WIN32_IE 0x600
+#	include <windows.h>
+#	include <shellapi.h>
+#
+#ifndef NIIF_USER // MingW doesn't define this
+#	define NIIF_USER 4
+#endif // NIIF_USER
+#
+#endif // __WXMSW__
+
 #include "main_window.h"
 #include "login_panel.h"
 #include "feed_panel.h"
@@ -6,11 +18,12 @@
 #include "options_dialog.h"
 #include "about_dialog.h"
 
-#ifdef _MSC_VER
-#	include <windows.h>
+#if defined(_MSC_VER) // In VS, try to use StringCchCopy otherwise
+#				 // we have to link against the MSVCRT library.
 #	include <strsafe.h>
-#	include <shellapi.h>
-#endif
+#elif defined(__WXMSW__) // GCC should emulate StringCchCopy
+#	define StringCchCopy(dest, len, src) wcsncpy(dest, src, len)
+#endif // _MSC_VER
 
 #include "resources/icon.xpm"
 static wxIcon appIcon(icon);
@@ -105,6 +118,7 @@ void MainWindow::SetTrayIcon()
 		}
 
 		trayIcon.SetIcon(appIcon, tooltip);
+		TrayNotification(_T("Hello world"));
 	}
 	else if (trayIcon.IsIconInstalled()) {
 		trayIcon.RemoveIcon();
@@ -144,7 +158,7 @@ void MainWindow::TrayNotification(const wxString& text, const wxString& title, c
 	// return if the window is active
 	if (IsActive()) return;
 
-#ifdef _MSC_VER // win32 only
+#ifdef __WXMSW__ // win32 only
 	GetTrayIconHWND();
 	NOTIFYICONDATA data;
 
@@ -166,12 +180,13 @@ void MainWindow::TrayNotification(const wxString& text, const wxString& title, c
 	data.hIcon = NULL;
 	data.uVersion = NOTIFYICON_VERSION;
 	data.uTimeout = delay * 1000;
+	data.dwInfoFlags = 0;
 	data.dwInfoFlags = cIcon ? NIIF_USER : 0;
 #if (NTDDI_VERSION >= NTDDI_VISTA)
 	data.hBalloonIcon = cIcon ? (HICON)cIcon->GetHICON() : NULL;
 #endif
-	HRESULT result = Shell_NotifyIcon(NIM_MODIFY, &data);
-#endif
+	Shell_NotifyIcon(NIM_MODIFY, &data);
+#endif // __WXMSW__
 }
 
 void MainWindow::OnIconize(wxIconizeEvent& evt)
