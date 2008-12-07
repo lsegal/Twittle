@@ -4,9 +4,8 @@
 #include <wx/wx.h>
 #include <wx/html/htmlwin.h>
 #include <wx/htmllbox.h>
+#include "twitter/twitter.h"
 #include "twitter/twitter_update_listener.h"
-
-class Twitter;
 
 DECLARE_EVENT_TYPE(EVT_FEED_UPDATED, -1)
 DECLARE_EVENT_TYPE(EVT_IMAGE_UPDATED, -2)
@@ -44,7 +43,7 @@ public:
 		FILTER_NONE = 0, FILTER_REPLIES
 	};
 
-	void SetFeed(const wxString &resource, int delay = 120);
+	void SetFeed(const wxString &resource, int delay = Twitter::DefaultFeedDelay);
 
 	void ResetFilter() { filter = 0; SetItemCount(GetStatusSize()); }
 	void AddFilter(unsigned int ftype) { filter |= ftype; SetItemCount(GetStatusSize()); }

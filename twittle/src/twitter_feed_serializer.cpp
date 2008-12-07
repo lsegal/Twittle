@@ -3,6 +3,7 @@
 #include <wx/file.h>
 #include <wx/xml/xml.h>
 #include "application.h"
+#include "twitter/twitter.h"
 #include "twitter/twitter_feed.h"
 #include "twitter/twitter_status.h"
 #include "twitter/twitter_user.h"
@@ -27,7 +28,8 @@ TwitterFeed *Serializer<wxString, TwitterFeed>::Read(const wxString& path)
 
 	// create the feed
 	TwitterFeed *feed = new TwitterFeed(wxGetApp().GetTwitter(), root->GetPropVal(_T("resource"), _T("")));
-	root->GetPropVal(_T("delay"), _T("300")).ToULong((unsigned long *)&feed->delay);
+	root->GetPropVal(_T("delay"), wxString::Format(_T("%d"), 
+		Twitter::DefaultFeedDelay)).ToULong((unsigned long *)&feed->delay);
 
 	wxXmlNode *schild = root->GetChildren();
 	while (schild) {

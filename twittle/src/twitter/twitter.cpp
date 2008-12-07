@@ -24,6 +24,7 @@ wxString Twitter::StatusesBaseUrl = Twitter::TwitterBaseUrl + _T("statuses/");
 wxString Twitter::PublicTimelineUrl = _T("public_timeline");
 wxString Twitter::FriendsTimelineUrl = _T("friends_timeline");
 wxString Twitter::UpdateStatusUrl = _T("update");
+int Twitter::DefaultFeedDelay = 120;
 
 Twitter::Twitter(const wxString& username, const wxString& password)
 {

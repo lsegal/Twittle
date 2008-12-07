@@ -173,6 +173,18 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\src\about_dialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\about_dialog.h"
+			>
+		</File>
+		<File
+			RelativePath=".\include\resources\aboutlogo.xpm"
+			>
+		</File>
+		<File
 			RelativePath=".\src\application.cpp"
 			>
 		</File>
@@ -342,6 +354,14 @@
 		</File>
 		<File
 			RelativePath=".\include\settings.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\static_url_text.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\static_url_text.h"
 			>
 		</File>
 		<File

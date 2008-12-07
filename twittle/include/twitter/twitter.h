@@ -39,7 +39,7 @@ public:
 	Twitter(const wxString& username, const wxString& password);
 	~Twitter();
 
-	void BeginFeed(const wxString& resource, int delay = 120);
+	void BeginFeed(const wxString& resource, int delay = DefaultFeedDelay);
 
 	void SetPublicDelay(unsigned int delay);
 	void SetFollowDelay(unsigned int delay);
@@ -72,6 +72,7 @@ public:
 	static wxString PublicTimelineUrl;
 	static wxString FriendsTimelineUrl;
 	static wxString UpdateStatusUrl;
+	static int DefaultFeedDelay;
 
 	friend class TwitterStatus;
 	friend class TwitterFeed;
