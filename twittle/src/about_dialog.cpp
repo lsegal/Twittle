@@ -5,13 +5,13 @@
 
 #include "resources/aboutlogo.xpm"
 
-AboutDialog::AboutDialog(wxWindow *parent) : wxDialog(parent, wxID_ANY, 
+AboutDialog::AboutDialog(wxWindow *parent) : wxDialog(parent, wxID_ANY,
 		_T("About ") + wxGetApp().APPNAME, wxDefaultPosition, wxSize(305, 370))
 {
 	InitializeComponents();
 }
 
-static void RecursiveBackground(wxSizer& sizer, const wxColour& colour) 
+static void RecursiveBackground(wxSizer& sizer, const wxColour& colour)
 {
 	wxSizerItemList::iterator it;
 	for (it = sizer.GetChildren().begin(); it != sizer.GetChildren().end(); ++it) {
@@ -46,7 +46,7 @@ void AboutDialog::InitializeComponents()
 	topSizer->Add(topImageSizer, wxSizerFlags().Border(wxALL, 10));
 	topSizer->Add(new wxStaticText(this, wxID_ANY, wxGetApp().APPNAME));
 	topSizer->Add(new wxStaticText(this, wxID_ANY, _T("Version: ") + wxGetApp().APPVERSION));
-	topSizer->Add(new wxStaticText(this, wxID_ANY, _T("Copyright © 2008")));
+	topSizer->Add(new wxStaticText(this, wxID_ANY, _T("Copyright \xA9 2008")));
 	topSizer->Add(new wxStaticText(this, wxID_ANY, _T("Loren Segal")));
 	topSizer->Add(new wxStaticText(this, wxID_ANY, _T("All Rights Reserved.")));
 	topSizer->AddSpacer(17);

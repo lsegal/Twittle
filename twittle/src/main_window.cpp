@@ -6,7 +6,8 @@
 #include "options_dialog.h"
 #include "about_dialog.h"
 
-#ifdef __WXMSW__
+#ifdef _MSC_VER
+#	include <windows.h>
 #	include <strsafe.h>
 #	include <shellapi.h>
 #endif
@@ -26,8 +27,8 @@ END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
 
-MainWindow::MainWindow(bool showInTaskbar) : 
-	wxFrame(NULL, wxID_ANY, wxGetApp().APPNAME, wxDefaultPosition, wxSize(320, 540), 
+MainWindow::MainWindow(bool showInTaskbar) :
+	wxFrame(NULL, wxID_ANY, wxGetApp().APPNAME, wxDefaultPosition, wxSize(320, 540),
 		showInTaskbar ? wxDEFAULT_FRAME_STYLE : wxDEFAULT_FRAME_STYLE | wxFRAME_NO_TASKBAR),
 	panel(NULL), loggedIn(false)
 {
@@ -110,7 +111,7 @@ void MainWindow::SetTrayIcon()
 	}
 }
 
-// HACK to get the icon handle from the TaskBarIconWindow 
+// HACK to get the icon handle from the TaskBarIconWindow
 #ifdef __WXMSW__
 
 static WXHWND trayIconHWND = NULL;
@@ -120,7 +121,7 @@ static BOOL CALLBACK FindTrayIconWindow(HWND hwnd, LPARAM param)
 	RECT rect;
 	GetWindowRect(hwnd, &rect);
 	if (GetWindowTextLength(hwnd) == 0 &&
-			rect.right == 400 && rect.bottom == 250 && 
+			rect.right == 400 && rect.bottom == 250 &&
 			rect.top == 0 && rect.left == 0) {
 		trayIconHWND = hwnd;
 		return FALSE;
@@ -137,13 +138,13 @@ static void GetTrayIconHWND()
 // Shows a Tray notification (bubble)
 // Currently implemented in Win32 only.
 // wxWidgets 2.9 has this functionality,
-// but it is not yet released 
+// but it is not yet released
 void MainWindow::TrayNotification(const wxString& text, const wxString& title, const wxIcon* cIcon, int delay)
 {
 	// return if the window is active
 	if (IsActive()) return;
 
-#ifdef __WXMSW__ // win32 only
+#ifdef _MSC_VER // win32 only
 	GetTrayIconHWND();
 	NOTIFYICONDATA data;
 
