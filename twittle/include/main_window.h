@@ -17,6 +17,7 @@ class MainWindow : public wxFrame
 	TrayIcon trayIcon;
 	bool loggedIn;
 
+	void SetOnTop();
 	void SetTransparency();
 	void SetTrayIcon();
 	void SwapPanels(wxPanel *newPanel);

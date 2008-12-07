@@ -34,6 +34,7 @@ MainWindow::MainWindow(bool showInTaskbar) :
 	wxGetApp().SetTopWindow(this); // set top level window immediately
 	SetIcon(appIcon); // show icon
 	SetTransparency(); // set transparency
+	SetOnTop(); // on top setting
 
 	// Set last known position
 	long x = wxGetApp().GetSettings().GetLong(_T("window.x"));
@@ -56,9 +57,23 @@ MainWindow::~MainWindow()
 	wxGetApp().GetSettings().Set(_T("window.y"), y);
 }
 
+void MainWindow::SetOnTop()
+{
+	bool ontop = wxGetApp().GetSettings().GetBool(_T("window.alwaysontop"));
+	long style = GetWindowStyle();
+	if (ontop) {
+		style |= wxSTAY_ON_TOP;
+	}
+	else {
+		style &= ~wxSTAY_ON_TOP;
+	}
+
+	SetWindowStyle(style);
+}
+
 void MainWindow::SetTransparency()
 {
-	if (IsActive()) {
+	if (IsActive() && wxGetApp().GetSettings().GetBool(_T("window.transwhenactive"))) {
 		SetTransparent(255); // full opacity when app is active
 	}
 	else {
@@ -69,7 +84,7 @@ void MainWindow::SetTransparency()
 
 void MainWindow::OnActivate(wxActivateEvent& evt)
 {
-	if (!IsActive()) {
+	if (!IsActive() && wxGetApp().GetSettings().GetBool(_T("window.transwhenactive"))) {
 		SetTransparent(255); // full opacity when app is active
 	}
 	else {
@@ -261,6 +276,7 @@ void MainWindow::OnOptions(wxCommandEvent& evt)
 			main->ForceUpdateUI();
 		}
 		SetTrayIcon();
+		SetOnTop();
 	}
 
 	// update transparency

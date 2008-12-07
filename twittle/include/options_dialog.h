@@ -12,6 +12,8 @@ class OptionsDialog : public wxDialog
 	wxCheckBox showInTaskbar;
 	wxCheckBox minimizeToTray;
 	wxCheckBox showNotifications;
+	wxCheckBox alwaysOnTop;
+	wxCheckBox transWhenActive;
 	wxSlider transparency;
 	wxStaticText transLabel;
 	wxComboBox editPosition;

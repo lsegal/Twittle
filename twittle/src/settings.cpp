@@ -12,12 +12,14 @@ Settings::Settings() : loaded(false)
 void Settings::Defaults()
 {
 	Set(_T("window.transparency"), 255L);
+	Set(_T("window.transwhenactive"), true);
 	Set(_T("window.width"), 300L);
 	Set(_T("window.height"), 400L);
 	Set(_T("window.showintaskbar"), true);
 	Set(_T("window.showintray"), true);
 	Set(_T("window.minimizetotray"), true);
 	Set(_T("window.shownotifications"), true);
+	Set(_T("window.alwaysontop"), false);
 	Set(_T("feedpanel.showscreenname"), true);
 	Set(_T("feedpanel.editposition"), _T("bottom"));
 	Set(_T("account.autologin"), false);
