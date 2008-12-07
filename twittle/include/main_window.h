@@ -35,6 +35,7 @@ public:
 	void OnClearPanel(wxCommandEvent& evt);
 	void OnOptions(wxCommandEvent& evt);
 	void OnLogout(wxCommandEvent& evt);
+	void OnAbout(wxCommandEvent& evt);
 	void OnExit(wxCommandEvent& evt);
 
 	void TrayNotification(const wxString& text, const wxString& title = _T("Twittle"), const wxIcon* icon = NULL, int delay = 5);

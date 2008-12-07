@@ -4,6 +4,7 @@
 #include "main_panel.h"
 #include "application.h"
 #include "options_dialog.h"
+#include "about_dialog.h"
 
 #ifdef __WXMSW__
 #	include <strsafe.h>
@@ -17,6 +18,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(wxID_PREFERENCES, MainWindow::OnOptions)
 	EVT_MENU(ID_LOGOUT, MainWindow::OnLogout)
 	EVT_MENU(wxID_EXIT, MainWindow::OnExit)
+	EVT_MENU(wxID_ABOUT, MainWindow::OnAbout)
 	EVT_COMMAND(wxID_ANY, wxEVT_CLEAR_PANEL, MainWindow::OnClearPanel)
 	EVT_ICONIZE(MainWindow::OnIconize)
 END_EVENT_TABLE()
@@ -196,11 +198,15 @@ wxMenuBar *MainWindow::LoginMenuBar()
 	wxMenuBar *menuBar = new wxMenuBar;
 
 	wxMenu* file = new wxMenu;
-	file->Append(wxID_PREFERENCES, _T("&Options\tCtrl+O"));
+	file->Append(wxID_PREFERENCES, _T("&Options...\tCtrl+O"));
 	file->AppendSeparator();
 	file->Append(wxID_EXIT, _T("E&xit\tCtrl+Q"));
 
+	wxMenu *help = new wxMenu;
+	help->Append(wxID_ABOUT, _T("About..."));
+
 	menuBar->Append(file, _T("&File"));
+	menuBar->Append(help, _T("&Help"));
 	return menuBar;
 }
 
@@ -209,12 +215,16 @@ wxMenuBar *MainWindow::MainMenuBar()
 	wxMenuBar *menuBar = new wxMenuBar;
 
 	wxMenu* file = new wxMenu;
-	file->Append(wxID_PREFERENCES, _T("&Options\tCtrl+O"));
+	file->Append(wxID_PREFERENCES, _T("&Options...\tCtrl+O"));
 	file->Append(ID_LOGOUT, _T("&Logout"));
 	file->AppendSeparator();
 	file->Append(wxID_EXIT, _T("E&xit\tCtrl+Q"));
 
+	wxMenu *help = new wxMenu;
+	help->Append(wxID_ABOUT, _T("About..."));
+
 	menuBar->Append(file, _T("&File"));
+	menuBar->Append(help, _T("&Help"));
     return menuBar;
 }
 
@@ -243,6 +253,11 @@ void MainWindow::OnOptions(wxCommandEvent& evt)
 void MainWindow::OnLogout(wxCommandEvent& evt)
 {
 	wxGetApp().Logout();
+}
+
+void MainWindow::OnAbout(wxCommandEvent& evt)
+{
+	AboutDialog(this).ShowModal();
 }
 
 void MainWindow::OnExit(wxCommandEvent& evt)
