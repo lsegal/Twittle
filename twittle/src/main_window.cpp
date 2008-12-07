@@ -118,7 +118,6 @@ void MainWindow::SetTrayIcon()
 		}
 
 		trayIcon.SetIcon(appIcon, tooltip);
-		TrayNotification(_T("Hello world"));
 	}
 	else if (trayIcon.IsIconInstalled()) {
 		trayIcon.RemoveIcon();
