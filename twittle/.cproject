@@ -67,9 +67,9 @@
 <listOptionValue builtIn="false" value="wxmsw28ud_core"/>
 <listOptionValue builtIn="false" value="wxmsw28ud_html"/>
 <listOptionValue builtIn="false" value="wxmsw28ud_xrc"/>
+<listOptionValue builtIn="false" value="wxmsw28ud_adv"/>
 <listOptionValue builtIn="false" value="wxbase28ud"/>
 <listOptionValue builtIn="false" value="wxbase28ud_net"/>
-<listOptionValue builtIn="false" value="wxbase28ud_adv"/>
 <listOptionValue builtIn="false" value="wxbase28ud_xml"/>
 <listOptionValue builtIn="false" value="wxjpegd"/>
 <listOptionValue builtIn="false" value="wxtiffd"/>
