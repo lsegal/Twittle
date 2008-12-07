@@ -31,6 +31,7 @@ public:
 	void ShowLogin(bool autoLogin = false);
 
 	// Events
+	void OnActivate(wxActivateEvent& evt);
 	void OnIconize(wxIconizeEvent& evt);
 	void OnClearPanel(wxCommandEvent& evt);
 	void OnOptions(wxCommandEvent& evt);

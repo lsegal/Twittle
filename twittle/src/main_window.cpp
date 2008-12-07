@@ -21,6 +21,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(wxID_ABOUT, MainWindow::OnAbout)
 	EVT_COMMAND(wxID_ANY, wxEVT_CLEAR_PANEL, MainWindow::OnClearPanel)
 	EVT_ICONIZE(MainWindow::OnIconize)
+	EVT_ACTIVATE(MainWindow::OnActivate)
 END_EVENT_TABLE()
 
 DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
@@ -57,7 +58,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::SetTransparency()
 {
-	SetTransparent(wxGetApp().GetSettings().GetLong(_T("window.transparency")));
+	if (IsActive()) {
+		SetTransparent(255); // full opacity when app is active
+	}
+	else {
+		// use transparency settings
+		SetTransparent(wxGetApp().GetSettings().GetLong(_T("window.transparency")));
+	}
+}
+
+void MainWindow::OnActivate(wxActivateEvent& evt)
+{
+	if (!IsActive()) {
+		SetTransparent(255); // full opacity when app is active
+	}
+	else {
+		// use transparency settings
+		SetTransparent(wxGetApp().GetSettings().GetLong(_T("window.transparency")));
+	}
 }
 
 void MainWindow::SetTrayIcon()
@@ -244,10 +262,9 @@ void MainWindow::OnOptions(wxCommandEvent& evt)
 		}
 		SetTrayIcon();
 	}
-	else {
-		// reset transparency
-		SetTransparency();
-	}
+
+	// update transparency
+	SetTransparency();
 }
 
 void MainWindow::OnLogout(wxCommandEvent& evt)
