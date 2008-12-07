@@ -146,7 +146,7 @@ static void GetTrayIconHWND()
 {
 	EnumWindows(FindTrayIconWindow, 0);
 }
-#endif
+#endif // __WXMSW__
 
 // Shows a Tray notification (bubble)
 // Currently implemented in Win32 only.
