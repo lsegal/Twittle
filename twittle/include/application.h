@@ -40,6 +40,28 @@ public:
 	inline Settings& GetSettings() { return settings; }
 
 	/** 
+	 * Returns the application name (APPNAME). Required by wxStandardPaths::GetUserDataDir
+	 */
+	wxString GetAppName() const;
+
+	/**
+	 * Returns the path on disk to store all feed related data for the logged in user.
+	 *
+	 * @pre the Twitter login credentials must be set (via #Login or Twitter::SetAuth)
+	 */
+	wxString GetFeedsPath() const;
+
+	/**
+	 * Returns the path on disk to store all image related data for profile images
+	 */
+	wxString GetImagesPath() const;
+
+	/**
+	 * Returns the path on disk where the settings.xml file is stored
+	 */
+	wxString GetSettingsPath() const;
+
+	/** 
 	 * Initialization code.
 	 */
 	bool OnInit();
@@ -72,23 +94,6 @@ public:
 	 * @post login window is shown
 	 */
 	void Logout();
-
-	/**
-	 * Returns the path on disk to store all feed related data for the logged in user.
-	 *
-	 * @pre the Twitter login credentials must be set (via #Login or Twitter::SetAuth)
-	 */
-	const wxString GetFeedsPath();
-
-	/**
-	 * Returns the path on disk to store all image related data for profile images
-	 */
-	const wxString GetImagesPath();
-
-	/**
-	 * Returns the path on disk where the settings.xml file is stored
-	 */
-	const wxString GetSettingsPath();
 };
 
 DECLARE_APP(Application)

@@ -5,6 +5,7 @@
 #include <wx/socket.h>
 #include <wx/fs_inet.h>
 #include <wx/mimetype.h>
+#include <wx/stdpaths.h>
 
 #ifdef WIN32
 #	define mkdir _mkdir
@@ -42,12 +43,12 @@ bool Application::OnInit()
 	// load settings
 	settings.Load();
 
-	// make the images, feeds, settings directories if they do not exist
-	mkdir("images");
-	mkdir("accounts");
-
 	// twitter
 	twitter = new Twitter();
+
+	// make the images, feeds, settings directories if they do not exist
+	GetImagesPath();
+	GetFeedsPath();
 
 	// main window
 	main = new MainWindow(settings.GetBool(_T("window.showintaskbar")));
@@ -92,25 +93,34 @@ void Application::OpenUrl(const wxString& url)
 	delete ft;
 }
 
-const wxString Application::GetFeedsPath()
+wxString Application::GetAppName() const
 {
-	wxString path = _T("accounts/") + twitter->GetUsername() + _T("/");
+	return APPNAME;
+}
+
+wxString Application::GetFeedsPath() const
+{
+	wxStandardPathsBase& sPath = wxStandardPathsBase::Get();
+	wxString path = sPath.GetUserDataDir() + _T("/accounts/") + twitter->GetUsername() + _T("/");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }
 
-const wxString Application::GetImagesPath()
+wxString Application::GetImagesPath() const
 {
-	wxString path = _T("images/");
+	wxStandardPathsBase& sPath = wxStandardPathsBase::Get();
+	wxString path = sPath.GetUserDataDir() + _T("/images/");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }
 
-const wxString Application::GetSettingsPath()
+wxString Application::GetSettingsPath() const
 {
+	wxStandardPathsBase& sPath = wxStandardPathsBase::Get();
+
 	// this checks for and creates an empty directory,
 	// but we keep it around just in case we decide to change the path name
-	wxString path = _T("");
+	wxString path = sPath.GetUserDataDir() + _T("/");
 	mkdir(path.mb_str()); // make sure path exists
 	return path;
 }
