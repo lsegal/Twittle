@@ -38,7 +38,7 @@ public:
 	TwitterFeed(Twitter& client, const wxString& res);
 
 	/** 
-	 * Cleans up all status objects
+	 * Cleans up all status objects (saving them to disk first).
 	 */
 	virtual ~TwitterFeed();
 
