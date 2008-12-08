@@ -28,7 +28,9 @@ public:
 	ImagePreviewDialog(wxWindow *parent, wxString initFilename);
 	virtual ~ImagePreviewDialog();
 
-	inline wxString GetUrl() { return imageUrl; }
+	static bool IsValidImage(wxString& filename);
+
+	inline wxString GetUrl() const { return imageUrl; }
 
 	// @override wxWindow
 	bool TransferDataFromWindow();

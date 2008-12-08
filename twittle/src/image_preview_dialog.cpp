@@ -98,6 +98,15 @@ bool ImagePreviewDialog::TransferDataFromWindow()
 	return !imageUrl.IsEmpty();
 }
 
+bool ImagePreviewDialog::IsValidImage(wxString& filename)
+{
+	wxString ext = filename.AfterLast(_T('.'));
+
+	// do we have an image handler for this mime type?
+	wxImageHandler *handler = wxImage::FindHandler(ext, -1);
+	return handler != NULL;
+}
+
 void ImagePreviewDialog::ImageUpload(wxString& filename)
 {
 	try {
@@ -125,13 +134,16 @@ void ImagePreviewDialog::ShowImagePreview()
 
 void ImagePreviewDialog::OnChooseImage(wxCommandEvent& evt)
 {
-	wxString tmpFilename = wxFileSelector(_T("Select an image to upload"));
+	wxString tmpFilename = wxFileSelector(_T("Select an image to upload"), 0, 0, 0, wxImage::GetImageExtWildcard());
 	if (!imageFilename && !tmpFilename) {
 		Close();
 		return;
 	}
 	else if (!tmpFilename) {
-		return;
+		return; // no image file selected
+	}
+	else if (!IsValidImage(tmpFilename)) {
+		return; // invalid image file selected
 	}
 
 	imageFilename = tmpFilename;

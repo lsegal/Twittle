@@ -225,6 +225,11 @@ void MainPanel::OnDropFiles(wxDropFilesEvent& evt)
 	wxString *files = evt.GetFiles();
 
 	if (numFiles > 0) {
+		// make sure this file is an image file.
+		if (!ImagePreviewDialog::IsValidImage(files[0]))
+			return;
+
+		// show the preview for it
 		ImagePreviewDialog dlg(this, files[0]);
 		if (dlg.ShowModal() == wxID_OK) {
 			editbox.InsertUrl(dlg.GetUrl());
