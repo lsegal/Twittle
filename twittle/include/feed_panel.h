@@ -211,7 +211,7 @@ public:
 	// @{
 
 	/**
-	 * Called by #TwitterUpdateReceived when it receives an update
+	 * Called by FeedPanel::TwitterUpdateReceived when it receives an update
 	 */
 	void OnFeedUpdated(wxCommandEvent &event);
 

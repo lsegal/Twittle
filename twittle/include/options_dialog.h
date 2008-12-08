@@ -40,7 +40,7 @@ class OptionsDialog : public wxDialog
 	/** Initializes all window controls */
 	void InitializeComponents();
 
-	/** Initializes all control values from the #settings object */
+	/** Initializes all control values from the OptionsDialog::settings object */
 	void InitializeValues();
 
 public:
