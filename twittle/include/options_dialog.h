@@ -4,7 +4,9 @@
 #include "settings.h"
 
 /**
- * Allows user to modify application settings.
+ * Allows user to modify application settings. Upon construction
+ * the dialog takes its settings from the application's current 
+ * settings (Application::GetSettings).
  * Example usage:
  * @code
  *   OptionsDialog dlg(this);

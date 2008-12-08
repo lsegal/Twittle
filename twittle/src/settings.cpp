@@ -92,13 +92,6 @@ bool Settings::Save() const
 	return doc.Save(SettingsFile());
 }
 
-/** 
- * Merges a settings object with another. 
- *
- * Implementation note: this only works at the properties level of
- * the root node of the xml file. Child elements will be ignored.
- * This is not by design but by incomplete implementation.
- */
 void Settings::Merge(const Settings& other)
 {
 	wxXmlProperty *prop = other.doc.GetRoot()->GetProperties();
