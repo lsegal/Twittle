@@ -71,8 +71,6 @@ public:
 	 * Shows a Tray notification (bubble); Currently implemented in Win32 only.
 	 * wxWidgets 2.9 has this functionality, but it is not yet released.
 	 *
-	 * @todo Implement custom icon display next to notification.
-	 *
 	 * @param text the notification text
 	 * @param title the title of the notification
 	 * @param icon show an icon next to the notification (currently unused)
