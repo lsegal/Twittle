@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_twitter_user.html#caab726e4742bda7eba646e5821dee03" title="Returns the user&#39;s full name." alt="" coords="269,5,419,32">
+<area shape="rect" href="$class_twitter_user.html#1ac1b4e3e7d6df10fbea79ae7fb637b8" title="Returns the user&#39;s short name or screen name." alt="" coords="249,56,439,82">
+<area shape="rect" href="$class_twitter_status.html#fad89e41ad3b6ee2a415de260e137e61" title="Returns the text in the status update." alt="" coords="268,106,420,133">
+<area shape="rect" href="$class_twitter_status.html#7ef3a3d6acae9e3494f23f633f87b555" title="Returns the user associated with this posting." alt="" coords="268,157,420,184">

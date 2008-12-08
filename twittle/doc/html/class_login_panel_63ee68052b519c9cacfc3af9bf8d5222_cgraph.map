@@ -1,0 +1,3 @@
+<area shape="rect" href="$class_login_panel.html#fd451d1945f0aa53b9b5bb7378b651a7" title="Performs a verification of the login credentials using the account settings set in..." alt="" coords="229,6,352,32">
+<area shape="rect" href="$class_login_panel.html#5d21c69771591f8ad82f9bbec95a88e1" title="Displays an error message if authorization fails." alt="" coords="203,56,379,83">
+<area shape="rect" href="$class_login_panel.html#3c834439b54094705e4ddbc7c63d3b9c" title="Activated when Login succeeds." alt="" coords="195,107,387,134">

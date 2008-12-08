@@ -1,0 +1,9 @@
+<area shape="rect" href="$class_twitter_user.html#1a564e3a92de73a55a3a8bd00bc4f502" title="Returns the user&#39;s &quot;description&quot;." alt="" coords="363,6,541,32">
+<area shape="rect" href="$class_twitter_user.html#900b082a5bbad8a69e2ab42426edaee2" title="Returns the number of followers the user has." alt="" coords="351,56,553,83">
+<area shape="rect" href="$class_twitter_user.html#71fe0a32b4e41cb3efd06e9d56f54c58" title="Returns the user&#39;s ID." alt="" coords="389,107,515,134">
+<area shape="rect" href="$class_twitter_user.html#488bfff239adb2b9b082e8b1415555f7" title="Returns the user&#39;s location." alt="" coords="371,158,533,184">
+<area shape="rect" href="$class_twitter_user.html#caab726e4742bda7eba646e5821dee03" title="Returns the user&#39;s full name." alt="" coords="377,208,527,235">
+<area shape="rect" href="$class_twitter_user.html#260163f14af03cf96f3aa6f8e82c11a7" title="Returns the user&#39;s profile image URL (remote file)." alt="" coords="351,259,553,286">
+<area shape="rect" href="$class_twitter_user.html#1ac1b4e3e7d6df10fbea79ae7fb637b8" title="Returns the user&#39;s short name or screen name." alt="" coords="357,310,547,336">
+<area shape="rect" href="$class_twitter_user.html#53d14ceb4d9585cff7be42eab811490c" title="Returns the user&#39;s personal website (if set)." alt="" coords="387,360,517,387">
+<area shape="rect" href="$class_twitter_user.html#b83874050eef0cbf0c1eeba077546ed9" title="Returns the user&#39;s protected mode (?)." alt="" coords="372,411,532,438">

@@ -1,0 +1,6 @@
+<area shape="rect" href="$class_twitter_status.html#6525df516246fca215c3df8db31090d9" title="Returns the date the item was posted." alt="" coords="363,6,547,32">
+<area shape="rect" href="$class_twitter_status.html#3ae64fa4247619c92c2be9bcdbb99bd4" title="Returns the unique identifier of the status item." alt="" coords="387,56,523,83">
+<area shape="rect" href="$class_twitter_status.html#62599fa71b22f25a378205513a85ddae" title="Returns the source (where it was posted from)." alt="" coords="371,107,539,134">
+<area shape="rect" href="$class_twitter_status.html#fad89e41ad3b6ee2a415de260e137e61" title="Returns the text in the status update." alt="" coords="379,158,531,184">
+<area shape="rect" href="$class_twitter_status.html#7ef3a3d6acae9e3494f23f633f87b555" title="Returns the user associated with this posting." alt="" coords="379,208,531,235">
+<area shape="rect" href="$class_twitter_status.html#5715a0442a07d24bdedb94dffab57c37" title="Returns whether or not this posting was truncated by the system." alt="" coords="369,259,540,286">

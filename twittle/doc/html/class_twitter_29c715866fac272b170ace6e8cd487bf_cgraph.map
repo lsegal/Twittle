@@ -1,0 +1,9 @@
+<area shape="rect" href="$class_twitter_feed.html#55fea9a2f75809fffae39880320d110f" title="Adds a status item to the collection." alt="" coords="249,5,407,32">
+<area shape="rect" href="$class_twitter.html#5a7e75a6d80c60e21b56f9f58006d20b" title="Returns a feed by the resource name." alt="" coords="269,56,387,82">
+<area shape="rect" href="$class_http_client.html#8046fe4e7e8eb25e1fccede3b6ae3227" title="Same as Get but parses the output as an XML document and returns that instead." alt="" coords="264,106,392,133">
+<area shape="rect" href="$class_twitter.html#f5b4fa6d64225a541e08a1140daf479a" title="Notifies all registered listeners for a specific resource." alt="" coords="252,157,404,184">
+<area shape="rect" href="$class_twitter.html#cda9e9caa4d17df1ee448fce5249d92e" title="Whether or not the specific resource URL is public or if it requires user authentication..." alt="" coords="200,208,456,234">
+<area shape="rect" href="$class_twitter.html#c8add0ab8a6081f53fb5c00f7bc2b8a6" title="Helper method to set the authentication information on an HttpClient object." alt="" coords="271,258,385,285">
+<area shape="rect" href="$class_http_client.html#ef3867272084cacdead9d5718194baf6" title="Helper method to perform URLEncoding on an input string." alt="" coords="255,309,401,336">
+<area shape="rect" href="$class_twitter_status.html#3ae64fa4247619c92c2be9bcdbb99bd4" title="Returns the unique identifier of the status item." alt="" coords="539,5,675,32">
+<area shape="rect" href="$class_http_client.html#7e4b23e94cced8ca24c037349afd35da" title="Gets the input stream after setting up the connection." alt="" coords="505,106,708,133">

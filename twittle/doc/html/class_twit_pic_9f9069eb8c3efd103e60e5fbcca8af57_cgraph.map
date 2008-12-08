@@ -1,0 +1,8 @@
+<area shape="rect" href="$class_multipart.html#5fd585e5fac477cd0e04a1dde1f47a08" title="Adds basic string data to the form request." alt="" coords="228,5,329,32">
+<area shape="rect" href="$class_multipart.html#714b1bd3382ace97047a5df0eaa5f9f1" title="Adds a file (encoded as binary) to the form request." alt="" coords="217,56,340,82">
+<area shape="rect" href="$class_multipart.html#fa5808f67cc55f4be8a69173459db8cb" title="Ends a multipart/form&#45;data request by appending the final boundary string." alt="" coords="228,106,329,133">
+<area shape="rect" href="$class_multipart.html#291d69546689ddc889a097188c959db6" title="Returns the boundary, used for setting the Content&#45;type header." alt="" coords="201,157,356,184">
+<area shape="rect" href="$class_twit_pic.html#f3bc783bd6da65b734b4310da330e032" title="Helper function to get mime type from file extension." alt="" coords="203,208,355,234">
+<area shape="rect" href="$class_multipart.html#0d4fcf2ff7b2df752588de9233fa32a3" title="Retrieves the full form request contents as a string." alt="" coords="212,258,345,285">
+<area shape="rect" href="$class_http_client.html#8046fe4e7e8eb25e1fccede3b6ae3227" title="Same as Get but parses the output as an XML document and returns that instead." alt="" coords="215,309,343,336">
+<area shape="rect" href="$class_http_client.html#7e4b23e94cced8ca24c037349afd35da" title="Gets the input stream after setting up the connection." alt="" coords="407,309,609,336">

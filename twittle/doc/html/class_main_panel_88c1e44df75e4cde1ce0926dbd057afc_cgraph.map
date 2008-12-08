@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_feed_panel.html#f5bf512390e46b95853fea158d9ffebe" title="Performs window initialization for the object." alt="" coords="288,30,416,57">
+<area shape="rect" href="$class_main_panel.html#f1d3fd3688058de04e85d4a6ce528d82" title="Orders panel controls by user settings (editbox on top / editbox on bottom)." alt="" coords="264,81,440,108">
+<area shape="rect" href="$class_feed_panel.html#2fa06e0766efafcc31d7452c2c8def81" title="Creates the keyboard accelerators for accessing menu items via the keyboard." alt="" coords="488,5,691,32">
+<area shape="rect" href="$class_feed_panel.html#bb7e737068a7a4500a2af0c5ef7a619c" title="Creates the item popup menu when a user right clicks on a status item." alt="" coords="496,56,683,82">

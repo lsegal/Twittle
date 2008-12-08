@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_status_text_ctrl.html#32ab683b7a6a6b24476f3fb2892d919c" title="Inserts a URL (if it is a valid URL) to the editbox at the current insertion point..." alt="" coords="221,5,381,32">
+<area shape="rect" href="$class_main_panel.html#8dd98348285b31bcaf2228d210124769" title="Shortens a URL (thread callback) and replaces the string shortUrl with the shortened..." alt="" coords="225,56,377,83">
+<area shape="rect" href="$class_status_text_ctrl.html#43e5f3a96a130a9779f34dd5e7463ee9" title="Returns whether or not this control has focus." alt="" coords="429,5,587,32">
+<area shape="rect" href="$status__text__ctrl_8cpp.html#8ce138dbdc147332d5cf3e2b995860ef" title="INACTIVE_COLOUR" alt="" coords="636,5,775,32">

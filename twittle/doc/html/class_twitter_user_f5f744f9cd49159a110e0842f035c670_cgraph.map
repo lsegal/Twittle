@@ -1,0 +1,5 @@
+<area shape="rect" href="$class_twitter_user.html#0866875b967175d2dbaba8bfbe190ec6" title="Performs an HTTP request to retrieve the profile image and store it locally on disk..." alt="" coords="213,56,400,83">
+<area shape="rect" href="$class_twitter_user.html#2a40637df63b73ef3f2816e242394430" title="Returns the profile image filename where the profile image is (or should be) stored..." alt="" coords="448,6,688,32">
+<area shape="rect" href="$class_twitter_user.html#efef35c34a885d30a5ca71b7d5026d20" title="Parses the XML node and updates member data." alt="" coords="217,107,396,134">
+<area shape="rect" href="$class_twitter_user.html#260163f14af03cf96f3aa6f8e82c11a7" title="Returns the user&#39;s profile image URL (remote file)." alt="" coords="736,56,939,83">
+<area shape="rect" href="$class_twitter_user.html#71fe0a32b4e41cb3efd06e9d56f54c58" title="Returns the user&#39;s ID." alt="" coords="775,6,900,32">

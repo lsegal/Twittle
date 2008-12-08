@@ -1,0 +1,5 @@
+<area shape="rect" href="$class_image_preview_dialog.html#a09c85414857cc644cdfd8b942d7055e" title="Retrieves the URL location (empty if there was a problem)." alt="" coords="235,6,416,32">
+<area shape="rect" href="$class_status_text_ctrl.html#32ab683b7a6a6b24476f3fb2892d919c" title="Inserts a URL (if it is a valid URL) to the editbox at the current insertion point..." alt="" coords="245,56,405,83">
+<area shape="rect" href="$class_image_preview_dialog.html#07ff455ba1e9cf07602a2597edffddb1" title="Helper method to test if an image can be loaded by wxWidgets by Testing if there..." alt="" coords="216,107,435,134">
+<area shape="rect" href="$class_status_text_ctrl.html#43e5f3a96a130a9779f34dd5e7463ee9" title="Returns whether or not this control has focus." alt="" coords="483,56,640,83">
+<area shape="rect" href="$status__text__ctrl_8cpp.html#8ce138dbdc147332d5cf3e2b995860ef" title="INACTIVE_COLOUR" alt="" coords="689,56,828,83">

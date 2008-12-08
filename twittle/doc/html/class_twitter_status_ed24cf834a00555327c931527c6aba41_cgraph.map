@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_twitter_user.html#71fe0a32b4e41cb3efd06e9d56f54c58" title="Returns the user&#39;s ID." alt="" coords="273,5,399,32">
+<area shape="rect" href="$class_twitter_user.html#efef35c34a885d30a5ca71b7d5026d20" title="Parses the XML node and updates member data." alt="" coords="247,56,425,82">
+<area shape="rect" href="$class_twitter.html#f6cbdb853dfc7dbae988c4eae45a0807" title="Registers a user to the registry." alt="" coords="265,106,407,133">
+<area shape="rect" href="$class_twitter.html#e2b4daf3e46f042e0f01783872998165" title="Performs a lookup on a user by their id and returns the respective user or NULL." alt="" coords="267,157,405,184">

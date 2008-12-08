@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_image_preview_dialog.html#a09c85414857cc644cdfd8b942d7055e" title="Retrieves the URL location (empty if there was a problem)." alt="" coords="227,5,408,32">
+<area shape="rect" href="$class_status_text_ctrl.html#32ab683b7a6a6b24476f3fb2892d919c" title="Inserts a URL (if it is a valid URL) to the editbox at the current insertion point..." alt="" coords="237,56,397,83">
+<area shape="rect" href="$class_status_text_ctrl.html#43e5f3a96a130a9779f34dd5e7463ee9" title="Returns whether or not this control has focus." alt="" coords="456,56,613,83">
+<area shape="rect" href="$status__text__ctrl_8cpp.html#8ce138dbdc147332d5cf3e2b995860ef" title="INACTIVE_COLOUR" alt="" coords="663,56,801,83">

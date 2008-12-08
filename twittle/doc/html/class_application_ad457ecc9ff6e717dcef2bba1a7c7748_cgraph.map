@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_twitter.html#c8add0ab8a6081f53fb5c00f7bc2b8a6" title="Helper method to set the authentication information on an HttpClient object." alt="" coords="220,5,335,32">
+<area shape="rect" href="$class_main_window.html#0ef4a6ae2e2b42a729f01a412646f232" title="Shows the main panel (after logging in)." alt="" coords="180,56,375,82">
+<area shape="rect" href="$class_main_window.html#f5f0f36f593097b6acc720f2b35e23e1" title="Creates a menubar to be inserted when the main panel is shown." alt="" coords="424,30,608,57">
+<area shape="rect" href="$class_main_window.html#21998a3e9da26b5d9447b6462bcd1036" title="Replaces the inner contents of the frame with a new panel." alt="" coords="428,81,604,108">

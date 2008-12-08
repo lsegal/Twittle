@@ -1,0 +1,7 @@
+<area shape="rect" href="$class_main_panel.html#3c3a0be1fc6e0ba213cc5a8e692f3332" title="Called after options have been changed and the feed panel UI needs to be updated..." alt="" coords="232,6,408,32">
+<area shape="rect" href="$class_options_dialog.html#ab0f34aedc0dd9e8294ec6cda9d45651" title="Returns the settings object which might have been modified by the dialog on close..." alt="" coords="231,56,409,83">
+<area shape="rect" href="$class_main_window.html#25e0d90c64f84644e5ba70a9318068f5" title="Sets the on top settings for the window." alt="" coords="240,107,400,134">
+<area shape="rect" href="$class_main_panel.html#f1d3fd3688058de04e85d4a6ce528d82" title="Orders panel controls by user settings (editbox on top / editbox on bottom)." alt="" coords="232,158,408,184">
+<area shape="rect" href="$class_main_window.html#9cf96427f736f1d5cab73705ba7b51e3" title="Sets the transparency settings for the window." alt="" coords="220,208,420,235">
+<area shape="rect" href="$class_main_window.html#22427ca39aef39a4ef877655f8853559" title="Sets the tray icon settings for the window." alt="" coords="235,259,405,286">
+<area shape="rect" href="$main__window_8cpp.html#44264c78c4f37105e265d538ab46ff1b" title="Custom icon." alt="" coords="469,259,536,286">

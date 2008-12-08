@@ -1,0 +1,8 @@
+<area shape="rect" href="$class_twitter.html" title="The heart and soul of Twittle, implementing the Twitter API." alt="" coords="283,822,512,1766">
+<area shape="rect" href="$class_twitter_feed.html" title="Represents a collection of TwitterStatus updates from a resource name (part of a..." alt="" coords="235,1846,349,2134">
+<area shape="rect" href="$class_twitter_update_listener.html" title="An interface for the observer pattern used by Twitter to notify listeners of Twitter..." alt="" coords="559,158,732,254">
+<area shape="rect" href="$class_twitter_status.html" title="Represents a status update from a Twitter user." alt="" coords="5,470,155,758">
+<area shape="rect" href="$class_twitter_user.html" title="Represents a Twitter user." alt="" coords="84,6,271,406">
+<area shape="rect" href="$class_settings.html" title="Represents a map of all application settings in memory which can be loaded from or..." alt="" coords="567,1158,673,1430">
+<area shape="rect" href="$class_main_window.html" title="Represents the main window of the application." alt="" coords="815,1030,1015,1558">
+<area shape="rect" href="$class_tray_icon.html" title="Represents an icon located in the system tray." alt="" coords="827,526,1027,702">

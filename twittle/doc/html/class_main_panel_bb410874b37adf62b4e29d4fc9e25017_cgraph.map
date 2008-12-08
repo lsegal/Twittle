@@ -1,0 +1,22 @@
+<area shape="rect" href="$class_feed_panel.html#7620777c428135d6203d070fa776fe42" title="Adds a filter to sort contents by." alt="" coords="235,82,379,108">
+<area shape="rect" href="$class_feed_panel.html#86ffc7427c19dc37dc188f8bc32b9e42" title="Resets the filtering done on the feed contents." alt="" coords="229,132,384,159">
+<area shape="rect" href="$class_feed_panel.html#53b26b0cdc96bdfe30ef6e896b17588b" title="Sets the feed to follow by a resource name (see Twitter constants)." alt="" coords="237,183,376,210">
+<area shape="rect" href="$class_twitter.html#1c697ce1443439071adb866b73bafe0a" title="Adds a feed to the feed update pool by resource name (which creates a new TwitterFeed..." alt="" coords="456,82,584,108">
+<area shape="rect" href="$class_twitter.html#44269ec9173a28d6ce6af08cdb0cf160" title="Adds a feed to the feed update pool." alt="" coords="680,31,803,58">
+<area shape="rect" href="$class_twitter.html#5a7e75a6d80c60e21b56f9f58006d20b" title="Returns a feed by the resource name." alt="" coords="461,132,579,159">
+<area shape="rect" href="$class_feed_panel.html#429baebbe2ecd79782e1a525f9ad8b55" title="Gets the size of the feed with filtering applied using the FilteredIterator." alt="" coords="432,183,608,210">
+<area shape="rect" href="$class_twitter_feed.html#d5ec32e5fc8254c07ab6ac40939b0d5d" title="Pauses the feed (update thread) temporarily." alt="" coords="453,234,587,260">
+<area shape="rect" href="$class_twitter.html#349330068b6097a93ecf36663bbac7fa" title="Registers a listener to receive updates whenever the feed identified by the resource..." alt="" coords="440,284,600,311">
+<area shape="rect" href="$class_twitter.html#12b6f6c131de204d8af00a585a989674" title="Unregisters a listener from receiving updates for a given feed (by resource name)..." alt="" coords="435,335,605,362">
+<area shape="rect" href="$class_twitter_feed.html#56c7795e76a237ec56d8c49577a1a093" title="Sets the delay time." alt="" coords="667,82,816,108">
+<area shape="rect" href="$class_twitter_feed.html#1226a90d29caffe9dba113dbc6d58cf1" title="Starts the thread and continually updates the feed at a delay." alt="" coords="680,132,803,159">
+<area shape="rect" href="$class_twitter_feed.html#b5d8120e7112b9db5d7b5e5c2dbd40e8" title="The thread callback to periodically refresh the feed." alt="" coords="876,132,1015,159">
+<area shape="rect" href="$class_twitter_feed.html#55fea9a2f75809fffae39880320d110f" title="Adds a status item to the collection." alt="" coords="1113,6,1271,32">
+<area shape="rect" href="$class_http_client.html#8046fe4e7e8eb25e1fccede3b6ae3227" title="Same as Get but parses the output as an XML document and returns that instead." alt="" coords="1128,56,1256,83">
+<area shape="rect" href="$class_twitter.html#f5b4fa6d64225a541e08a1140daf479a" title="Notifies all registered listeners for a specific resource." alt="" coords="1116,107,1268,134">
+<area shape="rect" href="$class_twitter.html#cda9e9caa4d17df1ee448fce5249d92e" title="Whether or not the specific resource URL is public or if it requires user authentication..." alt="" coords="1064,158,1320,184">
+<area shape="rect" href="$class_twitter_feed.html#f09e2c8714d82c9560aded108ffa92be" title="Flushes the feed to disk using Serializer&lt;wxString,TwitterFeed&gt;." alt="" coords="1131,208,1253,235">
+<area shape="rect" href="$class_twitter.html#c8add0ab8a6081f53fb5c00f7bc2b8a6" title="Helper method to set the authentication information on an HttpClient object." alt="" coords="1135,259,1249,286">
+<area shape="rect" href="$class_twitter_status.html#3ae64fa4247619c92c2be9bcdbb99bd4" title="Returns the unique identifier of the status item." alt="" coords="1403,6,1539,32">
+<area shape="rect" href="$class_http_client.html#7e4b23e94cced8ca24c037349afd35da" title="Gets the input stream after setting up the connection." alt="" coords="1369,56,1572,83">
+<area shape="rect" href="$class_twitter_feed.html#5cc16ae4053df0fbd4641b85723be242" title="Returns the collection of TwitterStatus objects that this feed represents." alt="" coords="657,183,825,210">

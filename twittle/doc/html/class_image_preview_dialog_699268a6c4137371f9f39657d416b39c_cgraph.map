@@ -1,0 +1,11 @@
+<area shape="rect" href="$class_twitter.html#1101729d1df95e77bcd689efb246023b" title="Returns the current authentication password." alt="" coords="277,56,421,82">
+<area shape="rect" href="$class_twitter.html#b08df119d24c4c4072160b0c8b7685da" title="Returns the current authentication username." alt="" coords="276,106,423,133">
+<area shape="rect" href="$class_twit_pic.html#9f9069eb8c3efd103e60e5fbcca8af57" title="Uploads an image by binary data to the TwitPic service and returns the URL for the..." alt="" coords="276,157,423,184">
+<area shape="rect" href="$class_multipart.html#5fd585e5fac477cd0e04a1dde1f47a08" title="Adds basic string data to the form request." alt="" coords="500,5,601,32">
+<area shape="rect" href="$class_multipart.html#714b1bd3382ace97047a5df0eaa5f9f1" title="Adds a file (encoded as binary) to the form request." alt="" coords="489,56,612,82">
+<area shape="rect" href="$class_multipart.html#fa5808f67cc55f4be8a69173459db8cb" title="Ends a multipart/form&#45;data request by appending the final boundary string." alt="" coords="500,106,601,133">
+<area shape="rect" href="$class_multipart.html#291d69546689ddc889a097188c959db6" title="Returns the boundary, used for setting the Content&#45;type header." alt="" coords="473,157,628,184">
+<area shape="rect" href="$class_twit_pic.html#f3bc783bd6da65b734b4310da330e032" title="Helper function to get mime type from file extension." alt="" coords="475,208,627,234">
+<area shape="rect" href="$class_multipart.html#0d4fcf2ff7b2df752588de9233fa32a3" title="Retrieves the full form request contents as a string." alt="" coords="484,258,617,285">
+<area shape="rect" href="$class_http_client.html#8046fe4e7e8eb25e1fccede3b6ae3227" title="Same as Get but parses the output as an XML document and returns that instead." alt="" coords="487,309,615,336">
+<area shape="rect" href="$class_http_client.html#7e4b23e94cced8ca24c037349afd35da" title="Gets the input stream after setting up the connection." alt="" coords="679,309,881,336">

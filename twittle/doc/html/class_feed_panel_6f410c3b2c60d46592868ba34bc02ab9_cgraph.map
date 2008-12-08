@@ -1,0 +1,6 @@
+<area shape="rect" href="$class_twitter_user.html#1ac1b4e3e7d6df10fbea79ae7fb637b8" title="Returns the user&#39;s short name or screen name." alt="" coords="244,5,433,32">
+<area shape="rect" href="$class_feed_panel.html#0d85ef83863778655805ed33f146fb3b" title="Gets a status item at index n of the filtered results." alt="" coords="251,56,427,82">
+<area shape="rect" href="$class_twitter_status.html#fad89e41ad3b6ee2a415de260e137e61" title="Returns the text in the status update." alt="" coords="263,106,415,133">
+<area shape="rect" href="$class_twitter_status.html#7ef3a3d6acae9e3494f23f633f87b555" title="Returns the user associated with this posting." alt="" coords="263,157,415,184">
+<area shape="rect" href="$class_twitter_feed.html#5cc16ae4053df0fbd4641b85723be242" title="Returns the collection of TwitterStatus objects that this feed represents." alt="" coords="708,56,876,82">
+<area shape="rect" href="$class_feed_panel.html#429baebbe2ecd79782e1a525f9ad8b55" title="Gets the size of the feed with filtering applied using the FilteredIterator." alt="" coords="483,81,659,108">

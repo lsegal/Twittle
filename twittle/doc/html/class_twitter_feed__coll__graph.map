@@ -1,0 +1,4 @@
+<area shape="rect" href="$class_twitter_status.html" title="Represents a status update from a Twitter user." alt="" coords="457,470,607,758">
+<area shape="rect" href="$class_twitter_user.html" title="Represents a Twitter user." alt="" coords="525,6,712,406">
+<area shape="rect" href="$class_twitter.html" title="The heart and soul of Twittle, implementing the Twitter API." alt="" coords="453,1558,683,2502">
+<area shape="rect" href="$class_twitter_update_listener.html" title="An interface for the observer pattern used by Twitter to notify listeners of Twitter..." alt="" coords="76,1142,249,1238">
