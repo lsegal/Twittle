@@ -61,6 +61,8 @@ public:
 	 * is valid; use Twitter::VerifyCredentials
 	 *
 	 * @see Twitter::VerifyCredentials
+	 * @pre login credentials have been verified
+	 * @post main window is shown
 	 * @param user the username 
 	 * @param pass the Twitter account password
 	 */
@@ -69,6 +71,9 @@ public:
 	/** 
 	 * Logs out of the Twitter account by showing the login panel.
 	 * Does not actually talk to the Twitter server to formally "log out".
+	 *
+	 * @pre user is logged in (main window is shown)
+	 * @post login window is shown
 	 */
 	void Logout();
 
