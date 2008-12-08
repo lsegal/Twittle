@@ -26,7 +26,7 @@
 #endif // _MSC_VER
 
 #include "resources/icon.xpm"
-static wxIcon appIcon(icon);
+static wxIcon appIcon(icon); ///< Custom icon
 
 BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_MENU(wxID_PREFERENCES, MainWindow::OnOptions)
@@ -38,7 +38,7 @@ BEGIN_EVENT_TABLE(MainWindow, wxFrame)
 	EVT_ACTIVATE(MainWindow::OnActivate)
 END_EVENT_TABLE()
 
-DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL);
+DEFINE_EVENT_TYPE(wxEVT_CLEAR_PANEL); ///< Custom event called when clearing panels
 
 MainWindow::MainWindow(bool showInTaskbar) :
 	wxFrame(NULL, wxID_ANY, wxGetApp().APPNAME, wxDefaultPosition, wxSize(320, 540),
@@ -148,10 +148,6 @@ static void GetTrayIconHWND()
 }
 #endif // __WXMSW__
 
-// Shows a Tray notification (bubble)
-// Currently implemented in Win32 only.
-// wxWidgets 2.9 has this functionality,
-// but it is not yet released
 void MainWindow::TrayNotification(const wxString& text, const wxString& title, const wxIcon* cIcon, int delay)
 {
 	// return if the window is active
