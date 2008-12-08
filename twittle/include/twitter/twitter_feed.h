@@ -14,11 +14,11 @@ class TwitterStatus;
  */
 class TwitterFeed
 {
-	wxThread *thread;
-	Twitter& client;
-	unsigned int delay;
-	wxString resource;
-	std::vector<TwitterStatus> statuses;
+	wxThread *thread;					 ///< The thread running the periodic udpates.
+	Twitter& client;					 ///< The Twitter owner object.
+	unsigned int delay;					 ///< The time delay to perform updates.
+	wxString resource;					 ///< The feed resource (partial) URL.
+	std::vector<TwitterStatus> statuses; ///< The collection of status items.
 	wxCriticalSection addSec;
 
 protected:
