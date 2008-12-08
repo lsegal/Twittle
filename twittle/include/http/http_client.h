@@ -13,6 +13,8 @@
  * To use this class for a POST request, simply call SetPostData()
  * before doing the Get and the method will automatically be selected.
  * This is done by wxHTTP.
+ *
+ * Note that the default timeout of this class is 10 seconds.
  */
 class HttpClient : public wxHTTP
 {
@@ -25,7 +27,7 @@ class HttpClient : public wxHTTP
 	wxInputStream *GetResourceStream(const wxURL& url);
 
 public:
-	/** Default constructor for simple HTTP requests */
+	/** Default constructor for simple HTTP requests. */
 	HttpClient();
 
 	/** Construct an HTTP client with user/password auth information */
