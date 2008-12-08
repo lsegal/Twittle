@@ -41,8 +41,6 @@ public:
 
 	/** 
 	 * Initialization code.
-	 *
-	 * @override wxApp
 	 */
 	bool OnInit();
 
@@ -50,8 +48,6 @@ public:
 	 * Called when the application exits.
 	 * Cleans up twitter objects and deserializes all
 	 * settings and data.
-	 *
-	 * @override wxApp
 	 */
 	int OnExit();
 
@@ -78,8 +74,8 @@ public:
 	void Logout();
 
 	/**
-	 * @return the path on disk to store all feed related data for the logged in
-	 *   user.
+	 * @pre the Twitter login credentials must be set (via #Login or Twitter::SetAuth)
+	 * @return the path on disk to store all feed related data for the logged in user.
 	 */
 	const wxString GetFeedsPath();
 
