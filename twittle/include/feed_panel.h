@@ -125,7 +125,9 @@ public:
 	// @{
 
 	/**
-	 * Sets the feed to follow by a resource name (see Twitter constants)
+	 * Sets the feed to follow by a resource name (see Twitter constants).
+	 * This method will try to load the feed object from disk (via Twitter::LoadFeed)
+	 * if one exists.
 	 *
 	 * @param resource the feed resource name to follow
 	 * @param delay delay between feed updates
