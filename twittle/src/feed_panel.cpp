@@ -8,51 +8,6 @@
 #include "twitter/twitter_status.h"
 #include "thread_callback.h"
 
-/** 
- * Iterates over TwitterStatus items with filtering options.
- * 
- * Currently only supports FeedPanel::FILTER_REPLIES to filter out
- * "@replies" into a separate panel.
- */
-class FilteredIterator
-{
-	unsigned int filter;
-	std::vector<TwitterStatus>::const_iterator iter;
-	std::vector<TwitterStatus>::const_iterator iterend;
-
-	/// Tests if the current iterator reference 
-	bool valid()
-	{
-		if (iter == iterend) return true;
-
-		if (filter & FeedPanel::FILTER_REPLIES) {
-			if (iter->GetText()[0] != _T('@')) return false;
-			if (wxGetApp().GetTwitter().GetUsername() ==
-				iter->GetUser().GetScreenName()) return false;
-		}
-		return true;
-	}
-
-public:
-	/**
-	 * Creates a new iteration given the range from it to end
-	 * @param it the start of the iteration
-	 * @param end the end of the iteration
-	 * @param ftype the filter applied during iteration
-	 */
-	FilteredIterator(std::vector<TwitterStatus>::const_iterator it,
-		std::vector<TwitterStatus>::const_iterator end, unsigned int ftype = 0) :
-			filter(ftype), iter(it), iterend(end) { }
-
-	const FilteredIterator& operator++() { do { ++iter; } while (!valid()); return *this; }
-	const FilteredIterator& operator--() { do { --iter; } while (!valid()); return *this; }
-	bool operator==(const std::vector<TwitterStatus>::const_iterator& c) const { return iter == c; }
-	bool operator!=(const std::vector<TwitterStatus>::const_iterator& c) const { return iter != c; }
-	bool operator<(const std::vector<TwitterStatus>::const_iterator& c) const { return iter < c; }
-	bool operator>(const std::vector<TwitterStatus>::const_iterator& c) const { return iter > c; }
-	std::vector<TwitterStatus>::const_iterator::value_type operator*() const { return *iter; }
-};
-
 BEGIN_EVENT_TABLE(FeedPanel, wxHtmlListBox)
 	EVT_COMMAND(wxID_ANY, EVT_FEED_UPDATED, FeedPanel::OnFeedUpdated)
 	EVT_COMMAND(wxID_ANY, EVT_IMAGE_UPDATED, FeedPanel::OnImageUpdated)
@@ -66,10 +21,14 @@ END_EVENT_TABLE()
 DEFINE_EVENT_TYPE(EVT_FEED_UPDATED)
 DEFINE_EVENT_TYPE(EVT_IMAGE_UPDATED)
 
+FeedPanel::FeedPanel() : wxHtmlListBox(), filter(FilteredIterator::FILTER_NONE) 
+{ 
+}
+
 FeedPanel::FeedPanel(wxWindow* parent, wxWindowID id,
 					 const wxPoint& pos, const wxSize& size,
 					 long style, const wxString& name)
-: wxHtmlListBox(parent, id, pos, size, style, name), filter(0)
+: wxHtmlListBox(parent, id, pos, size, style, name), filter(FilteredIterator::FILTER_NONE)
 {
 	Create(parent, 1, pos, size, style, name);
 }
@@ -190,6 +149,7 @@ void FeedPanel::TwitterUpdateReceived(const Twitter& twitter, const wxString& re
 		}
 	}
 
+	// post event
 	wxCommandEvent evt(EVT_FEED_UPDATED, wxID_ANY);
 	wxPostEvent(this, evt);
 }
@@ -200,6 +160,7 @@ void FeedPanel::OnFeedUpdated(wxCommandEvent &event)
 	RefreshAll();
 }
 
+// unused
 void FeedPanel::OnImageUpdated(wxCommandEvent &event)
 {
 }

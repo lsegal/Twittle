@@ -1,5 +1,5 @@
 #include "main_panel.h"
-#include "feed_panel.h"
+#include "filtered_iterator.h"
 #include "application.h"
 #include "thread_callback.h"
 #include "http/http_client.h"
@@ -155,7 +155,7 @@ void MainPanel::OnButtonClick(wxCommandEvent& event)
 			break;
 		case ID_FILTER_AT:
 			content.SetFeed(Twitter::FriendsTimelineUrl);
-			content.AddFilter(FeedPanel::FILTER_REPLIES);
+			content.AddFilter(FilteredIterator::FILTER_REPLIES);
 			break;
 	}
 }

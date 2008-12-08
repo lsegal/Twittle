@@ -30,13 +30,13 @@ public:
 	 */
 	static void OpenUrl(const wxString& url);
 
-	/** @return the main window frame */
+	/** Returns the main window frame */
 	inline MainWindow& GetMainWindow() { return *main; }
 
-	/** @return the Twitter client controlling the connection */
+	/** Returns the Twitter client controlling the connection */
 	inline Twitter& GetTwitter() { return *twitter; }
 
-	/** @return the application settings */
+	/** Returns the application settings */
 	inline Settings& GetSettings() { return settings; }
 
 	/** 
@@ -74,18 +74,19 @@ public:
 	void Logout();
 
 	/**
+	 * Returns the path on disk to store all feed related data for the logged in user.
+	 *
 	 * @pre the Twitter login credentials must be set (via #Login or Twitter::SetAuth)
-	 * @return the path on disk to store all feed related data for the logged in user.
 	 */
 	const wxString GetFeedsPath();
 
 	/**
-	 * @return the path on disk to store all image related data for profile images
+	 * Returns the path on disk to store all image related data for profile images
 	 */
 	const wxString GetImagesPath();
 
 	/**
-	 * @return the path on disk where the settings.xml file is stored
+	 * Returns the path on disk where the settings.xml file is stored
 	 */
 	const wxString GetSettingsPath();
 };
