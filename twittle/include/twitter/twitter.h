@@ -217,20 +217,6 @@ public:
 
 	//@}
 
-	/// @name Miscellaneous Functionality
-	//@{
-
-	/**
-	 * Sends a status update from this user with a given status message. The length
-	 * limit is 140 characters on a message. Anything longer will be truncated by the server.
-	 *
-	 * @param message the status text to send as an update
-	 * @return whether the update was successful
-	 */
-	bool UpdateStatus(const wxString& message);
-	
-	//@}
-
 	/// @name Observer Notifications
 	///
 	//@{
@@ -252,6 +238,20 @@ public:
 	 */
 	void UnregisterListener(TwitterUpdateListener& listener, const wxString& resource);
 
+	//@}
+
+	/// @name Miscellaneous Functionality
+	//@{
+
+	/**
+	 * Sends a status update from this user with a given status message. The length
+	 * limit is 140 characters on a message. Anything longer will be truncated by the server.
+	 *
+	 * @param message the status text to send as an update
+	 * @return whether the update was successful
+	 */
+	bool UpdateStatus(const wxString& message);
+	
 	//@}
 
 	friend class TwitterStatus;
