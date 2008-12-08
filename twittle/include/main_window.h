@@ -108,7 +108,8 @@ public:
 
 	/**
 	 * Handles the clicking of the options menu item (or accelerator Ctrl+O key, 
-	 * Command+Comma on OSX). Shows the OptionsDialog.
+	 * Command+Comma on OSX). Shows the OptionsDialog and saves/updates application
+	 * settings if the dialog is successfully closed.
 	 */
 	void OnOptions(wxCommandEvent& evt);
 
