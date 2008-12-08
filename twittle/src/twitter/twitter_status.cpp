@@ -69,10 +69,6 @@ void TwitterStatus::ParseXmlNode(Twitter& twitter, const wxXmlNode& node)
 	}
 }
 
-/**
- * Returns the time difference from the posting time to now in a
- * natural English format
- */
 wxString TwitterStatus::GetTimeSincePost() const
 {
 	long long tMin = 60, tHour = 3600, tDay = 86400;
