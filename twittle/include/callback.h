@@ -5,6 +5,7 @@
  * C style callback functions with C++ method calls.
  *
  * Example:
+ * @code
  *   void MyClass::method1() {
  *     Callback<MyClass> c(*this, &MyClass::callbackMethod);
  *     OtherClass other;
@@ -20,6 +21,7 @@
  *     // do something here
  *     callback.Call(); // call callback function
  *   }
+ * @endcode
  *
  * The above example creates a callback object pointing
  * to the method defined as a member of the original class
@@ -59,11 +61,13 @@ public:
  * as ::Callback, but with an added parameter that can be passed around.
  * This might be used as:
  *
+ * @code
  *   ...
  *   Callback1<MyClass, std::string> cb(*this, &MyClass::callback);
  *   ...
  *   cb.Call(std::string("hello world"));
  *   ...
+ * @endcode
  *
  * Which would call the callback method with the string "hello world" as
  * the parameter. This is useful if you pass the object to another class
