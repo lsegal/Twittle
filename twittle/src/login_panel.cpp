@@ -95,15 +95,17 @@ void LoginPanel::OnPaint(wxPaintEvent& event)
 
 	wxRegionIterator upd = GetUpdateRegion();
 
+	// iterate over all regions that need updating
 	wxSize s = GetParent()->GetClientSize();
+	// try to draw image in center
 	wxRect logoRect((s.GetWidth() - 256) / 2, 20, 256, 256);
 	while (upd) {
 		wxRect rect = upd.GetRect();
 		dc.Clear();
 		if (logoRect.Intersects(rect)) {
+			// logo region, redraw logo.
 			dc.DrawBitmap(logoBitmap, logoRect.GetLeft(), logoRect.GetTop(), true);
 		}
-
 		++upd;
 	}
 }
