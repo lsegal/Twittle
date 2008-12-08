@@ -45,13 +45,7 @@ class MainPanel : public wxPanel
 	/** Sets up all the keyboard accelerators (Ctrl+L for link shortening) */
 	void SetAccelerators();
 
-public:
-	/** Attaches panel to parent window (MainWindow) */
-	MainPanel(wxWindow *parent);
-
-	/** Cleans up any twitter objects */
-	virtual ~MainPanel();
-
+protected:
 	/** 
 	 * Shortens a URL (thread callback) and replaces the string shortUrl
 	 * with the shortened URL.
@@ -64,6 +58,13 @@ public:
 	 *   occurred.
 	 */
 	void ShortenUrl(wxString& shortUrl);
+
+public:
+	/** Attaches panel to parent window (MainWindow) */
+	MainPanel(wxWindow *parent);
+
+	/** Cleans up any twitter objects */
+	virtual ~MainPanel();
 
 	/** 
 	 * Called after options have been changed and the feed panel UI needs to be updated.

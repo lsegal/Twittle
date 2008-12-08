@@ -31,16 +31,7 @@ class LoginPanel : public wxPanel
 	/** Initializes window components */
 	void InitializeComponents();
 
-public:
-	/** 
-	 * Creates the login panel.
-	 * 
-	 * @param parent the owning frame (most likely MainWindow)
-	 * @param autoLogin if set to true, will attempt to automatically
-	 *   login using any saved account settings
-	 */
-	LoginPanel(wxWindow *parent, bool autoLogin = false);
-
+protected:
 	/**
 	 * Performs a verification of the login credentials
 	 * using the account settings set in the text boxes. 
@@ -50,6 +41,16 @@ public:
 	 *   should therefore not attempt to directly interact with the GUI.
 	 */
 	void Login();
+
+public:
+	/** 
+	 * Creates the login panel.
+	 * 
+	 * @param parent the owning frame (most likely MainWindow)
+	 * @param autoLogin if set to true, will attempt to automatically
+	 *   login using any saved account settings
+	 */
+	LoginPanel(wxWindow *parent, bool autoLogin = false);
 
 	///
 	/// @name Window Events
