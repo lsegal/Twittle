@@ -8,12 +8,19 @@
 #include "twitter/twitter_status.h"
 #include "thread_callback.h"
 
+/** 
+ * Iterates over TwitterStatus items with filtering options.
+ * 
+ * Currently only supports FeedPanel::FILTER_REPLIES to filter out
+ * "@replies" into a separate panel.
+ */
 class FilteredIterator
 {
 	unsigned int filter;
 	std::vector<TwitterStatus>::const_iterator iter;
 	std::vector<TwitterStatus>::const_iterator iterend;
 
+	/// Tests if the current iterator reference 
 	bool valid()
 	{
 		if (iter == iterend) return true;
@@ -27,6 +34,12 @@ class FilteredIterator
 	}
 
 public:
+	/**
+	 * Creates a new iteration given the range from it to end
+	 * @param it the start of the iteration
+	 * @param end the end of the iteration
+	 * @param ftype the filter applied during iteration
+	 */
 	FilteredIterator(std::vector<TwitterStatus>::const_iterator it,
 		std::vector<TwitterStatus>::const_iterator end, unsigned int ftype = 0) :
 			filter(ftype), iter(it), iterend(end) { }
@@ -243,9 +256,6 @@ wxString FeedPanel::OnGetItem(size_t n) const
 	return list;
 }
 
-/**
- * Opens a URL in the system default browser
- */
 void FeedPanel::OnLinkClicked(wxHtmlLinkEvent &evt)
 {
 	wxGetApp().OpenUrl(evt.GetLinkInfo().GetHref());
