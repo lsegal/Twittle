@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 
 /**
- * Implementation of http://is.gd API
+ * Implementation of http://is.gd API which allows shortening of URLs.
  */
 class Isgd
 {
