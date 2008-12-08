@@ -7,6 +7,9 @@
 
 class MainWindow;
 
+/**
+ * The main panel after the user logs into the application
+ */
 class MainPanel : public wxPanel
 {
 	/// Control identifiers
