@@ -221,6 +221,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\filtered_iterator.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\include\filtered_iterator.h"
+			>
+		</File>
+		<File
 			RelativePath=".\resources\home.psd"
 			>
 		</File>
