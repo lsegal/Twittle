@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="twittle"
 	ProjectGUID="{2725484D-AB0F-4896-80AE-6FE7F8DED3AA}"
-	RootNamespace="tweetr"
+	RootNamespace="twittle"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -91,6 +90,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -121,6 +123,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\include&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\mswu&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;WINVER=0x0400;wxUSE_GUI=1;_WIN32;__WXMSW__;_WINDOWS"
+				StringPooling="true"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -165,6 +168,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

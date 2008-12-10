@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "twittle", "twittle\twittle-vs2005.vcproj", "{2725484D-AB0F-4896-80AE-6FE7F8DED3AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2725484D-AB0F-4896-80AE-6FE7F8DED3AA}.Debug|Win32.ActiveCfg = Release|Win32
+		{2725484D-AB0F-4896-80AE-6FE7F8DED3AA}.Debug|Win32.Build.0 = Release|Win32
+		{2725484D-AB0F-4896-80AE-6FE7F8DED3AA}.Release|Win32.ActiveCfg = Release|Win32
+		{2725484D-AB0F-4896-80AE-6FE7F8DED3AA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
