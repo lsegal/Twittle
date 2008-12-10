@@ -177,9 +177,6 @@ void MainWindow::TrayNotification(const wxString& text, const wxString& title, c
 	data.uTimeout = delay * 1000;
 	data.dwInfoFlags = 0;
 	data.dwInfoFlags = cIcon ? NIIF_USER : 0;
-#if (NTDDI_VERSION >= NTDDI_VISTA)
-	data.hBalloonIcon = cIcon ? (HICON)cIcon->GetHICON() : NULL;
-#endif
 	Shell_NotifyIcon(NIM_MODIFY, &data);
 #endif // __WXMSW__
 }
