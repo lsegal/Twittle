@@ -1,6 +1,6 @@
 README FILE FOR TWITTLE DEVELOPER SOURCE
 
-Project written by Loren Segal 5442680 
+Project written by Loren Segal 
 for the COMP446 C++ Project in F08
 
 
